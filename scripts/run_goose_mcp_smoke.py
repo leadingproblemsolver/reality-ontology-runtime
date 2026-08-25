@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import sys
 from pathlib import Path
 
@@ -11,18 +12,29 @@ from reality_ontology.operators import GooseHeadlessOperator
 from reality_ontology.store import RealityStore
 
 
+def _flag(name: str, default: bool = False) -> bool:
+    value = os.environ.get(name)
+    if value is None:
+        return default
+    return value.strip().lower() in {"1", "true", "yes", "on"}
+
+
 def main() -> int:
     root = Path(__file__).resolve().parents[1]
     marker = os.environ["REALITY_SMOKE_MARKER"]
     receipt = Path(os.environ["REALITY_SMOKE_RECEIPT"]).resolve()
-    db = root / ".runtime" / "goose-mcp-smoke.db"
+    safe_marker = re.sub(r"[^A-Za-z0-9_.-]+", "-", marker)
+    db = root / ".runtime" / f"goose-mcp-smoke-{safe_marker}.db"
     db.parent.mkdir(parents=True, exist_ok=True)
     if db.exists():
         db.unlink()
     if receipt.exists():
         receipt.unlink()
 
+    timeout_seconds = float(os.environ.get("REALITY_GOOSE_TIMEOUT_SECONDS", "180"))
+    expect_timeout = _flag("REALITY_EXPECT_GOOSE_TIMEOUT")
     transition_id = f"goose-mcp-github:{marker}"
+
     with RealityStore(db) as store:
         actor = store.add_actor("github-actions", actor_type="automation")
         goal = store.add_goal("EXPOSED", "independent GitHub reread after Goose MCP mutation")
@@ -51,7 +63,7 @@ def main() -> int:
             desired_state="EXPOSED",
             operator="goose.headless",
             operation="github_mcp_probe_issue",
-            proof_required="fresh GitHub API reread",
+            proof_required="fresh GitHub API reread and unique-marker assertion",
             risk=RiskLevel.L2_EXTERNAL_CONSEQUENTIAL,
         )
         verifier = root / "scripts" / "verify_github_issue.py"
@@ -60,7 +72,7 @@ def main() -> int:
             inputs={
                 "recipe": "examples/goose_github_mcp_smoke.yaml",
                 "cwd": str(root),
-                "timeout_seconds": 180,
+                "timeout_seconds": timeout_seconds,
                 "verification": {
                     "type": "command_exit",
                     "argv": [
@@ -79,6 +91,9 @@ def main() -> int:
             owner="github-actions",
         )
         attempt = store.attempt(result["attempt_id"])
+        execution_receipt = json.loads(attempt["result_json"] or "{}")
+        timed_out = bool(execution_receipt.get("timed_out", False))
+        assert timed_out is expect_timeout, (timed_out, expect_timeout, execution_receipt)
         assert attempt["status"] == "SETTLED"
         assert store.current_state(obj) == "EXPOSED"
 
@@ -94,6 +109,8 @@ def main() -> int:
                 "attempt_id": result["attempt_id"],
                 "settlement_id": result["settlement_id"],
                 "evidence_id": result["evidence_id"],
+                "goose_timed_out": timed_out,
+                "expected_timeout": expect_timeout,
                 "state_after_fresh_restart": "EXPOSED",
                 "reality_db": str(db),
                 "transport_receipt": str(receipt),

@@ -3,8 +3,24 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import urllib.parse
 import urllib.request
 from pathlib import Path
+
+
+def _get_json(url: str) -> object:
+    token = os.environ["GITHUB_TOKEN"]
+    req = urllib.request.Request(
+        url,
+        headers={
+            "Accept": "application/vnd.github+json",
+            "Authorization": f"Bearer {token}",
+            "X-GitHub-Api-Version": "2022-11-28",
+            "User-Agent": "reality-ontology-runtime-verifier",
+        },
+    )
+    with urllib.request.urlopen(req, timeout=30) as resp:
+        return json.loads(resp.read().decode("utf-8"))
 
 
 def main() -> int:
@@ -19,18 +35,18 @@ def main() -> int:
         return 2
 
     receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
-    token = os.environ["GITHUB_TOKEN"]
-    req = urllib.request.Request(
-        receipt["api_url"],
-        headers={
-            "Accept": "application/vnd.github+json",
-            "Authorization": f"Bearer {token}",
-            "X-GitHub-Api-Version": "2022-11-28",
-            "User-Agent": "reality-ontology-runtime-verifier",
-        },
+    issue = _get_json(receipt["api_url"])
+    if not isinstance(issue, dict):
+        print("verification failed: issue reread returned unexpected payload")
+        return 3
+
+    repo = receipt["repository"]
+    list_url = f"https://api.github.com/repos/{repo}/issues?" + urllib.parse.urlencode(
+        {"state": "all", "per_page": 100}
     )
-    with urllib.request.urlopen(req, timeout=30) as resp:
-        issue = json.loads(resp.read().decode("utf-8"))
+    listed = _get_json(list_url)
+    expected_title = f"[reality-mcp-smoke] {args.marker}"
+    matching = [item for item in listed if isinstance(item, dict) and item.get("title") == expected_title]
 
     body = issue.get("body") or ""
     title = issue.get("title") or ""
@@ -40,6 +56,8 @@ def main() -> int:
         and args.marker in body
         and args.marker in title
         and issue.get("number") == receipt.get("number")
+        and len(matching) == 1
+        and matching[0].get("number") == receipt.get("number")
     )
     print(
         json.dumps(
@@ -49,6 +67,7 @@ def main() -> int:
                 "html_url": issue.get("html_url"),
                 "state": issue.get("state"),
                 "marker": args.marker,
+                "matching_issue_count": len(matching),
             },
             sort_keys=True,
         )

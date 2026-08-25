@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import os
+import time
 import urllib.request
 from pathlib import Path
 
@@ -54,6 +55,12 @@ def create_probe_issue(marker: str) -> dict:
     }
     receipt_path.parent.mkdir(parents=True, exist_ok=True)
     receipt_path.write_text(json.dumps(receipt, indent=2), encoding="utf-8")
+
+    # Hostile mode: the external side effect and transport receipt already exist,
+    # but the caller never receives a successful tool result before its timeout.
+    stall = float(os.environ.get("REALITY_SMOKE_STALL_AFTER_WRITE_SECONDS", "0"))
+    if stall > 0:
+        time.sleep(stall)
     return receipt
 
 

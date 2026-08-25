@@ -32,8 +32,6 @@ jobs:
       OPENAI_API_KEY: local-smoke-no-secret
       GITHUB_TOKEN: ${{ github.token }}
       GITHUB_REPOSITORY: ${{ github.repository }}
-      REALITY_SMOKE_MARKER: reality-goose-mcp-${{ github.run_id }}-${{ github.run_attempt }}
-      REALITY_SMOKE_RECEIPT: .runtime/reality-goose-mcp-issue.json
 
     steps:
       - uses: actions/checkout@v4
@@ -45,7 +43,7 @@ jobs:
       - name: Install Reality runtime and MCP SDK
         run: |
           python -m pip install --upgrade pip
-          python -m pip install -e '.[dev]' 'mcp>=1.0'
+          python -m pip install -e '.[dev]' 'mcp>=2.0'
 
       - name: Install real Goose CLI
         env:
@@ -69,18 +67,43 @@ jobs:
           cat "${RUNNER_TEMP}/mock-openai.log"
           exit 1
 
-      - name: Execute Goose -> MCP -> GitHub -> reread -> settle -> restart
+      - name: Normal path — Goose -> MCP -> GitHub -> reread -> settle -> restart
+        env:
+          REALITY_SMOKE_MARKER: reality-goose-mcp-${{ github.run_id }}-${{ github.run_attempt }}-normal
+          REALITY_SMOKE_RECEIPT: .runtime/reality-goose-mcp-normal.json
+          REALITY_SMOKE_STALL_AFTER_WRITE_SECONDS: "0"
+          REALITY_GOOSE_TIMEOUT_SECONDS: "180"
+          REALITY_EXPECT_GOOSE_TIMEOUT: "false"
         run: python scripts/run_goose_mcp_smoke.py
+
+      - name: Close normal reversible probe issue
+        if: always()
+        env:
+          REALITY_SMOKE_RECEIPT: .runtime/reality-goose-mcp-normal.json
+        run: python scripts/close_github_smoke_issue.py --receipt "${REALITY_SMOKE_RECEIPT}"
+
+      - name: Ambiguous path — external effect occurs then Goose times out
+        env:
+          REALITY_SMOKE_MARKER: reality-goose-mcp-${{ github.run_id }}-${{ github.run_attempt }}-ambiguous
+          REALITY_SMOKE_RECEIPT: .runtime/reality-goose-mcp-ambiguous.json
+          REALITY_SMOKE_STALL_AFTER_WRITE_SECONDS: "30"
+          REALITY_GOOSE_TIMEOUT_SECONDS: "8"
+          REALITY_EXPECT_GOOSE_TIMEOUT: "true"
+        run: python scripts/run_goose_mcp_smoke.py
+
+      - name: Close ambiguous reversible probe issue
+        if: always()
+        env:
+          REALITY_SMOKE_RECEIPT: .runtime/reality-goose-mcp-ambiguous.json
+        run: python scripts/close_github_smoke_issue.py --receipt "${REALITY_SMOKE_RECEIPT}"
 
       - name: Show non-secret proof receipts
         if: always()
         run: |
-          test -f "${REALITY_SMOKE_RECEIPT}" && cat "${REALITY_SMOKE_RECEIPT}" || true
+          for receipt in .runtime/reality-goose-mcp-*.json; do
+            test -f "$receipt" && cat "$receipt" || true
+          done
           test -f "${RUNNER_TEMP}/mock-openai.log" && tail -100 "${RUNNER_TEMP}/mock-openai.log" || true
-
-      - name: Close reversible probe issue
-        if: always()
-        run: python scripts/close_github_smoke_issue.py --receipt "${REALITY_SMOKE_RECEIPT}"
 
       - name: Upload settlement artifacts
         if: always()
@@ -89,6 +112,6 @@ jobs:
           name: goose-mcp-settlement-${{ github.run_id }}
           if-no-files-found: ignore
           path: |
-            .runtime/goose-mcp-smoke.db
-            .runtime/reality-goose-mcp-issue.json
+            .runtime/goose-mcp-smoke-*.db
+            .runtime/reality-goose-mcp-*.json
             ${{ runner.temp }}/mock-openai.log

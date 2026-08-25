@@ -1,6 +1,7 @@
-version: "2026-08-25"
+version: "1.0.0"
+released: "2026-08-25"
 name: "Canonical Reality Ontology"
-status: "canonical_synthesis"
+status: "canonical_v1_locked"
 architecture: "event_sourced_evidence_bounded_execution_and_settlement"
 
 definition: >
@@ -9,6 +10,46 @@ definition: >
   transitions under constraints; execute through explicit authority-bounded operators;
   independently verify external outcome; settle evidence and state durably; and preserve
   enough context for a fresh process to reconstruct and continue safely.
+
+change_control:
+  rule: >
+    V1 semantics are locked. Runtime code, integrations, verticals, planners, and user
+    interfaces may extend the system, but may not silently weaken canonical invariants.
+  reopen_only_when:
+    - "new_external_evidence_contradicts_an_invariant"
+    - "a_hostile_test_exposes_an_unmodelled_failure_mode"
+    - "two_or_more_independent_implementations_require_the_same_missing_primitive"
+  forbidden:
+    - "renaming_existing_primitives_to_claim_novelty"
+    - "promoting_internal_preparation_to_external_truth"
+    - "letting_model_output_override_evidence"
+    - "treating_tool_return_as_verified_external_state"
+
+ownership:
+  reality_ontology:
+    - "canonical_identity"
+    - "evidence_and_events"
+    - "derived_current_state"
+    - "assumptions_contradictions_and_decision_validity"
+    - "authority_and_risk_boundaries"
+    - "attempt_state"
+    - "independent_verification"
+    - "settlement"
+    - "fresh_process_reconstruction"
+  execution_substrate:
+    - "shell_filesystem_code_browser_or_api_tool_execution"
+    - "tool_discovery_and_mcp_transport"
+    - "provider_specific_runtime_behaviour"
+  planner_or_llm:
+    - "interpretation"
+    - "decomposition"
+    - "candidate_next_actions"
+    - "retrieval_requests"
+  planner_forbidden_from:
+    - "establishing_exact_reality"
+    - "bypassing_authority"
+    - "marking_external_effects_verified_without_reread"
+    - "mutating_canonical_state_directly"
 
 core_primitives:
   - Actor
@@ -122,6 +163,14 @@ system_projections:
   RealityHandoff: "proof-carrying bounded mutation + fresh-process recovery"
   SignalOps: "operational-exception vertical"
   REF_Execution_OS: "external consequence/proof/market settlement projection"
+
+non_goals:
+  - "replace_general_agent_runtimes"
+  - "replace_workflow_engines_without_evidence"
+  - "store_freeform_agent_memory_as_truth"
+  - "make_llm_planning_authoritative"
+  - "declare_exactly_once_delivery_for_arbitrary_external_systems"
+  - "claim_production_scale_without_external_receipts"
 
 acceptance_test: >
   Starting from an empty model session, the system reconstructs a real workflow's current

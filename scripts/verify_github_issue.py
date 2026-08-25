@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import time
 import urllib.parse
 import urllib.request
 from pathlib import Path
@@ -27,6 +28,7 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--receipt", required=True)
     parser.add_argument("--marker", required=True)
+    parser.add_argument("--reconcile-seconds", type=float, default=10.0)
     args = parser.parse_args()
 
     receipt_path = Path(args.receipt)
@@ -44,9 +46,23 @@ def main() -> int:
     list_url = f"https://api.github.com/repos/{repo}/issues?" + urllib.parse.urlencode(
         {"state": "all", "per_page": 100}
     )
-    listed = _get_json(list_url)
     expected_title = f"[reality-mcp-smoke] {args.marker}"
-    matching = [item for item in listed if isinstance(item, dict) and item.get("title") == expected_title]
+
+    # Collection/list reads can trail the direct resource GET. Reconcile by rereading
+    # external state only; never repeat the side-effecting create operation.
+    deadline = time.monotonic() + max(0.0, args.reconcile_seconds)
+    matching: list[dict] = []
+    reconcile_reads = 0
+    while True:
+        reconcile_reads += 1
+        listed = _get_json(list_url)
+        matching = [
+            item for item in listed
+            if isinstance(item, dict) and item.get("title") == expected_title
+        ] if isinstance(listed, list) else []
+        if len(matching) == 1 or time.monotonic() >= deadline:
+            break
+        time.sleep(0.5)
 
     body = issue.get("body") or ""
     title = issue.get("title") or ""
@@ -68,6 +84,7 @@ def main() -> int:
                 "state": issue.get("state"),
                 "marker": args.marker,
                 "matching_issue_count": len(matching),
+                "reconcile_reads": reconcile_reads,
             },
             sort_keys=True,
         )

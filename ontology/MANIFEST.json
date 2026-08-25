@@ -1,6 +1,8 @@
 {
-  "pack": "REALITY_ONTOLOGY_CANONICAL_PACK_2026-08-25",
+  "pack": "REALITY_ONTOLOGY_CANONICAL_V1_2026-08-25",
   "created": "2026-08-25",
+  "version": "1.0.0",
+  "status": "canonical_v1_locked",
   "purpose": "Canonical Reality Ontology invariant/source-of-truth pack",
   "evidence_policy": "stateful synthesis; no truth-state inflation; duplicates collapsed",
   "files": [
@@ -71,8 +73,8 @@
     },
     {
       "path": "CANONICAL_REALITY_ONTOLOGY.yaml",
-      "bytes": 3662,
-      "sha256": "ee0a63104644554b3f7fe9dd36b345b7adeabe9a259a65fd4f5c5e1e63026bed"
+      "bytes": 5425,
+      "sha256": "fb24eae3be82bbc93656e79169204dcc98721a11fb29fd7b8d745500a3a33f29"
     }
   ]
 }

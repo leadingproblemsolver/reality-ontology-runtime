@@ -1,0 +1,94 @@
+name: goose-mcp-external-smoke
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - actualize/reality-ontology-runtime-v0
+    paths:
+      - .github/workflows/goose-mcp-smoke.yml
+      - examples/goose_github_mcp_smoke.yaml
+      - scripts/github_smoke_mcp.py
+      - scripts/mock_openai_tool_server.py
+      - scripts/run_goose_mcp_smoke.py
+      - scripts/verify_github_issue.py
+      - scripts/close_github_smoke_issue.py
+      - src/reality_ontology/operators/goose_headless.py
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  real-goose-mcp-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      GOOSE_PROVIDER: openai
+      GOOSE_MODEL: gpt-4o
+      GOOSE_MODE: auto
+      GOOSE_DISABLE_SESSION_NAMING: "true"
+      OPENAI_BASE_URL: http://127.0.0.1:8765/v1
+      OPENAI_API_KEY: local-smoke-no-secret
+      GITHUB_TOKEN: ${{ github.token }}
+      GITHUB_REPOSITORY: ${{ github.repository }}
+      REALITY_SMOKE_MARKER: reality-goose-mcp-${{ github.run_id }}-${{ github.run_attempt }}
+      REALITY_SMOKE_RECEIPT: ${{ runner.temp }}/reality-goose-mcp-issue.json
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Reality runtime and MCP SDK
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e '.[dev]' 'mcp>=1.0'
+
+      - name: Install real Goose CLI
+        env:
+          CONFIGURE: "false"
+          GOOSE_BIN_DIR: ${{ runner.temp }}/goose-bin
+        run: |
+          curl -fsSL https://github.com/aaif-goose/goose/releases/download/stable/download_cli.sh | bash
+          echo "${GOOSE_BIN_DIR}" >> "$GITHUB_PATH"
+          "${GOOSE_BIN_DIR}/goose" --version
+
+      - name: Start deterministic OpenAI-compatible driver
+        run: |
+          python scripts/mock_openai_tool_server.py > "${RUNNER_TEMP}/mock-openai.log" 2>&1 &
+          echo $! > "${RUNNER_TEMP}/mock-openai.pid"
+          for i in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:8765/health >/dev/null; then
+              exit 0
+            fi
+            sleep 1
+          done
+          cat "${RUNNER_TEMP}/mock-openai.log"
+          exit 1
+
+      - name: Execute Goose -> MCP -> GitHub -> reread -> settle -> restart
+        run: python scripts/run_goose_mcp_smoke.py
+
+      - name: Show non-secret proof receipts
+        if: always()
+        run: |
+          test -f "${REALITY_SMOKE_RECEIPT}" && cat "${REALITY_SMOKE_RECEIPT}" || true
+          test -f "${RUNNER_TEMP}/mock-openai.log" && tail -100 "${RUNNER_TEMP}/mock-openai.log" || true
+
+      - name: Close reversible probe issue
+        if: always()
+        run: python scripts/close_github_smoke_issue.py --receipt "${REALITY_SMOKE_RECEIPT}"
+
+      - name: Upload settlement artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: goose-mcp-settlement-${{ github.run_id }}
+          if-no-files-found: ignore
+          path: |
+            .runtime/goose-mcp-smoke.db
+            ${{ runner.temp }}/reality-goose-mcp-issue.json
+            ${{ runner.temp }}/mock-openai.log

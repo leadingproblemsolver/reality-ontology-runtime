@@ -1,0 +1,20 @@
+version: "1.0.0"
+title: "Reality Ontology GitHub MCP Smoke"
+description: "One reversible GitHub issue mutation through Goose and MCP."
+prompt: |
+  Use the available create_probe_issue tool exactly once to create the reversible integration probe.
+  Do not use any other tools. After the tool returns, stop.
+extensions:
+  - type: stdio
+    name: reality-github-smoke
+    cmd: python
+    args:
+      - scripts/github_smoke_mcp.py
+    env_keys:
+      - GITHUB_TOKEN
+      - GITHUB_REPOSITORY
+      - REALITY_SMOKE_RECEIPT
+    timeout: 60
+    description: "Creates one reversible GitHub issue for external-state verification."
+    available_tools:
+      - create_probe_issue

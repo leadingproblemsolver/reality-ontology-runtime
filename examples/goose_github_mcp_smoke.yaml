@@ -13,6 +13,7 @@ extensions:
     env_keys:
       - GITHUB_TOKEN
       - GITHUB_REPOSITORY
+      - REALITY_SMOKE_MARKER
       - REALITY_SMOKE_RECEIPT
       - REALITY_SMOKE_STALL_AFTER_WRITE_SECONDS
     timeout: 60

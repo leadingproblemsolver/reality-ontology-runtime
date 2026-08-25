@@ -33,6 +33,9 @@ def _github_request(method: str, url: str, payload: dict | None = None) -> dict:
 @mcp.tool()
 def create_probe_issue(marker: str) -> dict:
     """Create exactly one reversible GitHub issue carrying the supplied smoke-test marker."""
+    # The workflow-scoped marker is authoritative; the model-supplied argument is only
+    # transport input and must not be allowed to weaken deterministic correlation.
+    marker = os.environ.get("REALITY_SMOKE_MARKER", marker)
     repo = os.environ["GITHUB_REPOSITORY"]
     receipt_path = Path(os.environ["REALITY_SMOKE_RECEIPT"])
     body = (

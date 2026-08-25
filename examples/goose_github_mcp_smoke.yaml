@@ -16,6 +16,7 @@ extensions:
       - REALITY_SMOKE_MARKER
       - REALITY_SMOKE_RECEIPT
       - REALITY_SMOKE_STALL_AFTER_WRITE_SECONDS
+      - REALITY_SMOKE_NO_LOCAL_RECEIPT
     timeout: 60
     description: "Creates one reversible GitHub issue for external-state verification."
     available_tools:

@@ -35,7 +35,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -57,11 +56,8 @@ jobs:
       - name: Start deterministic OpenAI-compatible driver
         run: |
           python scripts/mock_openai_tool_server.py > "${RUNNER_TEMP}/mock-openai.log" 2>&1 &
-          echo $! > "${RUNNER_TEMP}/mock-openai.pid"
           for i in $(seq 1 30); do
-            if curl -fsS http://127.0.0.1:8765/health >/dev/null; then
-              exit 0
-            fi
+            if curl -fsS http://127.0.0.1:8765/health >/dev/null; then exit 0; fi
             sleep 1
           done
           cat "${RUNNER_TEMP}/mock-openai.log"
@@ -72,31 +68,37 @@ jobs:
           REALITY_SMOKE_MARKER: reality-goose-mcp-${{ github.run_id }}-${{ github.run_attempt }}-normal
           REALITY_SMOKE_RECEIPT: .runtime/reality-goose-mcp-normal.json
           REALITY_SMOKE_STALL_AFTER_WRITE_SECONDS: "0"
+          REALITY_SMOKE_NO_LOCAL_RECEIPT: "false"
           REALITY_GOOSE_TIMEOUT_SECONDS: "180"
           REALITY_EXPECT_GOOSE_TIMEOUT: "false"
+          REALITY_EXPECT_LOCAL_RECEIPT: "true"
         run: python scripts/run_goose_mcp_smoke.py
 
       - name: Close normal reversible probe issue
         if: always()
         env:
           REALITY_SMOKE_RECEIPT: .runtime/reality-goose-mcp-normal.json
-        run: python scripts/close_github_smoke_issue.py --receipt "${REALITY_SMOKE_RECEIPT}"
+          REALITY_SMOKE_MARKER: reality-goose-mcp-${{ github.run_id }}-${{ github.run_attempt }}-normal
+        run: python scripts/close_github_smoke_issue.py --receipt "${REALITY_SMOKE_RECEIPT}" --marker "${REALITY_SMOKE_MARKER}" --repository "${GITHUB_REPOSITORY}"
 
-      - name: Ambiguous path — external effect occurs then Goose times out
+      - name: Receiptless hostile path — external effect occurs, no local receipt, Goose times out
         if: always()
         env:
-          REALITY_SMOKE_MARKER: reality-goose-mcp-${{ github.run_id }}-${{ github.run_attempt }}-ambiguous
-          REALITY_SMOKE_RECEIPT: .runtime/reality-goose-mcp-ambiguous.json
+          REALITY_SMOKE_MARKER: reality-goose-mcp-${{ github.run_id }}-${{ github.run_attempt }}-receiptless
+          REALITY_SMOKE_RECEIPT: .runtime/reality-goose-mcp-receiptless.json
           REALITY_SMOKE_STALL_AFTER_WRITE_SECONDS: "30"
+          REALITY_SMOKE_NO_LOCAL_RECEIPT: "true"
           REALITY_GOOSE_TIMEOUT_SECONDS: "8"
           REALITY_EXPECT_GOOSE_TIMEOUT: "true"
+          REALITY_EXPECT_LOCAL_RECEIPT: "false"
         run: python scripts/run_goose_mcp_smoke.py
 
-      - name: Close ambiguous reversible probe issue
+      - name: Close receiptless reversible probe issue by external discovery
         if: always()
         env:
-          REALITY_SMOKE_RECEIPT: .runtime/reality-goose-mcp-ambiguous.json
-        run: python scripts/close_github_smoke_issue.py --receipt "${REALITY_SMOKE_RECEIPT}"
+          REALITY_SMOKE_RECEIPT: .runtime/reality-goose-mcp-receiptless.json
+          REALITY_SMOKE_MARKER: reality-goose-mcp-${{ github.run_id }}-${{ github.run_attempt }}-receiptless
+        run: python scripts/close_github_smoke_issue.py --receipt "${REALITY_SMOKE_RECEIPT}" --marker "${REALITY_SMOKE_MARKER}" --repository "${GITHUB_REPOSITORY}"
 
       - name: Show non-secret proof receipts
         if: always()

@@ -22,6 +22,7 @@ def _flag(name: str, default: bool = False) -> bool:
 def main() -> int:
     root = Path(__file__).resolve().parents[1]
     marker = os.environ["REALITY_SMOKE_MARKER"]
+    repository = os.environ["GITHUB_REPOSITORY"]
     receipt = Path(os.environ["REALITY_SMOKE_RECEIPT"]).resolve()
     safe_marker = re.sub(r"[^A-Za-z0-9_.-]+", "-", marker)
     db = root / ".runtime" / f"goose-mcp-smoke-{safe_marker}.db"
@@ -33,6 +34,7 @@ def main() -> int:
 
     timeout_seconds = float(os.environ.get("REALITY_GOOSE_TIMEOUT_SECONDS", "180"))
     expect_timeout = _flag("REALITY_EXPECT_GOOSE_TIMEOUT")
+    expect_receipt = _flag("REALITY_EXPECT_LOCAL_RECEIPT", True)
     transition_id = f"goose-mcp-github:{marker}"
 
     with RealityStore(db) as store:
@@ -78,10 +80,9 @@ def main() -> int:
                     "argv": [
                         sys.executable,
                         str(verifier),
-                        "--receipt",
-                        str(receipt),
-                        "--marker",
-                        marker,
+                        "--receipt", str(receipt),
+                        "--marker", marker,
+                        "--repository", repository,
                     ],
                     "exit_code": 0,
                     "timeout_seconds": 60,
@@ -93,7 +94,9 @@ def main() -> int:
         attempt = store.attempt(result["attempt_id"])
         execution_receipt = json.loads(attempt["result_json"] or "{}")
         timed_out = bool(execution_receipt.get("timed_out", False))
+        local_receipt_present = receipt.is_file()
         assert timed_out is expect_timeout, (timed_out, expect_timeout, execution_receipt)
+        assert local_receipt_present is expect_receipt, (local_receipt_present, expect_receipt)
         assert attempt["status"] == "SETTLED"
         assert store.current_state(obj) == "EXPOSED"
 
@@ -102,22 +105,19 @@ def main() -> int:
         packet = fresh.context_packet(goal)
         assert packet["objects"][0]["current_state"] == "EXPOSED"
 
-    print(
-        json.dumps(
-            {
-                "marker": marker,
-                "attempt_id": result["attempt_id"],
-                "settlement_id": result["settlement_id"],
-                "evidence_id": result["evidence_id"],
-                "goose_timed_out": timed_out,
-                "expected_timeout": expect_timeout,
-                "state_after_fresh_restart": "EXPOSED",
-                "reality_db": str(db),
-                "transport_receipt": str(receipt),
-            },
-            indent=2,
-        )
-    )
+    print(json.dumps({
+        "marker": marker,
+        "attempt_id": result["attempt_id"],
+        "settlement_id": result["settlement_id"],
+        "evidence_id": result["evidence_id"],
+        "goose_timed_out": timed_out,
+        "expected_timeout": expect_timeout,
+        "local_transport_receipt_present": local_receipt_present,
+        "expected_local_transport_receipt": expect_receipt,
+        "state_after_fresh_restart": "EXPOSED",
+        "reality_db": str(db),
+        "transport_receipt": str(receipt),
+    }, indent=2))
     return 0
 
 

@@ -11,6 +11,10 @@ from mcp.server import MCPServer
 mcp = MCPServer("reality-github-smoke")
 
 
+def _flag(name: str) -> bool:
+    return os.environ.get(name, "").strip().lower() in {"1", "true", "yes", "on"}
+
+
 def _github_request(method: str, url: str, payload: dict | None = None) -> dict:
     token = os.environ["GITHUB_TOKEN"]
     data = json.dumps(payload).encode("utf-8") if payload is not None else None
@@ -33,8 +37,6 @@ def _github_request(method: str, url: str, payload: dict | None = None) -> dict:
 @mcp.tool()
 def create_probe_issue(marker: str) -> dict:
     """Create exactly one reversible GitHub issue carrying the supplied smoke-test marker."""
-    # The workflow-scoped marker is authoritative; the model-supplied argument is only
-    # transport input and must not be allowed to weaken deterministic correlation.
     marker = os.environ.get("REALITY_SMOKE_MARKER", marker)
     repo = os.environ["GITHUB_REPOSITORY"]
     receipt_path = Path(os.environ["REALITY_SMOKE_RECEIPT"])
@@ -56,12 +58,17 @@ def create_probe_issue(marker: str) -> dict:
         "html_url": issue["html_url"],
         "marker": marker,
     }
+
+    stall = float(os.environ.get("REALITY_SMOKE_STALL_AFTER_WRITE_SECONDS", "0"))
+    if _flag("REALITY_SMOKE_NO_LOCAL_RECEIPT"):
+        # Strong hostile boundary: GitHub has already changed, but no local transport
+        # receipt is persisted. The caller is expected to time out while this tool stalls.
+        if stall > 0:
+            time.sleep(stall)
+        return receipt
+
     receipt_path.parent.mkdir(parents=True, exist_ok=True)
     receipt_path.write_text(json.dumps(receipt, indent=2), encoding="utf-8")
-
-    # Hostile mode: the external side effect and transport receipt already exist,
-    # but the caller never receives a successful tool result before its timeout.
-    stall = float(os.environ.get("REALITY_SMOKE_STALL_AFTER_WRITE_SECONDS", "0"))
     if stall > 0:
         time.sleep(stall)
     return receipt

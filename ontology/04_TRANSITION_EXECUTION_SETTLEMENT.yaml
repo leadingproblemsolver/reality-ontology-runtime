@@ -1,0 +1,126 @@
+version: "2026-08-25"
+
+canonical_loop:
+  - GOAL
+  - RECONSTRUCT_STATE
+  - IDENTIFY_CONSTRAINT
+  - SELECT_NEXT_TRANSITION
+  - PREPARE
+  - AUTHORIZE
+  - EXECUTE
+  - OBSERVE_EXTERNAL_STATE
+  - VERIFY
+  - RECORD_EVIDENCE
+  - TRANSITION_DERIVED_STATE
+  - SETTLE
+  - REPLAN
+
+transition_contract:
+  required:
+    transition_id: null
+    object_id: null
+    goal_id: null
+    entry_state: null
+    desired_state: null
+    preconditions: []
+    constraints: []
+    evidence_basis: []
+    authority: null
+    maximum_scope: null
+    operator: null
+    operation: null
+    expected_transition: null
+    proof_required: null
+    verification_contract: null
+    rollback_contract: null
+    stop_condition: null
+
+operator_contract:
+  interface:
+    metadata:
+      - name
+      - capabilities
+      - risk
+      - permissions
+    methods:
+      - prepare
+      - execute
+      - verify
+      - rollback
+  invariant: "Verification is part of the operator contract, not an optional postscript."
+
+permission_model:
+  LEVEL_0_READ:
+    policy: automatic
+    examples: [read_file, search_database, run_tests]
+  LEVEL_1_REVERSIBLE_WRITE:
+    policy: automatic_within_policy
+    examples: [create_local_draft, modify_local_branch, generate_report]
+  LEVEL_2_EXTERNAL_CONSEQUENTIAL:
+    policy: human_approval_by_default
+    examples: [send_email, submit_form, deploy_production, purchase, delete_remote_data, outbound_call]
+
+attempt_state_machine:
+  PLANNED: [RUNNING]
+  RUNNING: [WAITING_EXTERNAL, SUSPENDED, FAILED_RETRYABLE, FAILED_TERMINAL, SUCCEEDED_UNVERIFIED]
+  WAITING_EXTERNAL: [RUNNING, SUSPENDED, SUCCEEDED_UNVERIFIED, FAILED_TERMINAL]
+  SUSPENDED: [RUNNING, FAILED_TERMINAL]
+  FAILED_RETRYABLE: [RUNNING, FAILED_TERMINAL]
+  FAILED_TERMINAL: []
+  SUCCEEDED_UNVERIFIED: [VERIFIED, FAILED_RETRYABLE, FAILED_TERMINAL]
+  VERIFIED: [SETTLED]
+  SETTLED: []
+
+retry_invariant:
+  rule: >
+    If an irreversible or external side effect may already have occurred,
+    reread/reconcile external truth before retry.
+  reason: "Missing local success record does not prove that external action did not occur."
+
+verification:
+  independent_from_execution: true
+  promote_state_only_after_verification: true
+  anti_patterns:
+    - "tool returned success, therefore reality changed"
+    - "command completed, therefore product works"
+    - "message generated, therefore message sent"
+    - "HTTP success, therefore end-to-end functionality established"
+
+settlement_protocol:
+  hard_rule: "NO CONSEQUENTIAL RUN MAY END UNSETTLED."
+  triggers:
+    - interruption
+    - completion
+    - failure
+    - handoff
+  required_steps:
+    - verify_observable_external_and_internal_state
+    - write_attempt_result
+    - update_proof_ledger
+    - update_evidence_event_queue
+    - mutate_current_state
+    - update_open_loops
+    - update_relationship_state
+    - update_platform_account_state
+    - update_artifact_deployable_state
+    - update_logistics_state
+    - update_context_packet
+    - write_exact_next_valid_transition
+    - write_handoff
+    - produce_settlement_receipt
+  receipt_schema:
+    run_id: null
+    prior_state: null
+    action_taken: null
+    observed_result: null
+    evidence: []
+    new_state: null
+    unresolved: []
+    waiting_external: []
+    next_transition: null
+    next_action: null
+    owner: null
+    do_not_repeat: []
+    context_updated: false
+  acceptance:
+    context_updated_must_equal: true

@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "reality_event.schema.json",
+  "title": "RealityEvent",
+  "type": "object",
+  "required": [
+    "event_id",
+    "occurred_at",
+    "actor_id",
+    "object_id",
+    "event_type",
+    "source",
+    "evidence_ids"
+  ],
+  "properties": {
+    "event_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "occurred_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "actor_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "object_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "goal_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "event_type": {
+      "type": "string",
+      "minLength": 1
+    },
+    "previous_state": {},
+    "resulting_state": {},
+    "source": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evidence_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "epistemic_type": {
+      "enum": [
+        "FACT",
+        "USER_REPORTED_FACT",
+        "OBSERVATION",
+        "DECISION",
+        "HYPOTHESIS",
+        "INFERENCE",
+        "SPECULATION",
+        "UNKNOWN"
+      ]
+    },
+    "provenance": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": true
+}

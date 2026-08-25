@@ -1,0 +1,139 @@
+version: "2026-08-25"
+
+failure_modes:
+  - id: FM-001
+    name: prose_state_inflation
+    pattern: "Model says work is complete; no evidence-bearing state transition exists."
+    kill_rule: "Reject state promotion."
+
+  - id: FM-002
+    name: execution_equals_success
+    pattern: "Tool returns success and state is promoted without external verification."
+    kill_rule: "Move only to SUCCEEDED_UNVERIFIED until reread confirms."
+
+  - id: FM-003
+    name: retry_double_effect
+    pattern: "Local receipt missing after external action; system retries."
+    kill_rule: "Reread external truth before retry."
+
+  - id: FM-004
+    name: stale_decision_recall
+    pattern: "Decision based on invalidated assumption appears in active context."
+    kill_rule: "Exclude or force re-evaluation."
+
+  - id: FM-005
+    name: duplicate_false_confidence
+    pattern: "Same source copied/rephrased multiple times counted as independent evidence."
+    kill_rule: "Deduplicate by source/content/provenance identity."
+
+  - id: FM-006
+    name: vector_truth
+    pattern: "Semantic similarity treated as truth/provenance."
+    kill_rule: "Embeddings may retrieve; only evidence-backed canonical records establish truth."
+
+  - id: FM-007
+    name: lossy_handoff
+    pattern: "Fresh agent cannot identify current state, authority, unknowns, or verification."
+    kill_rule: "Flag LOSSY_TRANSFER; handoff incomplete."
+
+  - id: FM-008
+    name: unbounded_agent_mutation
+    pattern: "Planner or LLM directly mutates consequential external state."
+    kill_rule: "Require permission engine + exact operator contract."
+
+  - id: FM-009
+    name: activity_equals_progress
+    pattern: "Prepared/sent/created counted as adopted/paid/outcome-producing."
+    kill_rule: "Use truth ladder and external receipt."
+
+  - id: FM-010
+    name: renamed_duplicate_system
+    pattern: "Same mechanism receives new name and becomes parallel framework."
+    kill_rule: "Deduplicate or supersede."
+
+  - id: FM-011
+    name: unresolved_contradiction_erasure
+    pattern: "Newer narrative silently replaces conflicting evidence."
+    kill_rule: "Preserve explicit conflict."
+
+  - id: FM-012
+    name: context_without_provenance
+    pattern: "Context packet includes claim without source identity."
+    kill_rule: "Drop or mark UNKNOWN."
+
+  - id: FM-013
+    name: unsettled_run
+    pattern: "Run ends but current state/context/open loops/next transition are stale."
+    kill_rule: "Run remains unsettled."
+
+  - id: FM-014
+    name: autonomous_high_consequence
+    pattern: "External/consequential action occurs without authorized policy."
+    kill_rule: "Block execution."
+
+  - id: FM-015
+    name: architecture_reopening
+    pattern: "Settled architecture reworked without new evidence."
+    kill_rule: "Reject unless concrete new evidence creates a conflict/gap."
+
+hostile_tests:
+  - id: HT-001
+    given: "An email API returns success but sent-folder reread finds no message."
+    expect:
+      attempt_status: FAILED_RETRYABLE
+      promoted_state: false
+      settlement_records_failure: true
+
+  - id: HT-002
+    given: "External request times out after submission; side effect unknown."
+    expect:
+      retry_immediately: false
+      required_action: REREAD_RECONCILE_EXTERNAL_TRUTH
+
+  - id: HT-003
+    given: "Two chat summaries repeat the same underlying metric."
+    expect:
+      evidence_count_independent: 1
+
+  - id: HT-004
+    given: "A critical market assumption is invalidated."
+    expect:
+      dependent_decisions: REEVALUATION_REQUIRED
+      active_context_includes_old_decision: false
+
+  - id: HT-005
+    given: "A model proposes a production deploy."
+    expect:
+      model_may_execute_directly: false
+      permission_level: LEVEL_2_EXTERNAL_CONSEQUENTIAL
+      human_approval_required: true
+
+  - id: HT-006
+    given: "A fresh process starts with no conversation history."
+    expect:
+      can_reconstruct_current_state: true
+      can_identify_evidence: true
+      can_identify_next_transition: true
+
+  - id: HT-007
+    given: "A repo is locally tested but never deployed."
+    expect:
+      max_truth_state: TESTED
+      deployed_claim_allowed: false
+
+  - id: HT-008
+    given: "A deployment returns HTTP 200 but primary user workflow fails."
+    expect:
+      outcome_state: DEPLOYED_NOT_FUNCTIONALLY_VERIFIED
+      outcome_producing_claim_allowed: false
+
+  - id: HT-009
+    given: "A new artifact filename contains the same mechanism as a canonical artifact."
+    expect:
+      create_new_canonical_object: false
+      action: DEDUPLICATE_OR_VERSION
+
+  - id: HT-010
+    given: "Run finishes action but context packet is not updated."
+    expect:
+      settled: false

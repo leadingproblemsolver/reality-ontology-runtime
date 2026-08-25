@@ -1,0 +1,90 @@
+{
+  "verified_at": "2026-08-25",
+  "runtime": "local_and_github_actions",
+  "python": ">=3.11 contract; CI external smoke validated on Python 3.12",
+  "tests": {
+    "local_original": {
+      "command": "PYTHONPATH=src pytest -q",
+      "passed": 8,
+      "failed": 0
+    },
+    "branch_ci": {
+      "workflow_run": 32861760080,
+      "conclusion": "success"
+    }
+  },
+  "compile": {
+    "command": "python -m compileall -q src tests",
+    "passed": true
+  },
+  "diff_check": {
+    "command": "git diff --check",
+    "passed": true
+  },
+  "acceptance_demo": {
+    "first_run": "SETTLED_PROOF",
+    "fresh_process_recovery": "SETTLED_PROOF",
+    "second_run": "NOOP_ALREADY_SETTLED",
+    "verified_but_unsettled_attempts": 0
+  },
+  "external_smoke": {
+    "workflow_run": 32861760131,
+    "conclusion": "success",
+    "goose_version": "1.47.0",
+    "mcp_transport": "stdio",
+    "external_system": "GitHub Issues",
+    "artifact": {
+      "id": 9568459773,
+      "name": "goose-mcp-settlement-32861760131",
+      "sha256": "cb18a3b9cd4deea25e8144d3d07fa4f8a596b6239325522b95c0af90bddf8c99"
+    },
+    "normal_path": {
+      "marker": "reality-goose-mcp-32861760131-1-normal",
+      "issue_number": 7,
+      "goose_timed_out": false,
+      "attempt_id": "attempt_4836ab676f124510",
+      "evidence_id": "ev_4475c9712e544686",
+      "settlement_id": "settlement_0d9e9a9fe5164216",
+      "state_after_fresh_restart": "EXPOSED",
+      "cleanup": "issue_closed"
+    },
+    "ambiguous_external_effect_path": {
+      "marker": "reality-goose-mcp-32861760131-1-ambiguous",
+      "issue_number": 8,
+      "goose_timed_out": true,
+      "timeout_was_expected": true,
+      "write_replayed_after_timeout": false,
+      "attempt_id": "attempt_e72e68003d1f403b",
+      "evidence_id": "ev_8c463cb358a44de5",
+      "settlement_id": "settlement_ab70970e09614b12",
+      "state_after_fresh_restart": "EXPOSED",
+      "cleanup": "issue_closed"
+    },
+    "proven_invariant": "external effect may have occurred -> caller misses success -> reread external truth -> no duplicate mutation -> evidence -> settlement -> fresh-process recovery"
+  },
+  "claim_boundary": {
+    "proven": [
+      "local SQLite event/evidence state reconstruction",
+      "truth promotion guard",
+      "approval gate contract",
+      "execute/verify separation",
+      "settlement persistence",
+      "fresh-process recovery",
+      "assumption invalidation and active-context exclusion",
+      "idempotent settled-demo replay",
+      "real Goose process loading a real MCP server",
+      "real reversible GitHub external mutation through MCP",
+      "independent GitHub reread before settlement",
+      "bounded read reconciliation for propagation lag without replaying the write",
+      "ambiguous external-effect reconciliation after caller timeout",
+      "fresh-process recovery after external settlement"
+    ],
+    "not_proven": [
+      "first-class core Gmail/browser/CRM operators",
+      "production concurrency or distributed locking",
+      "arbitrary host/process crash recovery beyond controlled caller timeout after external effect",
+      "production-scale load",
+      "LLM planning quality"
+    ]
+  }
+}

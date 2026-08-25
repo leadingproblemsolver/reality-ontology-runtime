@@ -1,0 +1,201 @@
+version: "2026-08-25"
+architecture: "event_sourced_reality_model"
+
+canonical_definition: >
+  A local event-sourced model that preserves actors, goals, objects, states,
+  events, evidence, relations, uncertainty, assumptions, decisions, provenance,
+  authority, attempts and outcomes so current state can be deterministically
+  reconstructed and legal next transitions can be selected, executed,
+  independently verified, and settled as new reality.
+
+primitive_entities:
+  Actor:
+    meaning: "Human, agent, organization, system, tool, or process capable of observation/decision/action."
+    minimum_fields: [actor_id, actor_type, identity, authority]
+
+  Goal:
+    meaning: "Desired observable state or outcome."
+    minimum_fields: [goal_id, target_state, success_evidence, status]
+
+  Object:
+    meaning: "Entity whose state can change or be observed."
+    examples: [prospect, repository, deployment, artifact, customer, decision, relationship]
+    minimum_fields: [object_id, object_type, canonical_identity]
+
+  State:
+    meaning: "Derived condition of an object/goal at a time, reconstructed from valid evidence-bearing events."
+    canonicality: "projection_not_primary_fact"
+
+  Event:
+    meaning: "Time-indexed occurrence that may imply a state transition."
+    minimum_fields:
+      - event_id
+      - occurred_at
+      - actor_id
+      - object_id
+      - event_type
+      - previous_state
+      - resulting_state
+      - goal_id
+      - evidence_ids
+      - source
+      - confidence
+
+  Evidence:
+    meaning: "Inspectable support for an observation, event, relation, claim, verification, or outcome."
+    minimum_fields:
+      - evidence_id
+      - evidence_type
+      - source_locator
+      - captured_at
+      - digest
+      - observation
+      - trust
+      - provenance
+
+  Relation:
+    meaning: "Evidence-backed typed edge between canonical objects."
+    minimum_fields:
+      - relation_id
+      - source_id
+      - relation_type
+      - target_id
+      - valid_from
+      - valid_to
+      - evidence_ids
+
+derived_entities:
+  Assumption:
+    meaning: "Belief required for a decision/plan to remain valid."
+    statuses: [active, confirmed, invalidated, superseded, risk_accepted, unmeasured]
+
+  RealitySignal:
+    meaning: "Observed execution outcome, user/stakeholder feedback, metric, failure, market or technical signal."
+    severity:
+      neutral: 0.0
+      weak_support: 0.2
+      strong_support: 0.6
+      weak_contradiction: -0.3
+      strong_contradiction: -0.7
+      invalidating: -1.0
+
+  Decision:
+    meaning: "Chosen policy/commitment/intervention plus its assumptions and expected consequence."
+    minimum_fields:
+      - decision_id
+      - decision
+      - assumption_ids
+      - predicted_outcome
+      - measurement_window
+      - authority
+      - status
+
+  Contradiction:
+    meaning: "Explicit assumption ↔ reality-signal mismatch."
+    minimum_fields:
+      - contradiction_id
+      - assumption_id
+      - signal_id
+      - severity
+      - impacted_decisions
+      - reevaluation_status
+
+  Attempt:
+    meaning: "One concrete execution attempt, including side-effect uncertainty and checkpoint."
+    fields:
+      - attempt_id
+      - transition_id
+      - attempt_number
+      - exact_action
+      - inputs
+      - actor
+      - started_at
+      - completed_at
+      - result
+      - failure_class
+      - evidence_ids
+      - external_side_effect
+      - checkpoint
+      - state_mutation
+    statuses:
+      - PLANNED
+      - RUNNING
+      - WAITING_EXTERNAL
+      - SUSPENDED
+      - FAILED_RETRYABLE
+      - FAILED_TERMINAL
+      - SUCCEEDED_UNVERIFIED
+      - VERIFIED
+      - SETTLED
+
+  ExecutionContract:
+    meaning: "Bounded executable transition contract."
+    fields:
+      - transition_id
+      - target
+      - entry_state
+      - desired_state
+      - operator
+      - operation
+      - preconditions
+      - evidence_basis
+      - authority
+      - maximum_scope
+      - expected_transition
+      - verification_contract
+      - rollback_contract
+
+  SettlementReceipt:
+    meaning: "Durable proof that a run has reconciled observed outcome back into canonical state."
+    fields:
+      - run_id
+      - prior_state
+      - action_taken
+      - observed_result
+      - evidence
+      - new_state
+      - unresolved
+      - waiting_external
+      - next_transition
+      - next_action
+      - owner
+      - do_not_repeat
+      - context_updated
+
+  ContextPacket:
+    meaning: "Bounded working-memory projection sufficient for one action."
+    fields:
+      - objective
+      - current_reality
+      - current_state
+      - last_verified_state
+      - relevant_history
+      - governing_decisions
+      - constraints
+      - non_negotiables
+      - evidence
+      - actors
+      - open_loops
+      - previous_attempts
+      - authoritative_sources
+      - uncertainties
+      - requested_transition
+
+reconstruction_semantics:
+  source_of_truth:
+    canonical: "event/evidence ledger + explicit canonical object identity"
+    derived: "state projections, timelines, validity graphs, context packets"
+    non_canonical:
+      - "LLM prose"
+      - "session memory"
+      - "embedding similarity"
+      - "dashboard status without event basis"
+
+  current_state_formula: >
+    Project valid, non-superseded, evidence-backed events and relations in temporal order;
+    apply explicit transition rules; exclude invalidated assumptions/decisions from active
+    reasoning unless historical context is requested.
+
+  relation_validity: "Every canonical edge has source provenance."
+  temporal_rule: "History is append-only; current state is reconstructed from history."
+  restart_rule: "A fresh process must recover current state without conversation history."

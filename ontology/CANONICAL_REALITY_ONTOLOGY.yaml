@@ -1,0 +1,179 @@
+version: "1.0.0"
+released: "2026-08-25"
+name: "Canonical Reality Ontology"
+status: "canonical_v1_locked"
+architecture: "event_sourced_evidence_bounded_execution_and_settlement"
+
+definition: >
+  Preserve reality as evidence-bearing events and canonical identities; derive current
+  state through projection; expose assumptions and contradictions; select next legal
+  transitions under constraints; execute through explicit authority-bounded operators;
+  independently verify external outcome; settle evidence and state durably; and preserve
+  enough context for a fresh process to reconstruct and continue safely.
+
+change_control:
+  rule: >
+    V1 semantics are locked. Runtime code, integrations, verticals, planners, and user
+    interfaces may extend the system, but may not silently weaken canonical invariants.
+  reopen_only_when:
+    - "new_external_evidence_contradicts_an_invariant"
+    - "a_hostile_test_exposes_an_unmodelled_failure_mode"
+    - "two_or_more_independent_implementations_require_the_same_missing_primitive"
+  forbidden:
+    - "renaming_existing_primitives_to_claim_novelty"
+    - "promoting_internal_preparation_to_external_truth"
+    - "letting_model_output_override_evidence"
+    - "treating_tool_return_as_verified_external_state"
+
+ownership:
+  reality_ontology:
+    - "canonical_identity"
+    - "evidence_and_events"
+    - "derived_current_state"
+    - "assumptions_contradictions_and_decision_validity"
+    - "authority_and_risk_boundaries"
+    - "attempt_state"
+    - "independent_verification"
+    - "settlement"
+    - "fresh_process_reconstruction"
+  execution_substrate:
+    - "shell_filesystem_code_browser_or_api_tool_execution"
+    - "tool_discovery_and_mcp_transport"
+    - "provider_specific_runtime_behaviour"
+  planner_or_llm:
+    - "interpretation"
+    - "decomposition"
+    - "candidate_next_actions"
+    - "retrieval_requests"
+  planner_forbidden_from:
+    - "establishing_exact_reality"
+    - "bypassing_authority"
+    - "marking_external_effects_verified_without_reread"
+    - "mutating_canonical_state_directly"
+
+core_primitives:
+  - Actor
+  - Goal
+  - Object
+  - State
+  - Event
+  - Evidence
+  - Relation
+
+validity_primitives:
+  - Assumption
+  - RealitySignal
+  - Contradiction
+  - Decision
+  - DecisionOutcome
+
+execution_primitives:
+  - Transition
+  - ExecutionContract
+  - Operator
+  - Permission
+  - Attempt
+  - Verification
+  - SettlementReceipt
+  - Handoff
+
+canonical_loop:
+  - RECONSTRUCT
+  - CONSTRAIN
+  - PROPOSE
+  - AUTHORIZE
+  - EXECUTE
+  - OBSERVE
+  - VERIFY
+  - RECORD
+  - SETTLE
+  - REPLAN
+
+absolute_invariants:
+  - "state_is_derived_not_declared"
+  - "claim_strength_never_exceeds_evidence_strength"
+  - "truth_states_are_not_flattened"
+  - "verification_is_separate_from_execution"
+  - "external_uncertainty_requires_reread_before_retry"
+  - "no_consequential_run_ends_unsettled"
+  - "context_updated_is_required_for_settlement"
+  - "assumptions_are_append_only_and_statused"
+  - "contradictions_pair_assumption_with_reality_signal"
+  - "invalidated_assumptions_reopen_dependent_decisions"
+  - "llm_interprets_but_does_not_establish_exact_reality"
+  - "model_session_state_is_not_reality_store_state"
+  - "embeddings_are_not_source_truth"
+  - "agents_record_events_evidence_not_arbitrary_memory"
+  - "consequential_mutation_requires_explicit_authority"
+  - "fresh_process_recovery_is_required"
+  - "duplicate_evidence_is_not_independent_support"
+  - "canonical_relations_require_provenance"
+  - "renaming_does_not_create_new_canonical_objects"
+  - "external_evidence_outranks_internal_narrative"
+
+truth_ladder:
+  - DISCUSSED
+  - DECIDED
+  - PREPARED
+  - IMPLEMENTED
+  - TESTED
+  - DEPLOYED
+  - EXPOSED
+  - EXTERNALLY_USED
+  - REUSED
+  - ADOPTED
+  - PAID
+  - OUTCOME_PRODUCING
+
+permission_levels:
+  L0_READ: automatic
+  L1_REVERSIBLE_WRITE: automatic_within_policy
+  L2_EXTERNAL_CONSEQUENTIAL: human_approval_by_default
+
+attempt_states:
+  - PLANNED
+  - RUNNING
+  - WAITING_EXTERNAL
+  - SUSPENDED
+  - FAILED_RETRYABLE
+  - FAILED_TERMINAL
+  - SUCCEEDED_UNVERIFIED
+  - VERIFIED
+  - SETTLED
+
+settlement_required_updates:
+  - attempt_result
+  - proof_ledger
+  - evidence_event_queue
+  - current_state
+  - open_loops
+  - relationship_state
+  - platform_account_state
+  - artifact_deployable_state
+  - logistics_state
+  - context_packet
+  - next_valid_transition
+  - handoff
+  - settlement_receipt
+
+system_projections:
+  RealityEnforcer: "assumption/signal/contradiction/decision validity"
+  LCE_ContextOS: "bounded reality-aware working context"
+  Logistinfra: "shared executable kernel over reality"
+  RealityHandoff: "proof-carrying bounded mutation + fresh-process recovery"
+  SignalOps: "operational-exception vertical"
+  REF_Execution_OS: "external consequence/proof/market settlement projection"
+
+non_goals:
+  - "replace_general_agent_runtimes"
+  - "replace_workflow_engines_without_evidence"
+  - "store_freeform_agent_memory_as_truth"
+  - "make_llm_planning_authoritative"
+  - "declare_exactly_once_delivery_for_arbitrary_external_systems"
+  - "claim_production_scale_without_external_receipts"
+
+acceptance_test: >
+  Starting from an empty model session, the system reconstructs a real workflow's current
+  state from durable evidence, identifies the next valid transition, obtains required
+  authority, executes a bounded action, independently verifies external result, persists
+  evidence, settles state/context, and survives restart without losing continuity.

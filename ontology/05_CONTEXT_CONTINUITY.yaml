@@ -1,0 +1,82 @@
+version: "2026-08-25"
+
+principle: >
+  Context continuity is a correctness requirement. Long-term state is durable;
+  each action receives only the smallest valid, source-grounded, deduplicated,
+  reality-checked Context Packet required for that action.
+
+context_pipeline:
+  - run_contract
+  - collect
+  - canonicalize
+  - structure
+  - classify
+  - identity_dedup_version
+  - extract_signals
+  - reality_map
+  - contextual_sewing
+  - index_projection
+  - query_route
+  - retrieve
+  - rerank_filter
+  - compress
+  - reason
+  - claim_verify
+  - emit_log_improve
+
+context_packet:
+  objective: null
+  current_reality: null
+  current_state: null
+  last_verified_state: null
+  relevant_history: []
+  governing_decisions: []
+  constraints: []
+  non_negotiables: []
+  evidence: []
+  actors: []
+  open_loops: []
+  previous_attempts: []
+  authoritative_sources: []
+  uncertainties: []
+  requested_transition: null
+
+non_negotiables:
+  - "No raw corpus directly to LLM."
+  - "No vector-only retrieval."
+  - "No naked chunks without contextual headers."
+  - "No invalidated decision in active context unless explicitly requested as history."
+  - "No duplicate evidence counted as independent support."
+  - "No generated artifact promoted to source truth without acceptance and claim verification."
+  - "Every retrieval unit preserves local context and provenance."
+  - "Decision units include linked assumptions."
+  - "Assumption units include status and contradicting signals."
+  - "Failure units include mitigation and affected decision where known."
+
+handoff_contract:
+  purpose: "Enable fresh-process recovery without conversation/session history."
+  transfer_fields:
+    - from
+    - to
+    - object
+    - state_before
+    - state_after
+    - information_required
+    - information_transferred
+    - information_missing
+    - acknowledged
+    - loss_risk
+  flags:
+    - LOSSY_TRANSFER
+    - UNACKNOWLEDGED_TRANSFER
+    - STALE_CONTEXT
+    - MISSING_PROVENANCE
+    - AMBIGUOUS_AUTHORITY
+
+recovery_acceptance_test:
+  - "Fresh process resolves canonical object identity."
+  - "Fresh process reconstructs current state."
+  - "Fresh process identifies evidence basis."
+  - "Fresh process identifies unresolved unknowns/contradictions."
+  - "Fresh process knows prior action and verification result."
+  - "Fresh process knows next valid transition and authority boundary."

@@ -5,9 +5,9 @@ import os
 import urllib.request
 from pathlib import Path
 
-from mcp.server.fastmcp import FastMCP
+from mcp.server import MCPServer
 
-mcp = FastMCP("reality-github-smoke")
+mcp = MCPServer("reality-github-smoke")
 
 
 def _github_request(method: str, url: str, payload: dict | None = None) -> dict:

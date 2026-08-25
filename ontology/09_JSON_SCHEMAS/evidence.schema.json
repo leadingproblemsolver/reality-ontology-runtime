@@ -3,17 +3,53 @@
   "$id": "evidence.schema.json",
   "title": "Evidence",
   "type": "object",
-  "required": ["evidence_id","evidence_type","source_locator","captured_at","digest"],
+  "required": [
+    "evidence_id",
+    "evidence_type",
+    "source_locator",
+    "captured_at",
+    "digest"
+  ],
   "properties": {
-    "evidence_id":{"type":"string","minLength":1},
-    "evidence_type":{"type":"string","minLength":1},
-    "source_locator":{"type":"string","minLength":1},
-    "captured_at":{"type":"string","format":"date-time"},
-    "digest":{"type":"string","minLength":1},
-    "observation":{"type":["string","null"]},
-    "trust":{"type":["number","string","null"]},
-    "provenance":{"type":"object"},
-    "immutable":{"const":true}
+    "evidence_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evidence_type": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_locator": {
+      "type": "string",
+      "minLength": 1
+    },
+    "captured_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "digest": {
+      "type": "string",
+      "minLength": 1
+    },
+    "observation": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "trust": {
+      "type": [
+        "number",
+        "string",
+        "null"
+      ]
+    },
+    "provenance": {
+      "type": "object"
+    },
+    "immutable": {
+      "const": true
+    }
   },
-  "additionalProperties":true
+  "additionalProperties": true
 }

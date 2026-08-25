@@ -10,10 +10,44 @@ definition: >
   independently verify external outcome; settle evidence and state durably; and preserve
   enough context for a fresh process to reconstruct and continue safely.
 
-core_primitives: [Actor, Goal, Object, State, Event, Evidence, Relation]
-validity_primitives: [Assumption, RealitySignal, Contradiction, Decision, DecisionOutcome]
-execution_primitives: [Transition, ExecutionContract, Operator, Permission, Attempt, Verification, SettlementReceipt, Handoff]
-canonical_loop: [RECONSTRUCT, CONSTRAIN, PROPOSE, AUTHORIZE, EXECUTE, OBSERVE, VERIFY, RECORD, SETTLE, REPLAN]
+core_primitives:
+  - Actor
+  - Goal
+  - Object
+  - State
+  - Event
+  - Evidence
+  - Relation
+
+validity_primitives:
+  - Assumption
+  - RealitySignal
+  - Contradiction
+  - Decision
+  - DecisionOutcome
+
+execution_primitives:
+  - Transition
+  - ExecutionContract
+  - Operator
+  - Permission
+  - Attempt
+  - Verification
+  - SettlementReceipt
+  - Handoff
+
+canonical_loop:
+  - RECONSTRUCT
+  - CONSTRAIN
+  - PROPOSE
+  - AUTHORIZE
+  - EXECUTE
+  - OBSERVE
+  - VERIFY
+  - RECORD
+  - SETTLE
+  - REPLAN
+
 absolute_invariants:
   - "state_is_derived_not_declared"
   - "claim_strength_never_exceeds_evidence_strength"
@@ -35,13 +69,52 @@ absolute_invariants:
   - "canonical_relations_require_provenance"
   - "renaming_does_not_create_new_canonical_objects"
   - "external_evidence_outranks_internal_narrative"
-truth_ladder: [DISCUSSED, DECIDED, PREPARED, IMPLEMENTED, TESTED, DEPLOYED, EXPOSED, EXTERNALLY_USED, REUSED, ADOPTED, PAID, OUTCOME_PRODUCING]
+
+truth_ladder:
+  - DISCUSSED
+  - DECIDED
+  - PREPARED
+  - IMPLEMENTED
+  - TESTED
+  - DEPLOYED
+  - EXPOSED
+  - EXTERNALLY_USED
+  - REUSED
+  - ADOPTED
+  - PAID
+  - OUTCOME_PRODUCING
+
 permission_levels:
   L0_READ: automatic
   L1_REVERSIBLE_WRITE: automatic_within_policy
   L2_EXTERNAL_CONSEQUENTIAL: human_approval_by_default
-attempt_states: [PLANNED, RUNNING, WAITING_EXTERNAL, SUSPENDED, FAILED_RETRYABLE, FAILED_TERMINAL, SUCCEEDED_UNVERIFIED, VERIFIED, SETTLED]
-settlement_required_updates: [attempt_result, proof_ledger, evidence_event_queue, current_state, open_loops, relationship_state, platform_account_state, artifact_deployable_state, logistics_state, context_packet, next_valid_transition, handoff, settlement_receipt]
+
+attempt_states:
+  - PLANNED
+  - RUNNING
+  - WAITING_EXTERNAL
+  - SUSPENDED
+  - FAILED_RETRYABLE
+  - FAILED_TERMINAL
+  - SUCCEEDED_UNVERIFIED
+  - VERIFIED
+  - SETTLED
+
+settlement_required_updates:
+  - attempt_result
+  - proof_ledger
+  - evidence_event_queue
+  - current_state
+  - open_loops
+  - relationship_state
+  - platform_account_state
+  - artifact_deployable_state
+  - logistics_state
+  - context_packet
+  - next_valid_transition
+  - handoff
+  - settlement_receipt
+
 system_projections:
   RealityEnforcer: "assumption/signal/contradiction/decision validity"
   LCE_ContextOS: "bounded reality-aware working context"
@@ -49,6 +122,7 @@ system_projections:
   RealityHandoff: "proof-carrying bounded mutation + fresh-process recovery"
   SignalOps: "operational-exception vertical"
   REF_Execution_OS: "external consequence/proof/market settlement projection"
+
 acceptance_test: >
   Starting from an empty model session, the system reconstructs a real workflow's current
   state from durable evidence, identifies the next valid transition, obtains required

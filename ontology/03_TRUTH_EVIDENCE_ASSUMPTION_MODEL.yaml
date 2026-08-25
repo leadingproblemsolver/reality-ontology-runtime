@@ -1,9 +1,31 @@
 version: "2026-08-25"
 
-truth_state_ladder: [DISCUSSED, DECIDED, PREPARED, IMPLEMENTED, TESTED, DEPLOYED, EXPOSED, EXTERNALLY_USED, REUSED, ADOPTED, PAID, OUTCOME_PRODUCING]
+truth_state_ladder:
+  - DISCUSSED
+  - DECIDED
+  - PREPARED
+  - IMPLEMENTED
+  - TESTED
+  - DEPLOYED
+  - EXPOSED
+  - EXTERNALLY_USED
+  - REUSED
+  - ADOPTED
+  - PAID
+  - OUTCOME_PRODUCING
+
 rule: "Each item is a distinct observable transition. Never collapse the ladder into COMPLETE."
 
-epistemic_types: [FACT, USER_REPORTED_FACT, OBSERVATION, DECISION, HYPOTHESIS, INFERENCE, SPECULATION, UNKNOWN]
+epistemic_types:
+  - FACT
+  - USER_REPORTED_FACT
+  - OBSERVATION
+  - DECISION
+  - HYPOTHESIS
+  - INFERENCE
+  - SPECULATION
+  - UNKNOWN
+
 claim_boundary:
   proven: "Directly supported by evidence sufficient for the stated scope."
   observed: "Seen/measured but not necessarily causally established."
@@ -13,13 +35,32 @@ claim_boundary:
 
 assumption_model:
   rule: "Every consequential decision exposes required assumptions."
-  statuses: [active, confirmed, invalidated, superseded, risk_accepted, unmeasured]
+  statuses:
+    - active
+    - confirmed
+    - invalidated
+    - superseded
+    - risk_accepted
+    - unmeasured
   append_only: true
   delete_assumption: false
 
 reality_signal_model:
-  types: [execution_outcome, user_feedback, advisor_feedback, metric, failure, market_signal, technical_signal]
-  severity: {neutral: 0.00, weak_support: 0.20, strong_support: 0.60, weak_contradiction: -0.30, strong_contradiction: -0.70, invalidating: -1.00}
+  types:
+    - execution_outcome
+    - user_feedback
+    - advisor_feedback
+    - metric
+    - failure
+    - market_signal
+    - technical_signal
+  severity:
+    neutral: 0.00
+    weak_support: 0.20
+    strong_support: 0.60
+    weak_contradiction: -0.30
+    strong_contradiction: -0.70
+    invalidating: -1.00
 
 contradiction_model:
   required_pair: [assumption_id, signal_id]
@@ -28,9 +69,21 @@ contradiction_model:
   smoothing_forbidden: true
 
 decision_outcome_model:
-  fields: [decision_id, predicted_outcome, predicted_metric, actual_outcome, actual_metric, measurement_window, measured_at, outcome_fidelity]
+  fields:
+    - decision_id
+    - predicted_outcome
+    - predicted_metric
+    - actual_outcome
+    - actual_metric
+    - measurement_window
+    - measured_at
+    - outcome_fidelity
   fidelity_formula: "(actual_metric - predicted_metric) / max(abs(actual_metric), abs(predicted_metric), 1)"
-  interpretation: {accurate: ">= -0.15", degraded: "-0.15 to -0.50", failed: "< -0.50", opposite: "prediction direction contradicted by actual"}
+  interpretation:
+    accurate: ">= -0.15"
+    degraded: "-0.15 to -0.50"
+    failed: "< -0.50"
+    opposite: "prediction direction contradicted by actual"
 
 context_validity_rules:
   - "No decision without extracted assumptions."

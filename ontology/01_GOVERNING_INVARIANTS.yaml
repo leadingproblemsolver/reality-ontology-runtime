@@ -20,73 +20,148 @@ invariants:
   - id: RO-I001
     rule: "Current state MUST be derived from evidence-bearing events and valid projections, not declared by prose, model output, or mutable memory."
     consequence: "A state mutation without an event/evidence basis is non-canonical."
+
   - id: RO-I002
     rule: "Claim strength MUST NEVER exceed evidence strength."
     consequence: "Unsupported promotion is blocked."
+
   - id: RO-I003
     rule: "Truth states MUST remain distinct; DISCUSSED, DECIDED, PREPARED, IMPLEMENTED, TESTED, DEPLOYED, EXPOSED, EXTERNALLY_USED, REUSED, ADOPTED, PAID, and OUTCOME_PRODUCING are separate transitions."
     consequence: "No flattening into COMPLETE."
+
   - id: RO-I004
     rule: "Every material assertion MUST carry an epistemic type."
-    allowed_types: [FACT, USER_REPORTED_FACT, OBSERVATION, DECISION, HYPOTHESIS, INFERENCE, SPECULATION, UNKNOWN]
+    allowed_types:
+      - FACT
+      - USER_REPORTED_FACT
+      - OBSERVATION
+      - DECISION
+      - HYPOTHESIS
+      - INFERENCE
+      - SPECULATION
+      - UNKNOWN
+
   - id: RO-I005
     rule: "External or irreversible action MUST NOT be treated as successful from a local success return alone."
     consequence: "Reread/reconcile external truth before state promotion or retry."
+
   - id: RO-I006
     rule: "Verification MUST be structurally separate from execution."
-    forbidden_examples: ["send_email() -> Success => sent", "git push => deployed", "deploy command => working", "HTTP 200 => functional product"]
+    forbidden_examples:
+      - "send_email() -> Success => sent"
+      - "git push => deployed"
+      - "deploy command => working"
+      - "HTTP 200 => functional product"
+
   - id: RO-I007
     rule: "No consequential run may end unsettled."
     consequence: "Completion, failure, interruption, and handoff all require settlement."
+
   - id: RO-I008
     rule: "A run with context_updated=false is NOT settled."
+
   - id: RO-I009
     rule: "No assumption is silently deleted."
-    allowed_mutations: [active, confirmed, invalidated, superseded, risk_accepted, unmeasured]
+    allowed_mutations:
+      - active
+      - confirmed
+      - invalidated
+      - superseded
+      - risk_accepted
+      - unmeasured
     persistence: "append_only_status_history"
+
   - id: RO-I010
     rule: "Every contradiction MUST explicitly pair an assumption with a reality signal."
     consequence: "No implicit contradiction edges."
+
   - id: RO-I011
     rule: "Invalidated critical assumptions MUST trigger re-evaluation of dependent decisions."
+    consequence: "Dependent decisions cannot remain active merely because they were previously accepted."
+
   - id: RO-I012
     rule: "Invalidated decisions MUST NOT appear in active context unless explicitly requested as history."
+
   - id: RO-I013
     rule: "No duplicate evidence may be counted as independent support."
+
   - id: RO-I014
     rule: "No graph relation may be canonical without provenance/evidence."
+
   - id: RO-I015
     rule: "LLMs interpret reality; deterministic systems establish reality wherever exact computation is possible."
+    examples_deterministic:
+      - "whether an email was sent"
+      - "whether tests passed"
+      - "current durable workflow stage"
+      - "which files changed"
+      - "whether a tool already executed"
+    examples_llm:
+      - "likely explanatory constraint"
+      - "which unresolved issue matters most"
+      - "which evidence to retrieve"
+      - "how to decompose an ambiguous goal"
+
   - id: RO-I016
     rule: "Logistinfra state MUST remain independent of model/session state."
+    consequence: "A fresh process must be able to reconstruct reality."
+
   - id: RO-I017
     rule: "Embeddings/vector indexes are retrieval aids, never canonical source truth."
+
   - id: RO-I018
     rule: "No agent may directly rewrite arbitrary memory; agents record events/evidence and the state engine derives projections."
+
   - id: RO-I019
     rule: "Authority MUST be explicit before consequential mutation."
-    default_policy: {read: automatic, reversible_write: automatic_within_policy, external_or_consequential: human_approval}
+    default_policy:
+      read: "automatic"
+      reversible_write: "automatic_within_policy"
+      external_or_consequential: "human_approval"
+
   - id: RO-I020
     rule: "The planner proposes transitions; execution occurs only through bounded operators / humans under policy."
+
   - id: RO-I021
     rule: "If an external action may already have happened, reconcile external truth before retry to avoid duplicate side effects."
+
   - id: RO-I022
     rule: "Context continuity is a correctness property, not documentation polish."
+
   - id: RO-I023
     rule: "Original/raw evidence is immutable; normalization and derived projections MUST preserve provenance back to source."
+
   - id: RO-I024
     rule: "Renaming the same mechanism does not create a new canonical object."
-    merge_policy: {same_object_additive: MERGE, same_object_newer_stronger: SUPERSEDE, unresolved_contradiction: PRESERVE_CONFLICT, different_name_same_mechanism: DEDUPLICATE, genuinely_new_function: CREATE_CANONICAL_OBJECT}
+    merge_policy:
+      same_object_additive: MERGE
+      same_object_newer_stronger: SUPERSEDE
+      unresolved_contradiction: PRESERVE_CONFLICT
+      different_name_same_mechanism: DEDUPLICATE
+      genuinely_new_function: CREATE_CANONICAL_OBJECT
+
   - id: RO-I025
     rule: "Merge precedence favors reality over architecture."
-    precedence: [external_evidence, explicit_supersession, newer_tested_execution, newer_governing_decision, reusable_canonical_primitive, older_baseline]
+    precedence:
+      - external_evidence
+      - explicit_supersession
+      - newer_tested_execution
+      - newer_governing_decision
+      - reusable_canonical_primitive
+      - older_baseline
+
   - id: RO-I026
     rule: "No cognitive reopening of settled architecture without new evidence."
+
   - id: RO-I027
     rule: "Internal preparation is not external consequence."
+    implication: "Execution scoring requires external receipts where external state change is claimed."
+
   - id: RO-I028
     rule: "The unit of meaningful execution is an externally verifiable state transition, not task completion."
+
   - id: RO-I029
     rule: "Every active workstream must expose a next evidence event or be blocked/deferred/killed."
+
   - id: RO-I030
     rule: "Real observed market/user/customer/maintainer/employer feedback may outrank internally generated hypotheses."

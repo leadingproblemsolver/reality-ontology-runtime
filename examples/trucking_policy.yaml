@@ -1,0 +1,23 @@
+venture: trucking-driver-flow
+goals:
+  - acquire_5_substantive_conversations
+objects:
+  - prospect
+  - company
+  - conversation
+  - diagnostic
+operators:
+  - email.send
+  - browser.submit_form
+  - phone.call
+constraints:
+  - qualification_dropout
+  - recruiter_response
+  - orientation_dropout
+progress_model:
+  - prospect
+  - contacted
+  - reply
+  - conversation
+  - scoped_problem
+  - paid_diagnostic

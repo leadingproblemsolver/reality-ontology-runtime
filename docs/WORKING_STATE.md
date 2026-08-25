@@ -1,32 +1,33 @@
-# Working State
+# Working State — V0
 
-## Verified locally before publication
+## Proven locally
 
-- 8 tests pass.
-- The demo reaches `SETTLED_PROOF`.
-- A fresh process reconstructs the same verified state from SQLite.
-- A second run of the same settled transition returns `NOOP_ALREADY_SETTLED` rather than repeating the side effect.
-- Verified-but-unsettled attempts after the demo: `0`.
+- SQLite durable Reality Store initializes from an empty path.
+- Evidence must exist before an event can reference it.
+- Current object state is reconstructed from event history.
+- Universal truth ladder blocks unsupported `DEPLOYED` promotion.
+- L2 external/consequential operators are blocked without explicit approval.
+- Execute and verify are separate stages.
+- Successful verified runs persist an evidence receipt, event, settlement receipt, and `SETTLED` attempt.
+- Fresh `RealityStore` process reconstructs the final state and context.
+- Strong contradictory reality signals invalidate dependent decisions and remove them from active context.
+- Canonical relations require evidence provenance.
+- Re-running an already settled demo transition becomes a no-op rather than repeating the side effect.
 
-## Current claim boundary
+## Not yet claimed
 
-Proven in V0:
-- local SQLite event/evidence state;
-- deterministic projection;
-- approval gating;
-- bounded filesystem operator;
-- independent reread verification;
-- settlement receipt;
-- assumption/signal/contradiction invalidation;
-- restart recovery;
-- idempotent settled transition handling.
-
-Not yet proven:
-- a real external API operator such as Gmail/GitHub/CRM;
-- ambiguous timeout after an external side effect plus reread-before-retry reconciliation;
-- concurrent/distributed workers;
-- production persistence or scale.
+- No real Gmail/GitHub/browser/CRM operator is implemented.
+- No production database migration framework.
+- No concurrent-worker / locking proof.
+- No crash-in-the-middle recovery proof between external mutation and verification.
+- No real external system has yet been driven through this runtime.
+- No LLM planner is integrated; deliberately, the truth path has no model dependency.
+- No benchmark or production-scale evidence.
 
 ## Next evidence event
 
-Add exactly one real external operator and force an ambiguous timeout/crash boundary. Prove the runtime rereads external truth before retrying and produces one settled receipt without duplicate side effects.
+Implement **one real external operator** against a reversible/low-blast-radius workflow, force the ambiguous timeout case, then prove:
+
+`execute may have happened → local receipt missing → reread external state → no duplicate retry → evidence → settlement → restart recovery`
+
+That is the next highest-information transition because it tests the most dangerous invariant currently covered only by contract/tests, not a live external system.

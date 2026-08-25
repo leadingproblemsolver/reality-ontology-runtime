@@ -1,12 +1,12 @@
-PYTHON ?= python
-
-.PHONY: test demo verify
+.PHONY: setup test demo reset
+setup:
+	python -m pip install -e '.[dev]'
 
 test:
-	PYTHONPATH=src $(PYTHON) -m pytest -q
+	pytest
 
 demo:
-	PYTHONPATH=src $(PYTHON) -m reality_ontology.cli --db .runtime/reality.db demo
+	python -m reality_ontology.cli --db .runtime/reality.db demo
 
-verify:
-	PYTHONPATH=src $(PYTHON) -m reality_ontology.cli --db .runtime/reality.db verify-invariants
+reset:
+	rm -rf .runtime

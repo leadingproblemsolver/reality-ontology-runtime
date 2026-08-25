@@ -1,33 +1,27 @@
 # Architecture
 
-Reality Ontology Runtime is a deliberately small event-sourced execution kernel.
+## Canonical vs derived
 
-```text
-Goal / Current State
-       ↓
-Context Compiler
-       ↓
-Planner boundary (proposal only)
-       ↓
-Permission Engine
-       ↓
-Operator Contract
-prepare → execute → reread → verify
-       ↓
-Evidence / Event / Settlement
-       ↓
-Reality Store (SQLite V0)
-       ↓
-Derived current-state projection
-```
+**Canonical:** actor/object/goal identity, evidence, events, relations, attempts, approvals, settlements, assumptions/signals/contradictions.
 
-Canonical truth is the durable event/evidence ledger plus canonical object identity. Model output, session memory, dashboard status, and embeddings are non-canonical.
+**Derived:** current object state, goal progress, context packets, timelines, decision validity, next-transition candidates.
 
-## Runtime boundaries
+Never persist a derived projection as a replacement for its event/evidence basis.
 
-- Deterministic code establishes exact state wherever possible.
-- LLMs may later interpret observations and propose transitions; they do not own canonical state.
-- External/consequential writes require explicit authority.
-- A tool success result produces at most `SUCCEEDED_UNVERIFIED`.
-- State promotion occurs only after independent verification.
-- Consequential runs terminate only after settlement updates durable state, evidence, context, open loops, and next transition.
+## Deterministic / LLM boundary
+
+The current runtime deliberately has no LLM dependency. Exact state, verification, authority, truth-state promotion, and settlement are deterministic.
+
+A future planner may propose:
+- likely constraints;
+- retrieval needs;
+- decompositions;
+- candidate interventions.
+
+It may not directly establish durable truth or bypass operators/policy.
+
+## Durable execution semantics
+
+`PLANNED → RUNNING → WAITING_EXTERNAL / FAILED_* / SUCCEEDED_UNVERIFIED → VERIFIED → SETTLED`
+
+A missing local success record never proves an external action did not happen. Reconcile external state before retry.

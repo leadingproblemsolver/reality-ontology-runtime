@@ -1,8 +1,12 @@
 __pycache__/
 *.py[cod]
-*.egg-info/
 .pytest_cache/
 .venv/
-.runtime/
 dist/
 build/
+*.egg-info/
+.runtime/
+*.db
+*.sqlite
+*.sqlite3
+.DS_Store

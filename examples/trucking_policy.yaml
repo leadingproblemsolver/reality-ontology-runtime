@@ -1,6 +1,5 @@
 venture: trucking-driver-flow
-goals:
-  - acquire_5_substantive_conversations
+goal: acquire_5_substantive_conversations
 objects:
   - prospect
   - company
@@ -15,9 +14,10 @@ constraints:
   - recruiter_response
   - orientation_dropout
 progress_model:
-  - prospect
-  - contacted
-  - reply
-  - conversation
-  - scoped_problem
-  - paid_diagnostic
+  - UNCONTACTED
+  - CONTACTED
+  - REPLIED
+  - CONVERSATION
+  - SCOPED_PROBLEM
+  - PAID_DIAGNOSTIC
+note: "Policy/configuration over shared kernel; not a separate architecture."

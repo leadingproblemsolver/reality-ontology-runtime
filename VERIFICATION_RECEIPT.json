@@ -1,0 +1,43 @@
+{
+  "verified_at": "2026-08-25",
+  "runtime": "local_container",
+  "python": ">=3.11 contract; validated under available Python runtime",
+  "tests": {
+    "command": "PYTHONPATH=src pytest -q",
+    "passed": 8,
+    "failed": 0
+  },
+  "compile": {
+    "command": "python -m compileall -q src tests",
+    "passed": true
+  },
+  "diff_check": {
+    "command": "git diff --check",
+    "passed": true
+  },
+  "acceptance_demo": {
+    "first_run": "SETTLED_PROOF",
+    "fresh_process_recovery": "SETTLED_PROOF",
+    "second_run": "NOOP_ALREADY_SETTLED",
+    "verified_but_unsettled_attempts": 0
+  },
+  "claim_boundary": {
+    "proven": [
+      "local SQLite event/evidence state reconstruction",
+      "truth promotion guard",
+      "approval gate contract",
+      "execute/verify separation",
+      "settlement persistence",
+      "fresh-process recovery",
+      "assumption invalidation and active-context exclusion",
+      "idempotent settled-demo replay"
+    ],
+    "not_proven": [
+      "real external operator execution",
+      "production concurrency",
+      "mid-flight crash recovery after external side effect",
+      "production-scale load",
+      "LLM planning quality"
+    ]
+  }
+}

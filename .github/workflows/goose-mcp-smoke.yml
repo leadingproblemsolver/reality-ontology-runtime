@@ -83,6 +83,7 @@ jobs:
         run: python scripts/close_github_smoke_issue.py --receipt "${REALITY_SMOKE_RECEIPT}"
 
       - name: Ambiguous path — external effect occurs then Goose times out
+        if: always()
         env:
           REALITY_SMOKE_MARKER: reality-goose-mcp-${{ github.run_id }}-${{ github.run_attempt }}-ambiguous
           REALITY_SMOKE_RECEIPT: .runtime/reality-goose-mcp-ambiguous.json
@@ -111,6 +112,7 @@ jobs:
         with:
           name: goose-mcp-settlement-${{ github.run_id }}
           if-no-files-found: ignore
+          include-hidden-files: true
           path: |
             .runtime/goose-mcp-smoke-*.db
             .runtime/reality-goose-mcp-*.json

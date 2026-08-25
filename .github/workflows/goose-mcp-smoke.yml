@@ -33,7 +33,7 @@ jobs:
       GITHUB_TOKEN: ${{ github.token }}
       GITHUB_REPOSITORY: ${{ github.repository }}
       REALITY_SMOKE_MARKER: reality-goose-mcp-${{ github.run_id }}-${{ github.run_attempt }}
-      REALITY_SMOKE_RECEIPT: ${{ runner.temp }}/reality-goose-mcp-issue.json
+      REALITY_SMOKE_RECEIPT: .runtime/reality-goose-mcp-issue.json
 
     steps:
       - uses: actions/checkout@v4
@@ -90,5 +90,5 @@ jobs:
           if-no-files-found: ignore
           path: |
             .runtime/goose-mcp-smoke.db
-            ${{ runner.temp }}/reality-goose-mcp-issue.json
+            .runtime/reality-goose-mcp-issue.json
             ${{ runner.temp }}/mock-openai.log

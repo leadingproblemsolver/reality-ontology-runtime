@@ -1,0 +1,38 @@
+{
+  "target": "Obtain the first paid-buyer external receipt",
+  "observed_state": "A buyer-relevant recruiting artifact exists and a live Freelancer buyer is reachable, but nothing has been submitted to that buyer yet.",
+  "delta": "No buyer commitment, reply, correction, workflow access, use, or payment exists.",
+  "timebox_seconds": 900,
+  "base_urgency": 82,
+  "owner": "operator",
+  "candidates": [
+    {
+      "action": "Submit the finished recruiting sample to the live Freelancer buyer.",
+      "expected_postcondition": "The buyer can inspect the proposal and attached proof.",
+      "expected_receipt": "Freelancer submission confirmation plus proposal URL/state.",
+      "external_consequence": 5,
+      "information_gain": 4,
+      "technical_ownership": 1,
+      "warm_access": 3,
+      "compounding_leverage": 4,
+      "internal_preparation": 0,
+      "prerequisites_met": true,
+      "authority_available": true,
+      "observable_receipt": true
+    },
+    {
+      "action": "Polish the portfolio copy again.",
+      "expected_postcondition": "Portfolio wording is marginally clearer.",
+      "expected_receipt": "Local diff.",
+      "external_consequence": 0,
+      "information_gain": 1,
+      "technical_ownership": 1,
+      "warm_access": 0,
+      "compounding_leverage": 1,
+      "internal_preparation": 5,
+      "prerequisites_met": true,
+      "authority_available": true,
+      "observable_receipt": true
+    }
+  ]
+}

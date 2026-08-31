@@ -3,6 +3,7 @@ import argparse, json
 from pathlib import Path
 from .executor import ExecutionEngine
 from .models import RiskLevel, TransitionContract
+from .nextmove import NextMoveEngine, SettlementOutcome
 from .operators import FileMarkerOperator
 from .store import RealityStore
 
@@ -50,6 +51,13 @@ def _demo(db_path: str) -> dict:
     return {"execution": result, "state_before_restart": before_close, "state_after_restart": recovered, "fresh_context_object_count": len(packet["objects"]), "acceptance": recovered == "SETTLED_PROOF"}
 
 
+def _load_spec(path: str) -> dict:
+    value = json.loads(Path(path).read_text(encoding="utf-8"))
+    if not isinstance(value, dict):
+        raise ValueError("mission spec must be a JSON object")
+    return value
+
+
 def main(argv=None):
     p = argparse.ArgumentParser(prog="ro")
     p.add_argument("--db", default=".runtime/reality.db")
@@ -60,12 +68,32 @@ def main(argv=None):
     tl = sub.add_parser("timeline"); tl.add_argument("object_id")
     cp = sub.add_parser("context"); cp.add_argument("goal_id")
     sub.add_parser("verify-invariants")
+
+    ns = sub.add_parser("next-start", help="select and start exactly one executable NextMove mission")
+    ns.add_argument("--spec", required=True, help="path to a mission JSON spec")
+    nv = sub.add_parser("next", help="show the current NextMove mission")
+    nv.add_argument("mission_id", nargs="?")
+    ne = sub.add_parser("next-events", help="show append-only NextMove mission events")
+    ne.add_argument("mission_id")
+    nset = sub.add_parser("next-settle", help="settle the current transition before doing more work")
+    nset.add_argument("outcome", choices=[value.value for value in SettlementOutcome])
+    nset.add_argument("--mission-id")
+    nset.add_argument("--observation", required=True)
+    nset.add_argument("--receipt")
+    nset.add_argument("--next-action")
+    srv = sub.add_parser("serve", help="serve the minimal Logistinfra /next operator surface")
+    srv.add_argument("--host", default="127.0.0.1")
+    srv.add_argument("--port", default=8787, type=int)
+
     args = p.parse_args(argv)
 
     if args.cmd == "init":
         s = RealityStore(args.db); s.close(); print(json.dumps({"db": args.db, "initialized": True}, indent=2)); return
     if args.cmd == "demo":
         print(json.dumps(_demo(args.db), indent=2)); return
+    if args.cmd == "serve":
+        from .web import serve
+        serve(args.db, host=args.host, port=args.port); return
 
     with RealityStore(args.db) as s:
         if args.cmd == "reality":
@@ -74,5 +102,32 @@ def main(argv=None):
         if args.cmd == "timeline": print(json.dumps(s.timeline(args.object_id), indent=2)); return
         if args.cmd == "context": print(json.dumps(s.context_packet(args.goal_id), indent=2)); return
         if args.cmd == "verify-invariants": print(json.dumps(s.invariant_report(), indent=2)); return
+
+        engine = NextMoveEngine(s)
+        if args.cmd == "next-start":
+            spec = _load_spec(args.spec)
+            result = engine.start_mission(
+                target=str(spec.get("target", "")),
+                observed_state=str(spec.get("observed_state", "")),
+                delta=str(spec.get("delta", "")),
+                candidates=spec.get("candidates", []),
+                timebox_seconds=int(spec.get("timebox_seconds", 900)),
+                base_urgency=int(spec.get("base_urgency", 50)),
+                owner=spec.get("owner"),
+            )
+            print(json.dumps(result, indent=2)); return
+        if args.cmd == "next":
+            print(json.dumps(engine.current(args.mission_id), indent=2)); return
+        if args.cmd == "next-events":
+            print(json.dumps(engine.events(args.mission_id), indent=2)); return
+        if args.cmd == "next-settle":
+            mission_id = args.mission_id or engine.current()["mission_id"]
+            print(json.dumps(engine.settle(
+                mission_id,
+                outcome=args.outcome,
+                observation=args.observation,
+                receipt_locator=args.receipt,
+                next_action=args.next_action,
+            ), indent=2)); return
 
 if __name__ == "__main__": main()

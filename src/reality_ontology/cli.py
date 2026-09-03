@@ -1,5 +1,6 @@
 from __future__ import annotations
 import argparse, json
+from datetime import date
 from pathlib import Path
 from .executor import ExecutionEngine
 from .models import RiskLevel, TransitionContract
@@ -69,6 +70,18 @@ def main(argv=None):
     cp = sub.add_parser("context"); cp.add_argument("goal_id")
     sub.add_parser("verify-invariants")
 
+    construction = sub.add_parser(
+        "construction-lookahead",
+        help="project source-linked construction readiness from schedule exports",
+    )
+    construction.add_argument("--activities", required=True)
+    construction.add_argument("--relationships", required=True)
+    construction.add_argument("--requirements", required=True)
+    construction.add_argument("--previous-activities")
+    construction.add_argument("--as-of", required=True, help="YYYY-MM-DD")
+    construction.add_argument("--days", type=int, default=90)
+    construction.add_argument("--output-dir", default="artifacts/construction")
+
     ns = sub.add_parser("next-start", help="select and start exactly one executable NextMove mission")
     ns.add_argument("--spec", required=True, help="path to a mission JSON spec")
     nv = sub.add_parser("next", help="show the current NextMove mission")
@@ -94,6 +107,23 @@ def main(argv=None):
     if args.cmd == "serve":
         from .web import serve
         serve(args.db, host=args.host, port=args.port); return
+    if args.cmd == "construction-lookahead":
+        from .domains.construction_planning import run_lookahead
+        try:
+            as_of = date.fromisoformat(args.as_of)
+        except ValueError as exc:
+            p.error(f"--as-of must be YYYY-MM-DD: {exc}")
+        result = run_lookahead(
+            activities_path=args.activities,
+            relationships_path=args.relationships,
+            requirements_path=args.requirements,
+            previous_activities_path=args.previous_activities,
+            as_of=as_of,
+            days=args.days,
+            output_dir=args.output_dir,
+        )
+        print(json.dumps(result, indent=2))
+        return
 
     with RealityStore(args.db) as s:
         if args.cmd == "reality":

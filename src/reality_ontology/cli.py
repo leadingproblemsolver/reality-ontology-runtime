@@ -78,6 +78,7 @@ def main(argv=None):
     construction.add_argument("--relationships", required=True)
     construction.add_argument("--requirements", required=True)
     construction.add_argument("--previous-activities")
+    construction.add_argument("--with-impact", action="store_true", help="emit source-linked schedule change impact view")
     construction.add_argument("--as-of", required=True, help="YYYY-MM-DD")
     construction.add_argument("--days", type=int, default=90)
     construction.add_argument("--output-dir", default="artifacts/construction")
@@ -118,6 +119,7 @@ def main(argv=None):
             relationships_path=args.relationships,
             requirements_path=args.requirements,
             previous_activities_path=args.previous_activities,
+            with_impact=args.with_impact,
             as_of=as_of,
             days=args.days,
             output_dir=args.output_dir,

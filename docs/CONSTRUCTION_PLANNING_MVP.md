@@ -26,6 +26,7 @@ it deterministically produces:
 - `PREPARE_NOW`, `UPCOMING`, `BLOCKED`, or `REQUIREMENT_UNMAPPED` status;
 - source file, source row, and source SHA-256 provenance for each projected row;
 - schedule movement between snapshots (`START_MOVED`, `FINISH_MOVED`, `STATUS_CHANGED`, `ENTERED_LOOKAHEAD`, etc.);
+- optionally, a combined `change_impact.csv` that joins each schedule-change record to the current readiness/requirement row it affects;
 - a projection receipt containing source hashes and output counts.
 
 It does **not** claim that the future schedule is fact. It is a deterministic projection of the supplied schedule snapshot.
@@ -40,6 +41,7 @@ ro construction-lookahead \
   --relationships examples/construction/relationships.csv \
   --requirements examples/construction/qa_requirements.csv \
   --previous-activities examples/construction/previous_activities.csv \
+  --with-impact \
   --as-of 2026-09-04 \
   --days 90 \
   --output-dir artifacts/construction-demo
@@ -51,8 +53,33 @@ Expected outputs:
 artifacts/construction-demo/
   90_day_readiness.csv
   schedule_changes.csv
+  change_impact.csv
   projection_receipt.json
 ```
+
+`--with-impact` requires `--previous-activities` because the combined view is explicitly a before/current comparison, not a synthetic change guess.
+
+## Combined change-impact contract
+
+`change_impact.csv` is deliberately narrow. It does not implement a second change-propagation engine.
+
+The row contract is:
+
+`one schedule-change record × one current readiness/requirement row`
+
+For each row it carries:
+
+- the original schedule change (`before`, `after`, optional `delta_days`);
+- previous/current activity source references when available;
+- current readiness status and blockers;
+- requirement and action date when mapped;
+- `effect_evidence = KNOWN` when the downstream preparation effect has a source requirement;
+- `effect_evidence = UNRESOLVED` when requirement evidence is absent or there is no current readiness row;
+- current activity and requirement provenance.
+
+This preserves two facts when they co-occur. For example, an activity may remain `BLOCKED` because its predecessor is incomplete while its requirement mapping is still unresolved. The readiness status is not rewritten; the missing requirement remains visible through `effect_evidence=UNRESOLVED` and an empty requirement source.
+
+A changed activity is never dropped merely because it has no current readiness row. It remains in the combined output with the downstream effect explicitly unresolved.
 
 ## XLSX input
 
@@ -106,7 +133,16 @@ The slice currently refuses to silently continue when:
 - planned finish precedes planned start;
 - required columns are absent;
 - dates cannot be parsed;
-- unsupported requirement scope is supplied.
+- unsupported requirement scope is supplied;
+- `--with-impact` is requested without a previous activity snapshot.
+
+## Known limitations
+
+- Relationship type and lag semantics (FS/SS/FF/SF and lag) are not modeled in this slice.
+- The importer has not yet been verified against the engineer's real P6 export schema.
+- The combined impact view links a changed activity to the readiness/requirement rows already produced by the current projection; it does not infer broader causal propagation beyond the relationships and requirements already modeled.
+
+These limitations remain explicit rather than being resolved by guesswork.
 
 ## Why this is not an agent
 

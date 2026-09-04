@@ -1,0 +1,4 @@
+activity_id,activity_name,wbs,planned_start,planned_finish,activity_status,readiness_status,blocking_predecessors,requirement,action_by,source_activity,source_requirement
+A110,Waterproofing,B05,2026-09-15,2026-09-25,Not Started,PREPARE_NOW,,WIR + waterproofing checklist,2026-09-01,examples/construction/activities.csv#row=3@sha256:7d88f1e8477b,examples/construction/qa_requirements.csv#row=2@sha256:501bde85fb7b
+A120,Ceiling closeout,B05,2026-10-20,2026-10-30,Not Started,BLOCKED,A110,QA closeout package,2026-10-06,examples/construction/activities.csv#row=4@sha256:7d88f1e8477b,examples/construction/qa_requirements.csv#row=3@sha256:501bde85fb7b
+A130,Final inspection,B07,2026-11-20,2026-11-22,Not Started,BLOCKED,A120,Final inspection dossier,2026-10-30,examples/construction/activities.csv#row=5@sha256:7d88f1e8477b,examples/construction/qa_requirements.csv#row=4@sha256:501bde85fb7b

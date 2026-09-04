@@ -1,0 +1,19 @@
+{
+  "projection_type": "construction_lookahead_readiness",
+  "as_of": "2026-09-04",
+  "window_days": 90,
+  "source_hashes": {
+    "activities": "7d88f1e8477ba98402e9837fafbfc259ead600f94afecd08c9e19a6a16987c56",
+    "relationships": "163ab42c2dc3b27bda78149d600ddcd8781cc4b2cd3ad99360ea4192507e03bc",
+    "requirements": "501bde85fb7bc5cfac2bdbb3b7b2bccb11998e8b4add6ae0f7b155e65160ac77",
+    "previous_activities": "1bdbac1d5cd561c6fa1873eee4d20d07d2e55d86a34ced1664344696853e60fa"
+  },
+  "activities_loaded": 5,
+  "relations_loaded": 3,
+  "requirements_loaded": 3,
+  "projection_rows": 3,
+  "blocked_rows": 2,
+  "unmapped_rows": 0,
+  "changes": 7,
+  "projection_digest": "4bc6ab62ff2b258a8279641062270dc904124ae5c3f074dd27e9d3130b6d8d95"
+}

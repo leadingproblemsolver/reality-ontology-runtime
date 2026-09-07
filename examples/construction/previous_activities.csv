@@ -1,0 +1,6 @@
+Activity ID,Activity Name,WBS,Planned Start,Planned Finish,Status
+A100,Structure complete,B05,2026-09-01,2026-09-10,Complete
+A110,Waterproofing,B05,2026-09-20,2026-09-30,Not Started
+A120,Ceiling closeout,B05,2026-11-05,2026-11-15,Not Started
+A130,Final inspection,B07,2026-12-20,2026-12-22,Not Started
+A140,External works,B07,2027-01-15,2027-02-15,Not Started

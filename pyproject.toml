@@ -12,6 +12,7 @@ dependencies = []
 
 [project.optional-dependencies]
 dev = ["pytest>=8.0"]
+xlsx = ["openpyxl>=3.1"]
 
 [project.scripts]
 ro = "reality_ontology.cli:main"

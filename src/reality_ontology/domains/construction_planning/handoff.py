@@ -60,9 +60,14 @@ def inspect_source(path: str | Path, role: str) -> dict[str, Any]:
     }
 
     if suffix == ".csv":
-        with source.open("r", encoding="utf-8-sig", newline="") as handle:
-            reader = csv.reader(handle)
-            headers = [str(value or "").strip() for value in next(reader, [])]
+        try:
+            with source.open("r", encoding="utf-8-sig", newline="") as handle:
+                reader = csv.reader(handle)
+                headers = [str(value or "").strip() for value in next(reader, [])]
+        except (OSError, UnicodeError, csv.Error) as exc:
+            raise core.ConstructionInputError(
+                f"could not read CSV source {source}: {exc.__class__.__name__}: {exc}"
+            ) from exc
         selected = _sheet_report("CSV", headers, selected=True, required=required)
         return {
             **base,
@@ -83,26 +88,35 @@ def inspect_source(path: str | Path, role: str) -> dict[str, Any]:
                 "XLSX input requires openpyxl; install with `pip install .[xlsx]`"
             ) from exc
 
-        workbook = load_workbook(source, read_only=True, data_only=True)
-        names = list(workbook.sheetnames)
-        selected_name = names[0] if names else None
-        sheets: list[dict[str, Any]] = []
-        for name in names:
-            worksheet = workbook[name]
-            iterator = worksheet.iter_rows(values_only=True)
-            headers = [str(value or "").strip() for value in next(iterator, [])]
-            sheets.append(_sheet_report(name, headers, selected=name == selected_name, required=required))
-        selected = next((sheet for sheet in sheets if sheet["selected"]), None)
-        return {
-            **base,
-            "worksheet_names": names,
-            "selected_worksheet": selected_name,
-            "worksheets": sheets,
-            "canonical_mappings": selected["canonical_mappings"] if selected else {},
-            "missing_required_fields": selected["missing_required_fields"] if selected else sorted(required),
-            "unsupported_fields": selected["unsupported_fields"] if selected else [],
-            "status": "PASS" if selected and not selected["missing_required_fields"] else "FAIL",
-        }
+        try:
+            workbook = load_workbook(source, read_only=True, data_only=True)
+        except Exception as exc:
+            raise core.ConstructionInputError(
+                f"could not read XLSX source {source}: {exc.__class__.__name__}: {exc}"
+            ) from exc
+
+        try:
+            names = list(workbook.sheetnames)
+            selected_name = names[0] if names else None
+            sheets: list[dict[str, Any]] = []
+            for name in names:
+                worksheet = workbook[name]
+                iterator = worksheet.iter_rows(values_only=True)
+                headers = [str(value or "").strip() for value in next(iterator, [])]
+                sheets.append(_sheet_report(name, headers, selected=name == selected_name, required=required))
+            selected = next((sheet for sheet in sheets if sheet["selected"]), None)
+            return {
+                **base,
+                "worksheet_names": names,
+                "selected_worksheet": selected_name,
+                "worksheets": sheets,
+                "canonical_mappings": selected["canonical_mappings"] if selected else {},
+                "missing_required_fields": selected["missing_required_fields"] if selected else sorted(required),
+                "unsupported_fields": selected["unsupported_fields"] if selected else [],
+                "status": "PASS" if selected and not selected["missing_required_fields"] else "FAIL",
+            }
+        finally:
+            workbook.close()
 
     raise core.ConstructionInputError(f"unsupported source type: {suffix}; use CSV or XLSX")
 

@@ -1,0 +1,87 @@
+{
+  "moment": {
+    "timestamp": "2026-09-14T09:15:00+03:00",
+    "available_minutes": 45,
+    "next_hard_commitment": "2026-09-14T10:15:00+03:00"
+  },
+  "interruption_lane": {
+    "condition": "new external reply / maintainer response / deadline enters action window",
+    "operator": "message_triage_or_moment_router",
+    "action": "preempt and recompute"
+  },
+  "candidates": [
+    {
+      "goal": "increase externally judged technical proof",
+      "project": "Browser Use contribution",
+      "action": "Reproduce one bounded Browser Use reliability bug and preserve the failing trace",
+      "why_now": "high proof gain, bounded, externally verifiable, no live actor currently waiting",
+      "operator": "github_opportunity",
+      "chat_reference": "Constraint Intelligence Engine / GitHub Contribution Engine",
+      "context_refs": ["browser-use issue", "Logistinfra reliability invariant"],
+      "first_physical_action": "Open the selected issue and run the smallest reproduction fixture",
+      "stop_condition": "failing test or falsified reproduction hypothesis is persisted",
+      "receipt_required": "test output + issue/repo reference",
+      "timebox_minutes": 45,
+      "status": "active",
+      "scores": {
+        "external_consequence": 7,
+        "information_gain": 9,
+        "deadline_pressure": 2,
+        "dependency_unlock": 8,
+        "relationship_access_value": 7,
+        "proof_gain": 10,
+        "probability_now": 8,
+        "compounding_value": 9,
+        "switching_cost": 2,
+        "execution_cost": 4,
+        "reversibility_risk": 1,
+        "speculation_penalty": 0
+      }
+    },
+    {
+      "goal": "ship persistent Logistinfra runtime",
+      "project": "Moment Router",
+      "action": "Expand the Moment Router architecture",
+      "why_now": "useful but not more important than current external proof",
+      "operator": "moment_router_build",
+      "chat_reference": "Activating Logistinfra Process",
+      "context_refs": ["MOMENT_ROUTER.md"],
+      "first_physical_action": "Design more integrations",
+      "stop_condition": "new architecture documented",
+      "receipt_required": "commit",
+      "timebox_minutes": 90,
+      "status": "active",
+      "splittable": false,
+      "scores": {
+        "external_consequence": 2,
+        "information_gain": 3,
+        "deadline_pressure": 1,
+        "dependency_unlock": 4,
+        "relationship_access_value": 0,
+        "proof_gain": 2,
+        "probability_now": 8,
+        "compounding_value": 8,
+        "switching_cost": 4,
+        "execution_cost": 8,
+        "reversibility_risk": 1,
+        "speculation_penalty": 7
+      }
+    },
+    {
+      "goal": "advance live employer conversation",
+      "project": "Internship outreach",
+      "action": "Follow up with employer contact",
+      "why_now": "already sent; no response yet",
+      "operator": "message_triage",
+      "chat_reference": "Next Steps Execution Plan",
+      "context_refs": ["sent email receipt"],
+      "first_physical_action": "Do nothing until follow-up trigger",
+      "stop_condition": "reply arrives or check time reached",
+      "receipt_required": "external reply or scheduled check",
+      "timebox_minutes": 5,
+      "status": "waiting_external",
+      "next_check_at": "2026-09-15T09:00:00+03:00",
+      "scores": {}
+    }
+  ]
+}

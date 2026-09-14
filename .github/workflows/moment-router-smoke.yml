@@ -1,0 +1,29 @@
+name: Moment Router Smoke
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'logistinfra-runtime/moment_router.py'
+      - 'logistinfra-runtime/reality.example.json'
+      - 'logistinfra-runtime/test_moment_router.py'
+
+jobs:
+  test-and-route:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run hostile routing tests
+        working-directory: logistinfra-runtime
+        run: python -m pytest -q test_moment_router.py
+      - name: Produce current recommendation from fixture
+        working-directory: logistinfra-runtime
+        run: python moment_router.py reality.example.json --available-minutes 45 | tee moment-router-output.json
+      - name: Upload routing receipt
+        uses: actions/upload-artifact@v4
+        with:
+          name: moment-router-output
+          path: logistinfra-runtime/moment-router-output.json

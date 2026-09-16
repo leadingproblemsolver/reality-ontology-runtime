@@ -7,6 +7,7 @@ on:
       - 'logistinfra-runtime/moment_router.py'
       - 'logistinfra-runtime/reality.example.json'
       - 'logistinfra-runtime/test_moment_router.py'
+      - '.github/workflows/moment-router-smoke.yml'
 
 jobs:
   test-and-route:
@@ -16,6 +17,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Install test dependency
+        run: python -m pip install -e '.[dev]'
       - name: Run hostile routing tests
         working-directory: logistinfra-runtime
         run: python -m pytest -q test_moment_router.py

@@ -9,8 +9,27 @@ Your responsibility is to discover, connect, normalize, synchronize, route, and 
 - `logistinfra-runtime/INTEGRATION_PLANE.md`
 - `logistinfra-runtime/MOMENT_ROUTER.md`
 - `logistinfra-runtime/GEMINI_MASTER_ACTUALIZATION_PROMPT.md`
+- `logistinfra-runtime/CURRENT_CONNECTOR_SURFACE.md`
 - attached `chat_structuralization_prompt_pack.zip`
 - all available chat exports / project files / repo state
+
+## Reuse-first hard gate
+
+Before proposing or writing ANY adapter/infrastructure:
+
+1. inspect `CURRENT_CONNECTOR_SURFACE.md`;
+2. inspect the existing repo for an implementation or prompt already covering the capability;
+3. test whether an existing connector/MCP/API/repo component satisfies the required contract;
+4. prefer composition over new infrastructure;
+5. build only the thinnest missing seam.
+
+For every capability classify the implementation as exactly one of:
+
+`USE_EXISTING_CONNECTOR | USE_EXISTING_REPO_COMPONENT | COMPOSE_EXISTING_COMPONENTS | BUILD_THIN_ADAPTER | UNRESOLVED`.
+
+A custom component is inadmissible unless the existing connector/repo/component was checked against a concrete acceptance test and failed.
+
+Do not create a second Navigator, ontology, router, registry, workflow system, or structuralization prompt pack if an existing artifact already owns that function.
 
 ## Primary mission
 Eliminate manual context reconstruction and chat switching.
@@ -21,7 +40,10 @@ Build the context/integration plane so a fresh process can answer:
 
 ## Work in this order
 
-### 1. Inventory every usable integration
+### 1. Inventory and ACTUALLY TEST every usable integration
+
+Do not merely research possible integrations. Start from the already-connected surfaces in `CURRENT_CONNECTOR_SURFACE.md`, exercise representative read operations where access is available, and record an executable capability matrix.
+
 For each source/system determine:
 - existing API/connector/MCP/repo/tool;
 - authentication requirement;

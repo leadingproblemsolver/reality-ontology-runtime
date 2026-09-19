@@ -21,7 +21,15 @@ Before proposing or writing ANY adapter/infrastructure:
 2. inspect the existing repo for an implementation or prompt already covering the capability;
 3. test whether an existing connector/MCP/API/repo component satisfies the required contract;
 4. prefer composition over new infrastructure;
-5. build only the thinnest missing seam.
+5. build only the thinnest missing seam;
+6. classify portability separately: a connector exposed inside ChatGPT is useful for immediate control-plane execution, but the standalone Navigator may depend on it only if an official API/MCP/SDK or other independently callable surface exists.
+
+For every integration record:
+- CURRENT_CHATGPT_ACCESS: yes/no
+- STANDALONE_PORTABLE_ACCESS: yes/no/unverified
+- PORTABLE_SURFACE: official API | MCP | SDK | webhook | export | none
+- BOOTSTRAP_USE: what we can exploit immediately from this chat
+- RUNTIME_USE: what Logistinfra can invoke without ChatGPT
 
 For every capability classify the implementation as exactly one of:
 

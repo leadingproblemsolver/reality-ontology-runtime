@@ -88,7 +88,7 @@ export async function route(store: ContinuityStore, mission: string): Promise<Co
     evidenceRefs,
     operator: transition.operator,
     chatReference: chat ? `${chat.title} [${chat.id}]` : null,
-    artifactRefs: [...new Set([...workstream.artifactRefs, ...transition.artifactRefs])],
+    toolRefs: transition.toolRefs ?? [],\n    artifactRefs: [...new Set([...workstream.artifactRefs, ...transition.artifactRefs])],
     nextAction: transition.action,
     doneWhen: transition.doneWhen,
     requiredReceipt: transition.receiptRequired,

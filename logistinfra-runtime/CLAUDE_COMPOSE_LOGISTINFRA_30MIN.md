@@ -100,18 +100,22 @@ Navigator instruction:
 - verify, then SETTLE
 - show one primary move + one interruption lane
 
-### 4. Connector bridge
+### 4. Dual-MCP composition — no connector proxy
 
-Prefer Composio's MCP/session/tool-search surface.
-Do NOT write Gmail/GitHub/Slack/CRM adapters if Composio or an existing direct connector covers them.
+LibreChat Navigator must connect directly to:
+1. Logistinfra MCP — reality, routing, context, settlement
+2. Composio MCP — external app discovery/auth/actions
 
-Implement only the interface seam needed for Logistinfra to:
-- discover required external tool
-- execute approved action
-- persist external tool result as observation
-- independently verify expected transition where possible
+Do NOT proxy Composio tools through Logistinfra.
+Do NOT write Gmail/GitHub/Slack/CRM adapters if Composio or an existing direct MCP/API covers them.
 
-Provide a clean fallback interface for Pipedream/direct APIs.
+The Navigator may:
+- ROUTE via Logistinfra;
+- discover and call the required Composio tool;
+- make a fresh read/observation through Composio/direct API;
+- call Logistinfra SETTLE only with verified evidence.
+
+Provide Pipedream/direct API fallback only as an interface/config option, not implementation unless required by the first closed loop.
 
 ### 5. First real corpus fixture
 
@@ -121,10 +125,10 @@ If unavailable in working tree, make the importer accept a mounted input directo
 ### 6. Proactive event seam
 
 Minimum only:
-external event/webhook -> SYNC -> recompute affected route -> emit priority_changed event only if route materially changes.
+Composio signed trigger/webhook -> SYNC -> recompute affected route -> if route materially changes, deliver an idempotent LibreChat Agent Event.
 
-Do not build a notification product.
-Return an event payload that can later be delivered through LibreChat Agent Events or Slack.
+Use LibreChat Agent Events directly; do not build a notification framework.
+Slack may be a secondary delivery fallback.
 
 ## Acceptance tests
 

@@ -33,12 +33,13 @@ Compose Logistinfra from existing mature systems and keep only the Reality/Conte
 
    It wraps the already-implemented Reality Ontology / continuity / Moment Router / Market Router contracts. It is NOT a general agent framework.
 
-3. **Composio = primary integration/auth fabric**
+3. **Composio = primary integration/auth fabric, connected directly to LibreChat**
    - managed auth
    - runtime tool discovery
    - MCP/session surface
    - event triggers where available
    - Gmail/Slack/GitHub/CRM/etc.
+   The Navigator Agent gets TWO independent MCP surfaces: `Logistinfra MCP` for reality/routing/state and `Composio MCP` for external tools. Do not proxy Composio's app catalog through Logistinfra.
    Use Pipedream MCP only when a required integration is missing or materially better there.
 
 4. **Supabase/Postgres = canonical truth/state**
@@ -109,13 +110,13 @@ Artifacts/code may render directly in LibreChat.
 ## Proactive path
 
 External event
--> Composio/webhook/GitHub event
--> thin event bridge
+-> Composio trigger/webhook
+-> tiny signed event bridge
 -> Logistinfra SYNC
 -> affected workstream recompute
 -> priority delta test
--> if materially changed: deliver Agent Event / Slack notification
--> Navigator opens with context already compiled
+-> if materially changed: LibreChat Agent Event (idempotent) and/or Slack notification
+-> Navigator opens/continues with context already compiled
 
 No notification when priority did not materially change.
 

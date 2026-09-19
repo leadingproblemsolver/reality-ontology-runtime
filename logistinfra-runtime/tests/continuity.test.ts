@@ -28,6 +28,17 @@ function seed(): GlobalState {
         latestState: "target selected",
         sourceRefs: ["chat:market-router"],
       },
+      {
+        id: "direct-gtm",
+        title: "Direct GTM Chats",
+        purpose: "execute the approved external market action",
+        operator: "direct_gtm",
+        workstreamId: "ws-market-proof",
+        invokeWhen: ["intervention prepared"],
+        artifacts: ["artifact:signalops-workbench"],
+        latestState: "ready to send",
+        sourceRefs: ["chat:direct-gtm"],
+      },
     ],
     workstreams: [
       {
@@ -86,7 +97,9 @@ function seed(): GlobalState {
         receiptRequired: "send/submission receipt",
         doneWhen: "external system confirms delivery/submission",
         interruptionWakeCondition: "target replies before planned follow-up",
+        chatId: "direct-gtm",
         artifactRefs: ["artifact:signalops-workbench"],
+        toolRefs: ["tool:gmail"],
         evidenceRefs: [],
         dependsOn: ["t1"],
         createdAt: "2026-09-19T00:01:00.000Z",
@@ -130,6 +143,9 @@ describe("live context engine", () => {
     const second = await route(sessionB, "obtain external proof");
     expect(second?.transitionId).toBe("t2");
     expect(second?.nextAction).toMatch(/send the prepared intervention/i);
+    expect(second?.chatReference).toMatch(/Direct GTM Chats/);
+    expect(second?.owner).toBe("Taha");
+    expect(second?.toolRefs).toContain("tool:gmail");
     expect(second?.currentTruth.join(" ")).toMatch(/last_verified_transition=t1/);
     expect(second?.currentTruth.join(" ")).toMatch(/intervention artifact was produced/);
     expect(second?.evidenceRefs).toContain("receipt:r1");

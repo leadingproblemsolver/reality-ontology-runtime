@@ -43,6 +43,7 @@ export interface Transition {
   interruptionWakeCondition: string;
   chatId?: string | null;
   artifactRefs: string[];
+  toolRefs?: string[];
   evidenceRefs: string[];
   dependsOn: string[];
   createdAt: string;
@@ -78,7 +79,9 @@ export interface ContextPacket {
   frozenDecisions: string[];
   evidenceRefs: string[];
   operator: string;
+  owner: string;
   chatReference: string | null;
+  toolRefs: string[];
   artifactRefs: string[];
   nextAction: string;
   doneWhen: string;

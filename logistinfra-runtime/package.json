@@ -11,7 +11,8 @@
     "test": "vitest run",
     "scan": "tsx src/cli/scan.ts",
     "investigate": "tsx src/cli/investigate.ts",
-    "decide": "tsx src/cli/decide.ts"
+    "decide": "tsx src/cli/decide.ts",
+    "continuity": "tsx src/cli/continuity.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.32.1",

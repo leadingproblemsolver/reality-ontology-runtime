@@ -1,0 +1,79 @@
+parent:
+  branch: operational-reality-v1
+  base: immediatelyusable
+  objective: eliminate avoidable human labour and continuously route the best executable 10-minute action
+  merge_policy: child branches merge only after their acceptance receipt exists
+  shared_substrate:
+    - reality_ontology
+    - continuity
+    - moment_router
+    - market_router
+    - autonomous_execute_verify_settle
+    - surface_registry
+    - trigger_wake
+    - supabase_state
+
+children:
+  - branch: or/cognitimeexec-now
+    priority: P0
+    order: 1
+    objective: compile canonical reality into one exact 0-10 minute executable action
+    depends_on:
+      - immediatelyusable live state
+    receipt: two consecutive NOW calls advance correctly after settlement
+
+  - branch: or/leverage-firewall
+    priority: P0
+    order: 2
+    objective: remove or compress <=1x human labour before it enters the active queue
+    depends_on:
+      - cognitimeexec admissibility hook
+    receipt: one recurring manual operation removed or floored with no missed obligation
+
+  - branch: or/predictive-setup
+    priority: P0
+    order: 3
+    objective: pre-position reversible setup for likely next transitions
+    depends_on:
+      - surface registry
+      - cognitimeexec successor state
+    receipt: one recurring action begins from pre-positioned context with measured setup reduction
+
+  - branch: or/predictive-maintenance
+    priority: P1
+    order: 4
+    objective: detect and repair material degradation before manual discovery
+    depends_on:
+      - live source health
+      - wake layer
+    receipt: one degradation detected, repaired, retested and settled
+
+  - branch: or/life-logistics-floor
+    priority: P1
+    order: 5
+    objective: compress mandatory university/admin/getting-ready logistics to reliable floors
+    depends_on:
+      - predictive setup
+      - leverage firewall
+      - calendar/email/file sources
+    receipt: one recurring mandatory workflow completes with less human setup and no missed requirement
+
+  - branch: or/attention-firewall
+    priority: P1
+    order: 6
+    objective: suppress low-value inbound noise while preserving state-changing interrupts
+    depends_on:
+      - live event ingestion
+      - workstream state
+    receipt: mixed inbound batch wakes only on materially state-changing event
+
+acceptance:
+  parent_v1_complete_when:
+    - NOW always returns one exact 10-minute action or justified idle/prep
+    - waiting work is suppressed
+    - nonessential <=1x labour cannot enter human active queue
+    - mandatory low-leverage work is floored rather than forgotten
+    - likely next work is reversibly pre-staged
+    - material degradation creates maintenance transitions
+    - covered inbound sources require no manual polling
+    - all meaningful work ends in verified settlement

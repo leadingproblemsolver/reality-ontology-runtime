@@ -6,7 +6,9 @@ on:
     paths:
       - 'logistinfra-runtime/src/autonomy/**'
       - 'logistinfra-runtime/src/continuity/**'
+      - 'logistinfra-runtime/bootstrap/**'
       - 'logistinfra-runtime/tests/autonomy.test.ts'
+      - 'logistinfra-runtime/tests/live-bootstrap.test.ts'
       - 'logistinfra-runtime/package.json'
       - 'logistinfra-runtime/package-lock.json'
       - '.github/workflows/autonomous-core-smoke.yml'
@@ -28,5 +30,5 @@ jobs:
         run: npm ci
       - name: Typecheck
         run: npm run build
-      - name: Run autonomous-kernel tests
-        run: npx vitest run tests/autonomy.test.ts
+      - name: Run autonomous-kernel and live-bootstrap tests
+        run: npx vitest run tests/autonomy.test.ts tests/live-bootstrap.test.ts

@@ -47,6 +47,136 @@ Then execute.
 
 ---
 
+---
+
+# SAME-DAY EXTERNALIZATION / SUBMISSION PREEMPTION LANE
+
+V1 completion is NOT permission to disappear into infrastructure work for the whole day.
+
+Today, external consequence has a floor.
+
+## Daily externalization floor
+
+Before the day closes, produce at least one of:
+
+- judged submission;
+- marketplace/registry submission;
+- upstream issue/PR/package drop;
+- maintainer/user test request;
+- operator/customer send with a concrete commitment ask;
+- public technical proof tied to a real receipt;
+- application/program submission that can produce access, capital, distribution, review, or adoption.
+
+Prepared-but-unsent artifacts do not satisfy the floor.
+
+## Preemption law
+
+A same-day externalization opportunity may preempt internal V1 work when ALL are true:
+
+1. the window is time-sensitive or judged;
+2. an existing artifact/capability already fits;
+3. packaging can be bounded to <=60 minutes;
+4. the action creates external review, adoption, access, payment, distribution, funding, or credible rejection;
+5. it does not require inventing a new product or architecture.
+
+If those conditions are not met, continue the V1 dependency chain.
+
+## Externalization priority ladder
+
+Choose the highest existing surface that matches the artifact:
+
+1. live maintainer / ecosystem issue or PR;
+2. judged submission / application with a real deadline;
+3. MCP/plugin/extension/marketplace/registry listing;
+4. companion package / npm / OSS drop;
+5. direct operator/company intervention;
+6. X / LinkedIn / Reddit / HN proof amplification;
+7. grants / startup / cloud-credit programs when requirements are already met.
+
+Do not spend time on lower surfaces while a higher-consequence matched surface is immediately available.
+
+## Asymmetric leverage rule
+
+Prefer surfaces where one bounded artifact can inherit existing:
+
+- distribution;
+- maintainer attention;
+- enterprise buyer access;
+- capital/credits;
+- installed-user reach;
+- official ecosystem credibility.
+
+The default is NOT standalone product launch.
+
+The default is:
+
+```text
+existing verified primitive
+→ choose host ecosystem
+→ adapt minimally
+→ submit/publish/contribute
+→ capture external receipt
+→ feed receipt back into Reality Ontology
+```
+
+## Today's execution rule
+
+At each closure, Claude must ask:
+
+```text
+Is there a submission/externalization action available TODAY
+that can create a stronger external receipt than the next internal build step?
+```
+
+If YES:
+- compile a bounded Surface Action Packet;
+- stop only at a real human approval/credential/irreversible gate;
+- execute immediately when authorized;
+- verify submission externally;
+- settle the receipt;
+- return to the V1 dependency chain.
+
+If NO:
+- continue V1.
+
+## Same-day output schema
+
+```yaml
+externalization_candidate:
+  artifact:
+  surface:
+  why_this_surface:
+  deadline_or_window:
+  exact_submission_action:
+  packaging_needed:
+  estimated_human_minutes:
+  authority_required:
+  receipt:
+  proves:
+  does_not_prove:
+  next_amplification:
+```
+
+## Hard anti-loop
+
+Do NOT:
+- brainstorm new products for marketplaces;
+- polish portfolio pages before submission;
+- build a dedicated landing page unless submission requires it;
+- create new wrappers when the host accepts the current API/MCP/package form;
+- write content disconnected from a real receipt;
+- postpone a viable judged/external submission to keep coding infrastructure.
+
+## End-of-day acceptance
+
+The day should end with BOTH, where feasible:
+
+1. one dependency-correct V1 closure; and
+2. one external submission / attempt / receipt.
+
+If only one is possible, prefer the one with the larger irreversible external consequence, unless a V1 blocker prevents future execution entirely.
+
+
 # PHASE 1 — COMPLETE `immediatelyusable`
 
 Run the existing series in dependency order:
@@ -488,7 +618,7 @@ Likely surfaces:
 - X/LinkedIn/Reddit/HN as proof amplification
 - Microsoft/NVIDIA programs only after deployable proof
 
-No marketplace work may preempt V1 completion unless it creates a live external receipt with higher immediate value.
+Marketplace/submission work may preempt V1 only under the SAME-DAY EXTERNALIZATION / SUBMISSION PREEMPTION LANE above. A valid preemption must be time-sensitive, bounded, reuse an existing artifact, and create a real external receipt.
 
 ---
 
@@ -511,6 +641,8 @@ LABOUR_REMOVED:
 MAINTENANCE_INTRODUCED:
 NEXT 10-MINUTE ACTION:
 NEXT_BRANCH:
+TODAY_EXTERNALIZATION_CANDIDATE:
+TODAY_EXTERNAL_RECEIPT_STATUS:
 STOP/CONTINUE:
 ```
 

@@ -1,0 +1,172 @@
+{
+  "version": 1,
+  "updatedAt": "2026-09-20T08:55:00.000Z",
+  "goals": [
+    "eliminate manual context reconstruction and site/tool switching",
+    "turn live external signals into verified receipts with minimum user intervention"
+  ],
+  "frozenDecisions": [
+    "Reality Ontology owns evidence/current-state truth",
+    "Moment Router owns immediate transition selection",
+    "Market Router owns market-facing economic priority",
+    "tool success is not outcome success",
+    "agents are workers, not authorities",
+    "reuse/configure/compose before thin adapters or custom components"
+  ],
+  "chats": [
+    {
+      "id": "chat-logistinfra-core",
+      "title": "Logistinfra Runtime Integration",
+      "purpose": "close the minimum runtime seams needed for autonomous live execution",
+      "operator": "cto_production",
+      "workstreamId": "ws-logistinfra-core",
+      "invokeWhen": ["runtime seam blocks autonomous execution"],
+      "artifacts": ["repo:leadingproblemsolver/reality-ontology-runtime"],
+      "latestState": "autonomous kernel green; live bindings incomplete",
+      "sourceRefs": ["repo:pr14"]
+    },
+    {
+      "id": "chat-creator-maintainer",
+      "title": "Creator Maintainer Externalization",
+      "purpose": "turn Logistinfra reliability primitives into externally tested developer components",
+      "operator": "creator_maintainer",
+      "workstreamId": "ws-langgraph-adoption",
+      "invokeWhen": ["external maintainer or practitioner engages on reliability primitive"],
+      "artifacts": ["artifact:verified-transition"],
+      "latestState": "external practitioner asked explicit adoption questions",
+      "sourceRefs": ["github:langchain-ai/langgraph#8464"]
+    },
+    {
+      "id": "chat-serious-company",
+      "title": "Serious Company Conversations",
+      "purpose": "convert existing proof into qualified buyer conversations and paid tests",
+      "operator": "market_router",
+      "workstreamId": "ws-accountsignal-outbound",
+      "invokeWhen": ["market-facing target or reply exists"],
+      "artifacts": ["artifact:accountsignal"],
+      "latestState": "outbound sent; some delivery failures; awaiting useful replies",
+      "sourceRefs": ["connector:gmail:accountsignal"]
+    },
+    {
+      "id": "chat-channel-partner",
+      "title": "Channel Partner Opportunity",
+      "purpose": "advance an active external commercial relationship without losing continuity",
+      "operator": "message_triage_reply",
+      "workstreamId": "ws-channel-partner",
+      "invokeWhen": ["counterparty replies or a follow-up becomes due"],
+      "artifacts": [],
+      "latestState": "requested information sent; waiting on counterparty",
+      "sourceRefs": ["connector:gmail:channel-partner"]
+    }
+  ],
+  "workstreams": [
+    {
+      "id": "ws-logistinfra-core",
+      "objective": "make the existing autonomous kernel operate against live connected reality",
+      "status": "active",
+      "currentState": "kernel_verified_live_bindings_missing",
+      "priority": 110,
+      "operator": "cto_production",
+      "chatId": "chat-logistinfra-core",
+      "artifactRefs": ["repo:leadingproblemsolver/reality-ontology-runtime", "pr:14"]
+    },
+    {
+      "id": "ws-langgraph-adoption",
+      "objective": "convert verified transition/reconciliation proof into an externally tested framework-independent reliability primitive",
+      "status": "active",
+      "currentState": "external_adoption_questions_received",
+      "priority": 120,
+      "operator": "creator_maintainer",
+      "chatId": "chat-creator-maintainer",
+      "artifactRefs": ["artifact:verified-transition", "https://github.com/langchain-ai/langgraph/issues/8464"]
+    },
+    {
+      "id": "ws-accountsignal-outbound",
+      "objective": "obtain qualified commercial replies and falsify/validate the paid account-priority offer",
+      "status": "waiting",
+      "currentState": "outreach_sent_partial_delivery_failures",
+      "priority": 90,
+      "operator": "market_router",
+      "chatId": "chat-serious-company",
+      "artifactRefs": ["artifact:accountsignal"],
+      "blocker": "waiting for substantive external replies; invalid addresses must not be retried blindly"
+    },
+    {
+      "id": "ws-channel-partner",
+      "objective": "advance active partner relationship to a verified next commitment",
+      "status": "waiting",
+      "currentState": "requested_information_sent_waiting_response",
+      "priority": 100,
+      "operator": "message_triage_reply",
+      "chatId": "chat-channel-partner",
+      "artifactRefs": [],
+      "blocker": "waiting on counterparty response"
+    }
+  ],
+  "transitions": [
+    {
+      "id": "t-live-bindings",
+      "workstreamId": "ws-logistinfra-core",
+      "mission": "eliminate context and execution friction",
+      "fromState": "kernel_verified_live_bindings_missing",
+      "toState": "live_read_bindings_verified",
+      "action": "bind GitHub, Gmail and Calendar live reads into normalized source observations without changing the canonical authority model",
+      "operator": "cto_production",
+      "owner": "Claude Code",
+      "status": "pending",
+      "priority": 110,
+      "receiptRequired": "fresh process reads all three live sources and persists normalized observations without duplicate side effects",
+      "doneWhen": "GitHub, Gmail and Calendar live read bindings pass integration and fresh-process tests",
+      "interruptionWakeCondition": "external actor waiting, hard deadline, production failure, or approval request",
+      "chatId": "chat-logistinfra-core",
+      "artifactRefs": ["repo:leadingproblemsolver/reality-ontology-runtime"],
+      "toolRefs": ["tool:github", "tool:gmail", "tool:calendar"],
+      "evidenceRefs": ["ci:autonomous-core-green", "ci:lce-green", "ci:moment-router-green"],
+      "dependsOn": [],
+      "createdAt": "2026-09-20T08:55:00.000Z"
+    },
+    {
+      "id": "t-langgraph-prep",
+      "workstreamId": "ws-langgraph-adoption",
+      "mission": "obtain external developer adoption evidence",
+      "fromState": "external_adoption_questions_received",
+      "toState": "adoption_response_prepared",
+      "action": "prepare a concise evidence-bounded response answering adoption conditions with the existing hostile-run proof and propose one smallest real test",
+      "operator": "creator_maintainer",
+      "owner": "GPT",
+      "status": "pending",
+      "priority": 120,
+      "receiptRequired": "inspectable response draft tied to public proof and one bounded test",
+      "doneWhen": "response draft answers integration complexity, latency, trust/security, dependency burden, and testing conditions without overclaiming",
+      "interruptionWakeCondition": "new comment on langchain-ai/langgraph#8464",
+      "chatId": "chat-creator-maintainer",
+      "artifactRefs": ["artifact:verified-transition", "https://github.com/langchain-ai/langgraph/issues/8464"],
+      "toolRefs": ["tool:github"],
+      "evidenceRefs": ["https://github.com/langchain-ai/langgraph/issues/8464#issuecomment-5747588369"],
+      "dependsOn": [],
+      "createdAt": "2026-09-20T08:55:00.000Z"
+    },
+    {
+      "id": "t-langgraph-send",
+      "workstreamId": "ws-langgraph-adoption",
+      "mission": "obtain external developer adoption evidence",
+      "fromState": "adoption_response_prepared",
+      "toState": "response_sent",
+      "action": "post the approved response to langchain-ai/langgraph#8464",
+      "operator": "creator_maintainer",
+      "owner": "Taha",
+      "status": "pending",
+      "priority": 120,
+      "receiptRequired": "fresh GitHub read shows exactly one posted comment with the approved content",
+      "doneWhen": "the public comment is independently readable on the issue",
+      "interruptionWakeCondition": "practitioner replies before planned follow-up",
+      "chatId": "chat-creator-maintainer",
+      "artifactRefs": ["https://github.com/langchain-ai/langgraph/issues/8464"],
+      "toolRefs": ["tool:github"],
+      "evidenceRefs": [],
+      "dependsOn": ["t-langgraph-prep"],
+      "createdAt": "2026-09-20T08:56:00.000Z"
+    }
+  ],
+  "receipts": []
+}

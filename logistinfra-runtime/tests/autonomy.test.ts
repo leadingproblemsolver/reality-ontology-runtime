@@ -196,4 +196,62 @@ describe("autonomous runtime kernel", () => {
     expect(state.receipts).toHaveLength(0);
     expect(state.transitions.find((t) => t.id === "t1")?.status).toBe("pending");
   });
+
+  it("resolves a capability selector to the lowest-cost registered adapter", async () => {
+    const store = await makeStore(baseState("cap:code.execute"));
+    const expensive: ToolAdapter = {
+      ...verifiedTool("tool:claude-code"),
+      capabilities: ["code.execute", "code.review"],
+      costRank: 30,
+      qualityRank: 100,
+    };
+    const cheap: ToolAdapter = {
+      ...verifiedTool("tool:deepseek-code"),
+      capabilities: ["code.execute"],
+      costRank: 5,
+      qualityRank: 80,
+    };
+
+    const result = await runAutonomousCycle({
+      store,
+      mission: "advance",
+      tools: new Map([
+        [expensive.ref, expensive],
+        [cheap.ref, cheap],
+        ["tool:read", verifiedTool()],
+      ]),
+      approvals: { approvedTransitionIds: new Set() },
+    });
+
+    expect(result.status).toBe("settled");
+    expect(result.toolRef).toBe("tool:deepseek-code");
+    expect(result.receipt?.source).toBe("tool:deepseek-code");
+  });
+
+  it("prefers an exact adapter before later capability fallbacks", async () => {
+    const state = baseState("tool:preferred");
+    state.transitions[0]!.toolRefs = ["tool:preferred", "cap:code.execute"];
+    const store = await makeStore(state);
+
+    const preferred = verifiedTool("tool:preferred");
+    const fallback: ToolAdapter = {
+      ...verifiedTool("tool:fallback"),
+      capabilities: ["code.execute"],
+      costRank: 0,
+    };
+
+    const result = await runAutonomousCycle({
+      store,
+      mission: "advance",
+      tools: new Map([
+        [preferred.ref, preferred],
+        [fallback.ref, fallback],
+        ["tool:read", verifiedTool()],
+      ]),
+      approvals: { approvedTransitionIds: new Set() },
+    });
+
+    expect(result.status).toBe("settled");
+    expect(result.toolRef).toBe("tool:preferred");
+  });
 });

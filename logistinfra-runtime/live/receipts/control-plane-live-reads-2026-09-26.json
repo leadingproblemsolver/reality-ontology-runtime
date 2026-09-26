@@ -1,0 +1,39 @@
+{
+  "id": "control-plane-live-reads-2026-09-26",
+  "observedAt": "2026-09-26T11:00:00+03:00",
+  "workstreamId": "ws-logistinfra-core",
+  "transitionId": "t-live-bindings",
+  "status": "partial_verified_evidence",
+  "observations": [
+    {
+      "source": "github",
+      "scope": "PR #14 current state",
+      "result": "read_succeeded",
+      "evidence": "head=b0b8d0086b78bfa57725ee5ee08bbb6191dbe19a; PR open,draft,mergeable"
+    },
+    {
+      "source": "gmail",
+      "scope": "bounded recent mailbox read",
+      "result": "read_succeeded",
+      "evidence": "5 recent messages returned by connected Gmail read surface"
+    },
+    {
+      "source": "google_calendar",
+      "scope": "primary calendar bounded 2026-09-26 through 2026-10-03 Asia/Qatar",
+      "result": "read_succeeded",
+      "evidence": "query completed successfully; 0 events returned in bounded window"
+    }
+  ],
+  "proves": [
+    "current ChatGPT control plane has functioning live read access to GitHub, Gmail, and Google Calendar",
+    "repo bootstrap state can be reconciled against fresh external reads"
+  ],
+  "doesNotProve": [
+    "standalone runtime connector binding",
+    "normalized SOURCE_EVENT persistence",
+    "idempotent fresh-process ingestion",
+    "Supabase ContinuityStore canonical persistence",
+    "remote MCP availability"
+  ],
+  "nextRequiredReceipt": "fresh standalone process reads GitHub/Gmail/Calendar, persists normalized observations, rerun creates zero duplicates"
+}

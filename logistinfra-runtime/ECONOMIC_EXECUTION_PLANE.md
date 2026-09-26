@@ -53,17 +53,19 @@ Output must preserve the existing `cognitime.plan.v1` semantics:
 - Markdown / JSON / CSV / ICS exports;
 - restart cue.
 
-## 20-minute runtime block
+## 25-minute runtime block
 
 Each block is one transition attempt, not a topic.
 
 ```text
 00:00-00:30  SYNC / load current receipt + done_when
 00:30-03:30  PREP / open exact surface, payload, verifier
-03:30-19:00  EXECUTE / perform the bounded transition
-19:00-21:00  VERIFY + SETTLE / capture receipt, state delta, blocker
-21:00-24:00  EXTERNALIZE / reusable proof or next restart cue
+03:30-20:00  EXECUTE / perform the bounded transition
+20:00-22:00  VERIFY + SETTLE / capture receipt, state delta, blocker
+22:00-25:00  EXTERNALIZE / reusable proof or exact restart cue
 ```
+
+Twenty minutes remains the minimum useful execution slice; the default operating block is 25 minutes so verification and state transfer are not squeezed out.
 
 A block is valid only if it produces at least one of:
 

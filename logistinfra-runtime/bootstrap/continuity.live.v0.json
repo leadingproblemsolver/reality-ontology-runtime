@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-20T08:55:00.000Z",
+  "updatedAt": "2026-09-26T08:00:00.000Z",
   "goals": [
     "eliminate manual context reconstruction and site/tool switching",
     "turn live external signals into verified receipts with minimum user intervention"
@@ -20,10 +20,16 @@
       "purpose": "close the minimum runtime seams needed for autonomous live execution",
       "operator": "cto_production",
       "workstreamId": "ws-logistinfra-core",
-      "invokeWhen": ["runtime seam blocks autonomous execution"],
-      "artifacts": ["repo:leadingproblemsolver/reality-ontology-runtime"],
-      "latestState": "autonomous kernel green; live bindings incomplete",
-      "sourceRefs": ["repo:pr14"]
+      "invokeWhen": [
+        "runtime seam blocks autonomous execution"
+      ],
+      "artifacts": [
+        "repo:leadingproblemsolver/reality-ontology-runtime"
+      ],
+      "latestState": "autonomous kernel green; live GitHub/Gmail/Calendar reads verified through ChatGPT control plane; standalone bindings/persistence incomplete",
+      "sourceRefs": [
+        "repo:pr14"
+      ]
     },
     {
       "id": "chat-creator-maintainer",
@@ -31,10 +37,16 @@
       "purpose": "turn Logistinfra reliability primitives into externally tested developer components",
       "operator": "creator_maintainer",
       "workstreamId": "ws-langgraph-adoption",
-      "invokeWhen": ["external maintainer or practitioner engages on reliability primitive"],
-      "artifacts": ["artifact:verified-transition"],
+      "invokeWhen": [
+        "external maintainer or practitioner engages on reliability primitive"
+      ],
+      "artifacts": [
+        "artifact:verified-transition"
+      ],
       "latestState": "external practitioner asked explicit adoption questions",
-      "sourceRefs": ["github:langchain-ai/langgraph#8464"]
+      "sourceRefs": [
+        "github:langchain-ai/langgraph#8464"
+      ]
     },
     {
       "id": "chat-serious-company",
@@ -42,10 +54,16 @@
       "purpose": "convert existing proof into qualified buyer conversations and paid tests",
       "operator": "market_router",
       "workstreamId": "ws-accountsignal-outbound",
-      "invokeWhen": ["market-facing target or reply exists"],
-      "artifacts": ["artifact:accountsignal"],
+      "invokeWhen": [
+        "market-facing target or reply exists"
+      ],
+      "artifacts": [
+        "artifact:accountsignal"
+      ],
       "latestState": "outbound sent; some delivery failures; awaiting useful replies",
-      "sourceRefs": ["connector:gmail:accountsignal"]
+      "sourceRefs": [
+        "connector:gmail:accountsignal"
+      ]
     },
     {
       "id": "chat-channel-partner",
@@ -53,10 +71,14 @@
       "purpose": "advance an active external commercial relationship without losing continuity",
       "operator": "message_triage_reply",
       "workstreamId": "ws-channel-partner",
-      "invokeWhen": ["counterparty replies or a follow-up becomes due"],
+      "invokeWhen": [
+        "counterparty replies or a follow-up becomes due"
+      ],
       "artifacts": [],
       "latestState": "requested information sent; waiting on counterparty",
-      "sourceRefs": ["connector:gmail:channel-partner"]
+      "sourceRefs": [
+        "connector:gmail:channel-partner"
+      ]
     }
   ],
   "workstreams": [
@@ -64,11 +86,14 @@
       "id": "ws-logistinfra-core",
       "objective": "make the existing autonomous kernel operate against live connected reality",
       "status": "active",
-      "currentState": "kernel_verified_live_bindings_missing",
+      "currentState": "control_plane_live_reads_verified_standalone_bindings_missing",
       "priority": 110,
       "operator": "cto_production",
       "chatId": "chat-logistinfra-core",
-      "artifactRefs": ["repo:leadingproblemsolver/reality-ontology-runtime", "pr:14"]
+      "artifactRefs": [
+        "repo:leadingproblemsolver/reality-ontology-runtime",
+        "pr:14"
+      ]
     },
     {
       "id": "ws-langgraph-adoption",
@@ -78,7 +103,10 @@
       "priority": 120,
       "operator": "creator_maintainer",
       "chatId": "chat-creator-maintainer",
-      "artifactRefs": ["artifact:verified-transition", "https://github.com/langchain-ai/langgraph/issues/8464"]
+      "artifactRefs": [
+        "artifact:verified-transition",
+        "https://github.com/langchain-ai/langgraph/issues/8464"
+      ]
     },
     {
       "id": "ws-accountsignal-outbound",
@@ -88,7 +116,9 @@
       "priority": 90,
       "operator": "market_router",
       "chatId": "chat-serious-company",
-      "artifactRefs": ["artifact:accountsignal"],
+      "artifactRefs": [
+        "artifact:accountsignal"
+      ],
       "blocker": "waiting for substantive external replies; invalid addresses must not be retried blindly"
     },
     {
@@ -108,7 +138,7 @@
       "id": "t-live-bindings",
       "workstreamId": "ws-logistinfra-core",
       "mission": "eliminate context and execution friction",
-      "fromState": "kernel_verified_live_bindings_missing",
+      "fromState": "control_plane_live_reads_verified_standalone_bindings_missing",
       "toState": "live_read_bindings_verified",
       "action": "bind GitHub, Gmail and Calendar live reads into normalized source observations without changing the canonical authority model",
       "operator": "cto_production",
@@ -119,9 +149,20 @@
       "doneWhen": "GitHub, Gmail and Calendar live read bindings pass integration and fresh-process tests",
       "interruptionWakeCondition": "external actor waiting, hard deadline, production failure, or approval request",
       "chatId": "chat-logistinfra-core",
-      "artifactRefs": ["repo:leadingproblemsolver/reality-ontology-runtime"],
-      "toolRefs": ["tool:github", "tool:gmail", "tool:calendar"],
-      "evidenceRefs": ["ci:autonomous-core-green", "ci:lce-green", "ci:moment-router-green"],
+      "artifactRefs": [
+        "repo:leadingproblemsolver/reality-ontology-runtime"
+      ],
+      "toolRefs": [
+        "tool:github",
+        "tool:gmail",
+        "tool:calendar"
+      ],
+      "evidenceRefs": [
+        "ci:autonomous-core-green",
+        "ci:lce-green",
+        "ci:moment-router-green",
+        "receipt:control-plane-live-reads-2026-09-26"
+      ],
       "dependsOn": [],
       "createdAt": "2026-09-20T08:55:00.000Z"
     },
@@ -140,9 +181,16 @@
       "doneWhen": "response draft answers integration complexity, latency, trust/security, dependency burden, and testing conditions without overclaiming",
       "interruptionWakeCondition": "new comment on langchain-ai/langgraph#8464",
       "chatId": "chat-creator-maintainer",
-      "artifactRefs": ["artifact:verified-transition", "https://github.com/langchain-ai/langgraph/issues/8464"],
-      "toolRefs": ["tool:github"],
-      "evidenceRefs": ["https://github.com/langchain-ai/langgraph/issues/8464#issuecomment-5747588369"],
+      "artifactRefs": [
+        "artifact:verified-transition",
+        "https://github.com/langchain-ai/langgraph/issues/8464"
+      ],
+      "toolRefs": [
+        "tool:github"
+      ],
+      "evidenceRefs": [
+        "https://github.com/langchain-ai/langgraph/issues/8464#issuecomment-5747588369"
+      ],
       "dependsOn": [],
       "createdAt": "2026-09-20T08:55:00.000Z"
     },
@@ -161,10 +209,16 @@
       "doneWhen": "the public comment is independently readable on the issue",
       "interruptionWakeCondition": "practitioner replies before planned follow-up",
       "chatId": "chat-creator-maintainer",
-      "artifactRefs": ["https://github.com/langchain-ai/langgraph/issues/8464"],
-      "toolRefs": ["tool:github"],
+      "artifactRefs": [
+        "https://github.com/langchain-ai/langgraph/issues/8464"
+      ],
+      "toolRefs": [
+        "tool:github"
+      ],
       "evidenceRefs": [],
-      "dependsOn": ["t-langgraph-prep"],
+      "dependsOn": [
+        "t-langgraph-prep"
+      ],
       "createdAt": "2026-09-20T08:56:00.000Z"
     }
   ],

@@ -1,6 +1,7 @@
 import type { ContinuityStore } from "../continuity/store.js";
 import { route, settle } from "../continuity/engine.js";
 import type { Receipt } from "../continuity/types.js";
+import { resolveTool } from "./resolver.js";
 import type {
   ApprovalState,
   AutonomousCycleResult,
@@ -28,8 +29,7 @@ export async function runAutonomousCycle(params: {
     return { status: "idle", context: null, reason: "no admissible transition" };
   }
 
-  const toolRef = context.toolRefs[0] ?? null;
-  if (!toolRef) {
+  if (context.toolRefs.length === 0) {
     return {
       status: "blocked",
       context,
@@ -38,15 +38,17 @@ export async function runAutonomousCycle(params: {
     };
   }
 
-  const tool = params.tools.get(toolRef);
-  if (!tool) {
+  const resolved = resolveTool(context, params.tools);
+  if (!resolved) {
     return {
       status: "blocked",
       context,
-      toolRef,
-      reason: `no adapter registered for ${toolRef}`,
+      toolRef: null,
+      reason: `no adapter registered for selectors: ${context.toolRefs.join(", ")}`,
     };
   }
+
+  const { toolRef, tool } = resolved;
 
   if (tool.authority === "human_only") {
     return {

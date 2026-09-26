@@ -26,6 +26,16 @@ export interface VerificationResult {
 export interface ToolAdapter {
   ref: string;
   authority: AuthorityLevel;
+  capabilities?: string[];
+  /**
+   * Lower is cheaper. This is an ordinal routing hint, not a price claim.
+   */
+  costRank?: number;
+  /**
+   * Higher is preferred when costRank ties. This is a local policy hint,
+   * not a benchmark or quality claim.
+   */
+  qualityRank?: number;
   execute(request: ToolCallRequest): Promise<ToolCallResult>;
   verify(request: ToolCallRequest, execution: ToolCallResult): Promise<VerificationResult>;
 }

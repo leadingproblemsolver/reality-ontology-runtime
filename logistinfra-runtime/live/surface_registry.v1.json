@@ -1,0 +1,70 @@
+{
+  "version": 1,
+  "observedAt": "2026-09-20T08:30:00.000Z",
+  "surfaces": [
+    {
+      "id": "github",
+      "currentChatGPTAccess": "yes",
+      "standalonePortableAccess": "yes",
+      "portableSurface": "official API / MCP",
+      "read": "ready",
+      "write": "ready_with_approval",
+      "verify": "fresh GitHub reread",
+      "links": {
+        "logistinfra_pr": "https://github.com/leadingproblemsolver/reality-ontology-runtime/pull/14",
+        "langgraph_issue": "https://github.com/langchain-ai/langgraph/issues/8464",
+        "sable_fixture": "https://github.com/socksninja/sable-agent-reliability/issues/8893"
+      }
+    },
+    {
+      "id": "gmail",
+      "currentChatGPTAccess": "yes",
+      "standalonePortableAccess": "yes",
+      "portableSurface": "official API / integration MCP",
+      "read": "ready",
+      "write": "ready_with_approval",
+      "verify": "fresh Sent/thread reread",
+      "links": {
+        "langgraph_thread": "https://mail.google.com/mail/u/?authuser=leadingproblemsolver%40gmail.com#all/1a0a06272378a7c2"
+      }
+    },
+    {
+      "id": "google-calendar",
+      "currentChatGPTAccess": "yes",
+      "standalonePortableAccess": "yes",
+      "portableSurface": "official API",
+      "read": "ready",
+      "write": "ready_with_approval",
+      "verify": "fresh event reread",
+      "observedState": "no events returned for 2026-09-20 through 2026-09-27"
+    },
+    {
+      "id": "hubspot",
+      "currentChatGPTAccess": "read_available",
+      "standalonePortableAccess": "yes",
+      "portableSurface": "official API / connector",
+      "read": "ready",
+      "write": "reauthorization_reported_required",
+      "verify": "fresh CRM object reread",
+      "source": "user-provided live acquisition red-team"
+    },
+    {
+      "id": "claude-code",
+      "currentChatGPTAccess": "handoff_only",
+      "standalonePortableAccess": "yes",
+      "portableSurface": "CLI / Agent SDK / session interfaces",
+      "read": "repo handoff",
+      "write": "external worker",
+      "verify": "CI + fresh repo/deployment observations"
+    },
+    {
+      "id": "browser",
+      "currentChatGPTAccess": "not_bound_as_general_session_executor",
+      "standalonePortableAccess": "available via browser automation tooling",
+      "portableSurface": "Browser Use / Playwright / agent-browser",
+      "read": "defer_until_api_or_connector_unavailable",
+      "write": "approval_required",
+      "verify": "fresh page/API observation"
+    }
+  ]
+}

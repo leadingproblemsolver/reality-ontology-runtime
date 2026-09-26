@@ -1,0 +1,243 @@
+snapshot:
+  captured_at: "2026-09-26T22:01:00+03:00"
+  repo: "leadingproblemsolver/reality-ontology-runtime"
+  runtime_branch: "feat/logistinfra-runtime-v1"
+  runtime_head: "1e2046b69a1065abe7cb8a28980327f4ed45b833"
+  operational_branch: "operational-reality-v1"
+  pr:
+    number: 14
+    state: open
+    draft: true
+    mergeable: true
+  ci:
+    ci: green
+    moment_router_smoke: green
+    live_context_engine_smoke: green
+    autonomous_core_smoke: green
+  current_truth:
+    - "continuity/routing/autonomy/approval/verify-before-settle kernel is green"
+    - "current ChatGPT control plane has live GitHub/Gmail/Calendar read access"
+    - "control-plane live-read receipt was recorded"
+    - "standalone live connector ingestion/persistence is still incomplete"
+    - "PR #14 is not merged"
+  current_running:
+    mode: "no CI jobs currently running"
+    active_lane: "close the minimum execution path, then externalize"
+    blocked_by: null
+
+priority_model:
+  rule: "dependency-gated, not lower-layer-complete-first"
+  dominant_layer: "P1_EXECUTION"
+  invariant: "P1 preempts all non-blocking setup/maintenance/internal architecture work"
+  external_consequence_floor: "produce at least one real external attempt/receipt on any active day"
+  build_rule: "REUSE -> CONFIGURE -> COMPOSE -> THIN_GLUE -> CUSTOM"
+
+layers:
+  P-2_FOUNDATION_INFRA:
+    purpose: "minimum substrate that lets execution happen reliably"
+    current_state:
+      status: "MOSTLY_GREEN"
+      proven:
+        - "repo/runtime compiles and tests"
+        - "continuity + autonomy kernel"
+        - "approval boundary"
+        - "fresh verification before settlement"
+        - "Moment Router"
+        - "ChatGPT-connected live GitHub/Gmail/Calendar reads"
+      missing:
+        - "generic task-to-executor spine implemented as a first-class runtime path"
+        - "standalone live connector ingest/persistence"
+        - "remote MCP/API surface if needed outside current control plane"
+    do_now:
+      - "do not expand architecture"
+      - "only close seams that directly block P1 execution"
+    stop_condition:
+      - "one real digital task can enter the runtime and reach an exact executor or human authority boundary"
+      - "success is independently verifiable"
+    owner: "Claude Code / CTO production"
+    urgency: "BLOCKER_ONLY"
+
+  P-1_REALITY_TRACKING:
+    purpose: "keep canonical truth, receipts, blockers, waits, and deltas correct"
+    current_state:
+      status: "WORKING_CORE_PARTIAL_LIVE"
+      proven:
+        - "workstreams/transitions/receipts"
+        - "waiting work suppression"
+        - "control-plane live reads reconciled into state"
+      missing:
+        - "standalone SOURCE_EVENT normalization + idempotent persistence"
+        - "automatic settlement from every executor surface"
+    do_now:
+      - "settle every meaningful execution result"
+      - "record partial truth honestly; never over-settle"
+      - "no ontology expansion unless a routing/execution fact cannot be represented"
+    stop_condition:
+      - "every P1 execution updates canonical state and next action without manual reconstruction"
+    owner: "Reality Ontology"
+    urgency: "CONTINUOUS_GUARDRAIL"
+
+  P0_SETUP_ADMIN:
+    purpose: "remove setup, admin, maintenance, and context-reconstruction friction before it steals execution time"
+    current_state:
+      status: "SPECIFIED_NOT_YET_SYSTEMATIC"
+      reusable_components:
+        - "predictive setup contract"
+        - "leverage firewall contract"
+        - "life logistics floor contract"
+        - "attention firewall contract"
+    do_now:
+      - "only eliminate/setup what blocks today's P1/P2 action"
+      - "pre-position exact URL/file/repo/context/auth for next execution"
+      - "batch or floor university/admin/getting-ready tasks"
+      - "do not build a general admin system yet"
+    stop_condition:
+      - "P1 starts without searching/reconstructing"
+      - "mandatory admin is compressed and cannot silently consume the day"
+    owner: "Infra Navigator / predictive setup"
+    urgency: "JUST_IN_TIME"
+
+  P1_EXECUTION:
+    purpose: "turn intent into verified external state changes"
+    current_state:
+      status: "HIGHEST_PRIORITY_NOT_YET_GENERIC"
+      existing:
+        - "runAutonomousCycle"
+        - "runUntilBoundary"
+        - "ToolAdapter contract"
+        - "Surface Action Packet contract"
+        - "continuity route/settle"
+        - "20_MIN_EXECUTOR_V0 specification"
+      missing:
+        - "generic TaskEnvelope compiler"
+        - "SurfaceActionPacket compiler bound to arbitrary task input"
+        - "executor resolver/registry"
+        - "runTask() entrypoint"
+        - "one real end-to-end task receipt through the generic path"
+    execute_now:
+      first_transition: "implement/compose the generic executor spine over existing kernel"
+      exact_spine:
+        - "TASK"
+        - "minimum context reconstruction"
+        - "route"
+        - "SurfaceActionPacket"
+        - "resolve existing executor"
+        - "execute or hit authority boundary"
+        - "fresh reread"
+        - "verify"
+        - "receipt"
+        - "settle"
+        - "next"
+      first_live_test: "use a GitHub read/reversible task because it is inspectable and already connected"
+      fallback: "if a surface is unsupported, return an exact handoff packet instead of vague failure"
+    stop_condition:
+      - "natural-language task enters once"
+      - "executor selected automatically"
+      - "real action/read occurs"
+      - "fresh external verification occurs"
+      - "receipt is persisted"
+      - "next action is returned without reconstruction"
+    owner: "Logistinfra runtime / executor registry"
+    urgency: "P0_OPERATING_PRIORITY"
+    note: "This is the most vital layer. All other layers exist to feed, protect, verify, or scale this one."
+
+  P2_GTM:
+    purpose: "convert working artifacts/execution capability into external proof, users, buyers, maintainers, and market learning"
+    current_state:
+      status: "ACTIVE_NOW"
+      active_surfaces:
+        - "LangGraph / OSS maintainer lane"
+        - "serious-company / GTM outreach"
+        - "job/application proof"
+        - "GitHub/npm/MCP/plugin ecosystems as matched"
+    do_now:
+      - "externalize any working P1 primitive the same day"
+      - "prefer live maintainer/user/operator surfaces over content"
+      - "prepared-but-unsent does not count"
+    priority_order:
+      - "maintainer issue/PR/review"
+      - "deadline/judged submission"
+      - "MCP/plugin/registry/package drop"
+      - "direct operator/company intervention"
+      - "proof amplification on X/LinkedIn/Reddit/HN"
+    stop_condition:
+      - "one real external attempt/receipt/rejection/use signal is captured"
+    owner: "Market Router"
+    urgency: "SAME_DAY"
+
+  P3_LEVERAGE_SCALING:
+    purpose: "multiply verified utility through distribution, automation, ecosystem embedding, multi-user productization, and capital"
+    current_state:
+      status: "NOT_CURRENT_BLOCKER"
+      candidates:
+        - "OpenAI plugin surface"
+        - "MCP Registry"
+        - "VS Code / GitHub Marketplace"
+        - "n8n / HubSpot / Vercel integrations"
+        - "cloud/startup programs"
+        - "multi-tenant product shell"
+    do_now:
+      - "none unless a P1/P2 receipt creates an obvious drop-in surface"
+    entry_condition:
+      - "P1 generic executor has a live verified receipt"
+      - "P2 has at least one external adoption/use/strong rejection signal"
+    stop_condition:
+      - "scale only the primitive already proven externally"
+    owner: "Leverage / externalization router"
+    urgency: "DEFER_UNTIL_RECEIPT"
+
+now:
+  exact_priority_order:
+    - rank: 1
+      layer: "P1_EXECUTION"
+      action: "implement/compose generic TaskEnvelope -> SurfaceActionPacket -> resolveExecutor -> execute -> verify -> settle -> next"
+      reason: "core kernel is green; missing generic execution entrypoint is now the highest-leverage gap"
+    - rank: 2
+      layer: "P2_GTM"
+      action: "externalize the first working executor/reliability primitive immediately to a matched external surface"
+      reason: "internal proof must become external consequence the same day"
+    - rank: 3
+      layer: "P-2_FOUNDATION_INFRA"
+      action: "close only the infra seam that blocks rank 1; otherwise do not touch"
+      reason: "foundation is already mostly green"
+    - rank: 4
+      layer: "P-1_REALITY_TRACKING"
+      action: "settle every rank 1/2 result and keep blockers/waits/receipts exact"
+      reason: "tracking is continuous but should not become a separate build project"
+    - rank: 5
+      layer: "P0_SETUP_ADMIN"
+      action: "pre-stage exact context/surfaces and compress only today's mandatory admin"
+      reason: "setup exists to protect execution time, not become the day's main work"
+    - rank: 6
+      layer: "P3_LEVERAGE_SCALING"
+      action: "defer until live executor + external receipt"
+      reason: "scaling unproven utility compounds noise"
+
+next_30_minutes:
+  - "0-5: reconstruct exact existing executor/kernel files and avoid duplicate implementation"
+  - "5-15: add/compose TaskEnvelope, SurfaceActionPacket compiler, executor resolver, runTask()"
+  - "15-22: wire one real GitHub executor path"
+  - "22-27: run one real task and fresh-verify outcome"
+  - "27-30: persist receipt + route NEXT + select same-day P2 externalization surface"
+
+hard_kills:
+  - "new UI"
+  - "new router"
+  - "new agent framework"
+  - "new memory/vector/graph stack"
+  - "broad predictive-maintenance implementation"
+  - "marketplace packaging before a live executor receipt"
+  - "manual tracking duplicated from observable systems"
+  - "admin/setup work that does not unblock today's execution"
+
+success_definition:
+  today:
+    - "one generic P1 execution receipt"
+    - "one P2 external attempt/receipt where feasible"
+    - "all state deltas settled"
+  v1:
+    - "arbitrary bounded digital task can be routed to an existing executor"
+    - "authority boundaries are explicit"
+    - "tool success never substitutes for outcome verification"
+    - "verified result settles into canonical state"
+    - "NEXT is returned without manual reconstruction"

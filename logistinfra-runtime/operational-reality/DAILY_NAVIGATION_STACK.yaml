@@ -1,0 +1,315 @@
+version: 1
+purpose: "Canonical daily sociotechnical navigation for Logistinfra across systems, money, leads, execution, tracking, and externalization."
+
+operating_principle:
+  equation: "maximum verified external consequence / minimum human + engineering time"
+  dominant_layer: "P1_EXECUTION"
+  front_door: "INFRA_NAVIGATOR"
+  canonical_truth: "REALITY_ONTOLOGY"
+  immediate_priority: "MOMENT_ROUTER"
+  market_priority: "MARKET_ROUTER"
+  build_rule: "REUSE -> CONFIGURE -> COMPOSE -> THIN_GLUE -> CUSTOM"
+  proof_rule: "tool success != outcome success"
+
+completion_snapshot:
+  P-2_FOUNDATION_INFRA:
+    status: "MOSTLY_COMPLETE_FOR_CURRENT_USE"
+    complete:
+      - "continuity/workstream/transition/receipt kernel"
+      - "approval semantics"
+      - "autonomous execute-verify-settle core"
+      - "Moment Router"
+      - "live ChatGPT control-plane reads for GitHub/Gmail/Calendar"
+      - "green CI/smoke coverage historically established"
+      - "Infra Navigator contract"
+      - "user command contract: NOW/CONTINUE/PREP/EXECUTE/WATCH/SETTLE"
+    missing:
+      - "generic task-to-executor entrypoint as first-class runtime path"
+      - "standalone connector ingest/persistence"
+      - "remote MCP/API only when current control plane is insufficient"
+    build_policy: "only close seams that directly block P1"
+
+  P-1_REALITY_TRACKING:
+    status: "CORE_WORKING_PARTIAL_LIVE"
+    complete:
+      - "canonical workstreams/transitions/receipts"
+      - "waiting/blocked suppression"
+      - "partial live reconciliation"
+      - "settlement semantics"
+      - "current-truth reconstruction rules"
+    missing:
+      - "automatic SOURCE_EVENT normalization from all execution surfaces"
+      - "automatic settlement after every executor result"
+      - "central daily feedback/eval materialization"
+    operating_policy: "continuous guardrail, not a separate project"
+
+  P0_SETUP_ADMIN:
+    status: "DESIGNED_NOT_SYSTEMATIC"
+    complete:
+      - "predictive setup contract"
+      - "leverage firewall contract"
+      - "life-logistics floor contract"
+      - "attention firewall contract"
+    missing:
+      - "automatic just-in-time pre-staging"
+      - "systematic calendar/email/admin floor"
+      - "automatic auth/surface readiness checks"
+    operating_policy: "just-in-time only; must not preempt P1"
+
+  P1_EXECUTION:
+    status: "KERNEL_PROVEN_GENERIC_SPINE_INCOMPLETE"
+    complete:
+      - "runAutonomousCycle"
+      - "runUntilBoundary"
+      - "ToolAdapter contract"
+      - "route/settle"
+      - "Surface Action Packet contract"
+      - "approval and verification boundaries"
+    missing:
+      - "compileTaskEnvelope"
+      - "compileSurfaceActionPacket from arbitrary task"
+      - "resolveExecutor registry"
+      - "runTask natural-language entrypoint"
+      - "one generic live end-to-end execution receipt"
+    current_priority: 1
+
+  P2_GTM:
+    status: "ACTIVE_BUT_FRAGMENTED"
+    complete:
+      - "Market Router doctrine"
+      - "Serious Company / direct intervention workflow"
+      - "Creator-Maintainer externalization lane"
+      - "job/application proof lane"
+      - "lead research/enrichment capability"
+      - "same-day external consequence rule"
+    missing:
+      - "single canonical opportunity queue"
+      - "automatic handoff from verified artifact -> matched market surface"
+      - "daily send/receipt settlement into canonical state"
+    current_priority: 2
+
+  P3_LEVERAGE_SCALING:
+    status: "DEFERRED_UNTIL_RECEIPTS"
+    complete:
+      - "candidate ecosystem map"
+      - "externalization doctrine"
+    missing:
+      - "proof-selected distribution channel"
+      - "repeatable external adoption"
+      - "multi-user/product shell"
+    entry_gate:
+      - "generic P1 executor live receipt"
+      - "at least one P2 external use/adoption/payment/strong rejection signal"
+
+chat_topology:
+  front_door:
+    chat: "Logistinfra — Infra Navigator"
+    responsibility:
+      - "accept any input"
+      - "reconstruct minimum current reality"
+      - "find existing owner/artifact/tool"
+      - "run DISCOVER_EXISTING when needed"
+      - "compile <=5-minute MVExec"
+      - "route/execute"
+      - "trigger externalization"
+      - "settle feedback"
+    must_not:
+      - "become canonical truth store"
+      - "spawn new chats when an owner already exists"
+
+  canonical_operators:
+    reality_ontology:
+      responsibility: "truth, provenance, blockers, waits, receipts, contradictions, settlement"
+    moment_router:
+      responsibility: "single best immediate dependency-correct transition"
+    execution_runtime:
+      responsibility: "intent -> tool/surface -> execute -> verify -> settle -> next"
+    market_router:
+      responsibility: "money/leads/adoption/opportunity prioritization"
+    creator_maintainer:
+      responsibility: "OSS/upstream/ecosystem externalization"
+    serious_company:
+      responsibility: "named operator/company interventions and paid tests"
+    profile_application:
+      responsibility: "jobs/gigs/application surfaces"
+    calendar_admin_floor:
+      responsibility: "deadlines, appointments, university/admin obligations; compressed to floors"
+
+daily_loop:
+  START:
+    trigger: "first active session of the day"
+    awareness_prompt:
+      - "SYNC live sources relevant to active workstreams"
+      - "What changed externally since last settlement?"
+      - "What is waiting and should disappear from attention?"
+      - "What hard deadline/actor/production state can preempt?"
+      - "What is the highest-value executable transition now?"
+    output:
+      - "NOW"
+      - "one interruption lane"
+      - "today external consequence floor"
+      - "mandatory floor obligations only"
+
+  BEFORE_EVERY_BUILD:
+    awareness_prompt:
+      - "Is this already built in repo/chats/tools?"
+      - "Can an existing tool/API/MCP/CLI/browser surface eliminate this?"
+      - "Run DISCOVER_EXISTING if uncertain."
+      - "REUSE -> CONFIGURE -> COMPOSE -> THIN_GLUE -> CUSTOM"
+      - "What exact receipt proves the gap closed?"
+    kill_if:
+      - "no current execution/market blocker"
+      - "no acceptance test"
+      - "duplicate architecture"
+
+  BEFORE_EVERY_HUMAN_TASK:
+    awareness_prompt:
+      - "KILL / AUTOMATE / DELEGATE / BATCH / FLOOR / KEEP?"
+      - "Does the human uniquely provide judgment, trust, access, negotiation, physical action, or learning?"
+      - "Can setup be pre-staged?"
+
+  EXECUTION_BLOCK:
+    preferred_cycle_minutes: 10
+    awareness_prompt:
+      - "What exact state transition can complete in this block?"
+      - "What surface/tool owns it?"
+      - "What is done_when?"
+      - "What receipt is required?"
+      - "What happens if blocked?"
+    output_contract:
+      - "REALITY"
+      - "OWNER"
+      - "EXACT_ACTION"
+      - "SURFACE"
+      - "STOP_AFTER"
+      - "VERIFY"
+      - "RECEIPT"
+      - "NEXT"
+
+  BEFORE_EXTERNAL_SEND:
+    awareness_prompt:
+      - "Is this tied to observable pain/signal?"
+      - "Named operator?"
+      - "Smallest useful intervention first?"
+      - "Existing proof artifact?"
+      - "Concrete CTA/commitment?"
+      - "What external receipt changes state?"
+    success_states:
+      - "SENT"
+      - "REPLIED"
+      - "ACCESS_GRANTED"
+      - "INTRODUCED"
+      - "TRIAL"
+      - "PAID"
+      - "REJECTED_WITH_SIGNAL"
+
+  AFTER_ANY_ACTION:
+    awareness_prompt:
+      - "Fresh-reread external reality."
+      - "Did the intended state actually change?"
+      - "What became true?"
+      - "What remains unproven?"
+      - "What ΔSTATE / ΔKNOWLEDGE / ΔCAPABILITY / ΔACCESS occurred?"
+      - "SETTLE or remain EXECUTED_UNVERIFIED."
+    invariant: "never settle on tool return alone"
+
+  MIDDAY_REEVALUATE:
+    awareness_prompt:
+      - "Did a new external reply/deadline/blocker change priority?"
+      - "Are we still executing or drifting into preparation?"
+      - "What can be killed for the rest of the day?"
+      - "Do we have an external attempt/receipt yet?"
+    action: "rerun NOW only if material reality changed"
+
+  END_OF_DAY:
+    awareness_prompt:
+      - "What external receipts occurred?"
+      - "What repeated friction consumed human minutes?"
+      - "What routing assumption was wrong?"
+      - "What tool/integration failed?"
+      - "What reusable artifact was created?"
+      - "What should become an eval case?"
+      - "What should be killed tomorrow?"
+    log_only:
+      - "external wins/rejections"
+      - "repeated friction"
+      - "avoidable human labour"
+      - "missing integration"
+      - "evidence upgrades"
+      - "reusable components"
+    do_not_log: "diary-style narrative"
+
+money_and_leads_daily_lane:
+  objective: "convert existing proof/capability into external conversations, access, payment, use, or falsification"
+  minimum_daily_output:
+    - "one qualified external action before discretionary internal work expands"
+  pipeline:
+    - "live signal"
+    - "named operator"
+    - "pain/workflow hypothesis"
+    - "existing artifact"
+    - "smallest useful intervention"
+    - "send/submit"
+    - "receipt"
+    - "settle"
+  queue_states:
+    - "IDENTIFIED"
+    - "QUALIFIED"
+    - "CONTACT_READY"
+    - "CONTACTED"
+    - "ENGAGED"
+    - "PROBLEM_CONFIRMED"
+    - "SOLUTION_SCOPED"
+    - "COMMITMENT"
+    - "PAID_OR_PILOT"
+    - "DELIVERY"
+    - "VALUE_OBSERVED"
+    - "EXPANSION_OR_REFERRAL"
+  anti_patterns:
+    - "generic compliments"
+    - "mass outreach without evidence"
+    - "prepared but unsent work"
+    - "building product before pain confirmation"
+    - "content without a receipt"
+
+today_priority:
+  - rank: 1
+    layer: "P1_EXECUTION"
+    action: "make generic runTask path real over existing kernel"
+    done_when: "one arbitrary bounded task reaches executor/authority boundary, fresh verification, receipt, settlement, next"
+  - rank: 2
+    layer: "P2_GTM"
+    action: "route one verified artifact into a matched external operator/ecosystem and send/submit"
+    done_when: "external receipt or useful rejection"
+  - rank: 3
+    layer: "P-1_REALITY_TRACKING"
+    action: "settle all P1/P2 deltas"
+    done_when: "canonical state reflects current reality without manual reconstruction"
+  - rank: 4
+    layer: "P0_SETUP_ADMIN"
+    action: "pre-stage only blockers to ranks 1-2 and floor mandatory obligations"
+  - rank: 5
+    layer: "P-2_FOUNDATION_INFRA"
+    action: "fix only if ranks 1-2 are technically blocked"
+  - rank: 6
+    layer: "P3_LEVERAGE_SCALING"
+    action: "defer until external receipts identify the scalable primitive"
+
+hard_stop_rules:
+  - "No new UI unless required for a live external test."
+  - "No new router."
+  - "No new memory/graph/vector system by default."
+  - "No manual status tracking when source is observable."
+  - "No infrastructure work without a current execution or market dependency."
+  - "No new chat unless durable ownership cannot fit an existing operator."
+  - "No day ending with only internal preparation when an external action was feasible."
+
+user_command_surface:
+  - "NOW"
+  - "CONTINUE <workstream>"
+  - "PREP <transition>"
+  - "EXECUTE"
+  - "WATCH"
+  - "SETTLE"
+  - "DISCOVER_EXISTING <capability>"
+  - "EXTERNALIZE <artifact>"

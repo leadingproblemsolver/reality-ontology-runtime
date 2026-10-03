@@ -10,3 +10,7 @@ build/
 *.sqlite
 *.sqlite3
 .DS_Store
+node_modules/
+*.tsbuildinfo
+logistinfra-runtime/.env
+logistinfra-runtime/coverage/

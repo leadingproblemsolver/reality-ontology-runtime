@@ -1,0 +1,58 @@
+name: Live Context Engine Smoke
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'logistinfra-runtime/src/continuity/**'
+      - 'logistinfra-runtime/src/cli/continuity.ts'
+      - 'logistinfra-runtime/tests/continuity.test.ts'
+      - 'logistinfra-runtime/continuity.example.json'
+      - 'logistinfra-runtime/receipt.example.json'
+      - 'logistinfra-runtime/package.json'
+      - 'logistinfra-runtime/package-lock.json'
+      - '.github/workflows/live-context-smoke.yml'
+
+jobs:
+  fresh-session-continuity:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: logistinfra-runtime
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: logistinfra-runtime/package-lock.json
+      - name: Install
+        run: npm ci
+      - name: Typecheck
+        run: npm run build
+      - name: Run continuity acceptance test
+        run: npx vitest run tests/continuity.test.ts
+      - name: Session A — SYNC
+        run: |
+          cp continuity.example.json /tmp/li-state.json
+          npm run continuity -- sync --state /tmp/li-state.json | tee /tmp/sync-a.json
+      - name: Session A — ROUTE
+        run: npm run continuity -- route --state /tmp/li-state.json --mission "obtain external proof" | tee /tmp/route-a.json
+      - name: Session A — SETTLE
+        run: npm run continuity -- settle --state /tmp/li-state.json --receipt receipt.example.json | tee /tmp/settle-a.json
+      - name: Fresh Session B — SYNC + ROUTE
+        run: |
+          npm run continuity -- sync --state /tmp/li-state.json | tee /tmp/sync-b.json
+          npm run continuity -- route --state /tmp/li-state.json --mission "obtain external proof" | tee /tmp/route-b.json
+          grep -q '"transitionId": "t2"' /tmp/route-b.json
+          ! grep -q '"transitionId": "t1"' /tmp/route-b.json
+      - name: Upload continuity receipts
+        uses: actions/upload-artifact@v4
+        with:
+          name: live-context-engine-smoke
+          path: |
+            /tmp/sync-a.json
+            /tmp/route-a.json
+            /tmp/settle-a.json
+            /tmp/sync-b.json
+            /tmp/route-b.json

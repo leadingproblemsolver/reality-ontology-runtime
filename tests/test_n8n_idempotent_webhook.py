@@ -10,6 +10,7 @@ MODULE_PATH = Path(__file__).parents[1] / "proof" / "n8n" / "idempotent-webhook"
 spec = importlib.util.spec_from_file_location("idempotent_webhook", MODULE_PATH)
 module = importlib.util.module_from_spec(spec)
 assert spec and spec.loader
+sys.modules[spec.name] = module
 spec.loader.exec_module(module)
 
 IdempotentWebhookStore = module.IdempotentWebhookStore

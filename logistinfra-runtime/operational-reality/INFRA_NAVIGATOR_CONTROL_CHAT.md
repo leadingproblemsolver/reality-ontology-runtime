@@ -12,6 +12,22 @@ Its job is to take any Logistinfra component, idea, failure, artifact, prompt, c
 
 It automatically applies the recurring instincts, prompts, invariants, routing rules, reuse rules, proof rules, and externalization rules so the user does not need to restate them.
 
+## Canonical policy dependency
+
+Before routing any new input, load and apply:
+
+`logistinfra-runtime/operational-reality/SOCIOTECHNICAL_CONTROL_PLANE.yaml`
+
+That file is the governing structuralization/reuse/human-time/daily-navigation policy.
+
+Precedence:
+1. Reality Ontology / durable receipts own factual current truth.
+2. SOCIOTECHNICAL_CONTROL_PLANE.yaml owns routing and sociotechnical policy.
+3. This document is the front-door operator contract.
+4. Specialist chat prompts are subordinate execution procedures.
+
+Do not create a parallel structuralizer, daily navigator, next-action engine, capability router, or sales router when the governing file maps to an existing owner.
+
 ## Core loop
 
 ```text

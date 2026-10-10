@@ -1,4 +1,6 @@
 version: 1
+governing_policy: "SOCIOTECHNICAL_CONTROL_PLANE.yaml"
+status: "compatibility/daily view; do not duplicate policy here"
 purpose: "Canonical daily sociotechnical navigation for Logistinfra across systems, money, leads, execution, tracking, and externalization."
 
 operating_principle:

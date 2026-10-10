@@ -1,0 +1,541 @@
+version: 1
+name: "Logistinfra Sociotechnical Control Plane"
+captured_at: "2026-10-10T09:36:00+03:00"
+timezone: "Asia/Qatar"
+location_context: "Doha, Qatar"
+authority_note: "This file defines routing/policy. Reality Ontology / durable runtime state owns current truth."
+
+objective:
+  equation: "maximum verified external consequence / minimum human + engineering time"
+  human_goal: "continuously reduce the fraction of work that requires the user while increasing the quality of the fraction that does"
+  anti_goal:
+    - "do not maximize agent count"
+    - "do not maximize token throughput"
+    - "do not maximize internal artifact volume"
+    - "do not make SF/internet-first assumptions when Doha/local reality changes reachability"
+    - "do not build what can be reused, configured, composed, learned, bought, delegated, or operated through an existing surface"
+
+canonical_spine:
+  - "INPUT"
+  - "STRUCTURALIZE"
+  - "SYNC_MINIMUM_REALITY"
+  - "FIND_EXISTING_OWNER"
+  - "DISCOVER_EXISTING"
+  - "HUMAN_TIME_GATE"
+  - "PRIORITIZE"
+  - "COMPILE_MVEXEC"
+  - "EXECUTE_OR_HANDOFF"
+  - "FRESH_REREAD"
+  - "VERIFY"
+  - "RECEIPT"
+  - "SETTLE"
+  - "EXTERNALIZE"
+  - "FEEDBACK"
+  - "NEXT"
+
+hard_invariants:
+  truth:
+    - "Reality Ontology owns canonical truth, evidence, provenance, contradictions, waiting, blockers, receipts, and settlement."
+    - "Prepared != authorized != executed != verified."
+    - "Tool/model success != outcome success."
+    - "External state is never inferred from internal completion."
+    - "Unknown, blocked, waiting, falsified, and killed are valid terminal/current states."
+  reuse:
+    - "REUSE -> CONFIGURE -> COMPOSE -> THIN_GLUE -> CUSTOM."
+    - "Custom creation requires explicit evidence that existing surfaces fail the acceptance condition."
+    - "A tutorial/video/course can be the correct execution dependency when learning the existing procedure is cheaper than automation."
+    - "A human/service can be the correct executor when delegation is cheaper and safe."
+  attention:
+    - "Waiting external work disappears from active attention until its wake condition fires."
+    - "No new chat when an existing operator already owns the responsibility."
+    - "No new repo branch when an existing branch/component owns the responsibility unless a durable isolation need is proven."
+  execution:
+    - "One active transition at a time per bounded mission unless true parallel independence is proven."
+    - "Every consequential action requires a verifier and receipt contract before execution."
+    - "On ambiguous failure, reread external reality before retry."
+  market:
+    - "Prepared-but-unsent does not count as market movement."
+    - "Internal proof is upgraded only by external judgment/use/payment/merge/referral or an inspectable capability gain/falsified hypothesis."
+    - "Every active day should produce at least one qualified external attempt when feasible."
+
+universal_structuralizer:
+  trigger: "every new chat, project, task, idea, reply, artifact, blocker, learning goal, admin obligation, or opportunity"
+  output_schema:
+    identity:
+      unit_id: null
+      type: "task|project|problem|opportunity|recurring_process|decision|learning"
+      source_chat: null
+      workstream: null
+      owner: null
+    target:
+      objective: null
+      desired_state: null
+      success_metric: null
+      cost_of_delay: null
+      time_horizon: null
+    reality:
+      observed: []
+      inferred: []
+      unknown: []
+      contradictions: []
+      dependencies: []
+      blockers: []
+      waiting_external: []
+      authority_boundary: null
+    existing_leverage:
+      internal_component: []
+      current_repo_or_branch: []
+      artifact_or_prompt: []
+      connector_or_plugin: []
+      api_or_mcp: []
+      cli_or_script: []
+      saas_or_program: []
+      open_source_repo: []
+      marketplace_or_template: []
+      documentation: []
+      youtube_or_video: []
+      course_or_tutorial: []
+      specialist_service_or_human: []
+      local_doha_surface: []
+    decision:
+      disposition: "KILL|WATCH|REUSE|CONFIGURE|COMPOSE|DELEGATE|LEARN|THIN_GLUE|CUSTOM"
+      selected_route: null
+      explicit_non_build_reason: null
+    mvexec:
+      exact_action: null
+      surface: null
+      executor: null
+      context_refs: []
+      first_action: null
+      done_when: null
+      verify_with: null
+      receipt: null
+      fallback: null
+      stop_after_minutes: 10
+    externalization:
+      candidate: false
+      surface: null
+      receiver: null
+      exact_action: null
+      receipt: null
+    feedback:
+      expected: null
+      observed: null
+      human_minutes: 0
+      machine_minutes: 0
+      setup_minutes: 0
+      maintenance_minutes_added: 0
+      reuse_created: null
+      capability_created: null
+      access_created: null
+      proof_created: null
+      wrong_assumption: null
+      next_policy_candidate: null
+
+discover_existing:
+  mandatory_before_custom_work: true
+  search_order:
+    - "existing Logistinfra component / Reality Ontology / NextMove / P-1 / Market Router / operator chat"
+    - "existing repository branch, script, fixture, package, or proof artifact"
+    - "connected ChatGPT plugin/connector or direct provider connector"
+    - "official API / MCP / CLI / SDK"
+    - "existing SaaS or automation platform"
+    - "open-source repository / package registry"
+    - "marketplace / template / Actor / node / integration"
+    - "official documentation / examples"
+    - "YouTube/video/tutorial/course that directly teaches the operational procedure"
+    - "specialist service / contractor / local human operator"
+    - "compose existing pieces"
+    - "thin glue"
+    - "custom implementation"
+  acceptance_questions:
+    - "Does an existing surface satisfy the exact done_when?"
+    - "Can it be verified independently?"
+    - "Does it preserve authority and data boundaries?"
+    - "What human minutes and recurring maintenance does it remove?"
+    - "What is the fastest path to a real receipt?"
+  gemini_role:
+    use_when: "ecosystem/tool/repo/program search is materially uncertain"
+    instruction: "map existing systems first; do not design new architecture"
+  claude_or_code_worker_role:
+    use_when: "bounded implementation/repo reconstruction is still required after reuse scan"
+    instruction: "thin glue only; no authority over routing/canonical truth"
+  video_learning_rule:
+    use_when: "a procedural capability can be learned and executed faster than automating it"
+    output: "exact video/resource + timestamp/section + one bounded practice/action + receipt"
+    anti_pattern: "passive content consumption without an execution transition"
+
+human_time_gate:
+  default: "do not allocate to the user"
+  keep_human_only_when:
+    - "strategic goal/portfolio choice"
+    - "reality arbitration across conflicting technical, market, social, institutional, financial, local, and personal constraints"
+    - "taste, positioning, messaging, brand, or quality judgment"
+    - "human relationship, call, meeting, rapport, negotiation, trust, introduction, or high-context selling"
+    - "credentials/access that cannot safely be delegated"
+    - "irreversible or reputationally consequential approval"
+    - "physical-world action"
+    - "learning that materially upgrades judgment/capability"
+    - "personal physical/mental operating capacity"
+  machine_first:
+    - "research collection"
+    - "retrieval"
+    - "comparison"
+    - "data extraction"
+    - "drafting"
+    - "coding/glue"
+    - "testing"
+    - "status checking"
+    - "CRM/log updates"
+    - "scheduling/pre-staging"
+    - "follow-up preparation"
+    - "monitoring"
+    - "content repurposing"
+    - "reporting"
+    - "routine analysis"
+  disposition_gate: "KILL -> AUTOMATE -> DELEGATE -> BATCH -> FLOOR -> KEEP"
+
+locality_gate:
+  location: "Doha, Qatar"
+  questions:
+    - "Does local institutional access change the shortest path?"
+    - "Can UDST/QSTP/QDB/QEERI/local SMEs/local events/expat or business networks create warmer access than global cold outreach?"
+    - "Is the supposedly optimal global route actually reachable from Doha now?"
+    - "Can local physical presence create trust/access that remote builders lack?"
+    - "Is a local regulatory/institutional constraint a real blocker?"
+  rule: "global internet routes and Doha-local routes compete on expected consequence, access, feedback latency, and proof—not prestige."
+
+canonical_operators:
+  infra_navigator:
+    role: "single front door"
+    invoke: "anything new or ambiguous"
+    owns:
+      - "structuralization"
+      - "owner lookup"
+      - "reuse scan"
+      - "MVExec compilation"
+      - "routing"
+      - "externalization check"
+      - "feedback handoff"
+    does_not_own: "canonical truth"
+  reality_ontology:
+    role: "truth/provenance/receipts/settlement"
+    branch_evidence:
+      - "feat/logistinfra-mve"
+      - "feat/logistinfra-runtime-v1"
+  nextmove_pminus1:
+    role: "fresh-process restart-safe current mission + one bounded execution block"
+    strongest_current_surface: "feat/logistinfra-mve: src/reality_ontology/pminus1.py + nextmove.py"
+    proven:
+      - "fresh-process resume"
+      - "bounded 10/25 minute block compilation"
+      - "receipt-required settlement"
+      - "expired mission forces settlement"
+    policy: "reuse this; do not rebuild another daily next-action engine"
+  runtime_v1:
+    role: "provider-independent worker/executor kernel"
+    branch: "feat/logistinfra-runtime-v1"
+    owns:
+      - "runAutonomousCycle / runUntilBoundary"
+      - "ToolAdapter contract"
+      - "capability resolver"
+      - "provider-neutral model worker"
+      - "worker factory"
+      - "verify-before-settle semantics"
+    missing:
+      - "full standalone external surface independence"
+      - "generic runtime entrypoint across all surfaces"
+  capability_router_branch:
+    branch: "feat/logistinfra-capability-router-v1"
+    state: "diverged precursor/adjacent branch"
+    policy: "do not add new work here until a diff proves unique functionality not already absorbed by runtime-v1"
+  nextmove_branch:
+    branch: "feature/logistinfra-nextmove"
+    state: "diverged precursor"
+    policy: "feat/logistinfra-mve already contains nextmove.py plus P-1/fresh-process work; treat standalone nextmove branch as source history unless unique commits are intentionally reconciled"
+  market_router:
+    role: "market-facing/economic priority"
+    owns:
+      - "live signals"
+      - "named buyers/operators"
+      - "existing artifact-to-pain matching"
+      - "external consequence prioritization"
+  direct_human_gap_router:
+    role: "named human/localized operator intervention"
+    owns:
+      - "calls"
+      - "WhatsApp/direct contact"
+      - "specific operator follow-up"
+      - "meeting progression"
+  serious_company:
+    role: "company intervention / paid test"
+  creator_maintainer:
+    role: "OSS/upstream technical externalization"
+    current_proof: "n8n batch produced public artifacts, hostile tests, green CI, public technical communication; external acceptance/merge/commercial consequence still pending"
+  proof_closure_router:
+    role: "close missing proof with hostile test/receipt; kill or block weak claims"
+  profile_application:
+    role: "jobs/internships/gigs/application proof"
+  calendar_admin_floor:
+    role: "deadlines/compliance/appointments/admin compressed to reliable floor"
+  fundamentals_router:
+    role: "sleep, food, hygiene, physical training, personal operating capacity"
+
+live_workstreams_snapshot:
+  note: "non-authoritative snapshot from live Gmail/Calendar + cross-chat state on 2026-10-10; re-SYNC before action"
+  bridge_builders_matthew:
+    owner: "Direct Human Gap Router / Bridge sales"
+    state:
+      agreement: "signed; start 2026-10-06; first 90-day term ends 2027-01-04"
+      batch: "8 businesses cleared by Matthew"
+      constraints:
+        - "manual calling only"
+        - "independent DNC screening"
+        - "attribution/result logging"
+      latest_observed:
+        - "Roofwerks call attempted; follow-up email sent 2026-10-09"
+    today_calendar:
+      start: "2026-10-10T16:00:00+03:00"
+      end: "2026-10-10T17:30:00+03:00"
+      condition: "screen DNC and Saturday business hours before calling"
+    next_receipt: "eligible manual calls with per-account outcomes OR explicit ineligibility blocker"
+  warm_direct_outbound:
+    owner: "Serious Company / Market Router"
+    targets:
+      - "Rivio"
+      - "Lorikeet"
+      - "Qevlar"
+      - "Proaction"
+      - "Pangolin"
+    latest_observed: "follow-up emails sent 2026-10-02; current search surfaced no substantive replies from these named targets"
+    state: "WAITING_EXTERNAL"
+    rule: "do not keep manually resurfacing; wake on reply/new trigger"
+  phrasiq:
+    owner: "Profile/Application + Direct Human Gap Router"
+    state: "discovery scheduled"
+    meeting: "2026-10-11T18:30:00+03:00"
+    role_context: "GTM & Sales Intern"
+    next_action: "prepare 3 high-information questions + one bounded test/proof offer"
+    receipt: "meeting outcome / explicit next commitment / useful rejection"
+  qeeri_hse:
+    owner: "Calendar/Admin floor"
+    state: "unresolved mandatory compliance floor per today's calendar"
+    today_block: "2026-10-10T11:15:00+03:00"
+    rule: "complete upload if possible; otherwise preserve institutional blocker/evidence and next business-day action; no duplicate email"
+  technical_proof:
+    owner: "Reality Ontology / Logistinfra"
+    state:
+      runtime_pr14: "open/draft/mergeable at last live repo read"
+      mve: "P-1 fresh-process acceptance proof exists; real externally settled transition remains next upgrade"
+      n8n_public_batch: "public artifacts/hostile tests/green CI/public receivers; external acceptance/merge pending"
+    today_calendar_block: "2026-10-10T10:30:00+03:00"
+    next_receipt: "fresh-process restore/hostile test receipt or externally settled transition"
+  external_events_learning:
+    revolt_2026:
+      start: "2026-10-14T18:00:00+03:00"
+      disposition: "attend only if it maps to named relationships/opportunities; otherwise archive"
+    outbound_session:
+      title: "One Tweak Away: Turning Outbound Around"
+      start: "2026-10-15T18:00:00+03:00"
+      disposition: "LEARN only if converted into one test against current outbound; no passive consumption"
+
+daily_navigation:
+  start_of_day:
+    command: "NAVIGATE TODAY"
+    sequence:
+      - "SYNC only relevant live sources: Gmail, Calendar, GitHub/CI, CRM/payment/deploy surfaces if active"
+      - "load latest durable settlement/resume state"
+      - "suppress WAITING_EXTERNAL"
+      - "surface hard deadline/actor/production preemptions"
+      - "select one P1 transition"
+      - "select one same-day P2 external consequence floor"
+      - "surface only mandatory P0/P-1 physical/admin/fundamental floors"
+    output:
+      - "NOW"
+      - "INTERRUPTION_LANE"
+      - "HUMAN_ONLY"
+      - "MACHINE_QUEUE"
+      - "EXTERNAL_RECEIPT_FLOOR"
+      - "MANDATORY_FLOOR"
+  before_every_chat_or_project:
+    awareness_prompts:
+      - "What durable object/workstream is this?"
+      - "What is observed vs inferred vs unknown?"
+      - "Who already owns this?"
+      - "What existing artifact/tool/repo/API/MCP/SaaS/program/video/human can solve it?"
+      - "What should explicitly not be built?"
+      - "Does the user uniquely need to act?"
+      - "What exact state transition and receipt end this?"
+      - "Can this be externalized immediately after verification?"
+  before_every_build:
+    awareness_prompts:
+      - "Search internal repo/branches first."
+      - "Search connected tools/connectors."
+      - "Search external ecosystem only if still uncertain."
+      - "Prefer existing implementation over a new abstraction."
+      - "Require a hostile/negative test."
+  before_every_human_action:
+    awareness_prompts:
+      - "Can the system prepare everything except judgment/trust/approval/physical action?"
+      - "What exact words, page, number, URL, file, and stop condition should already be open?"
+  after_every_action:
+    awareness_prompts:
+      - "Fresh-reread reality."
+      - "What actually changed?"
+      - "What remains unproven?"
+      - "What receipt is inspectable?"
+      - "SETTLE / BLOCK / WATCH / KILL."
+      - "What next action can now be pre-staged?"
+  end_of_day:
+    log_only:
+      - "external receipts"
+      - "payments/meetings/replies/rejections"
+      - "merged/reused/adopted artifacts"
+      - "falsified hypotheses"
+      - "avoidable human minutes"
+      - "repeated friction"
+      - "tool/auth failures"
+      - "new reusable capability"
+      - "wrong routing assumptions"
+    do_not_log:
+      - "diary narrative"
+      - "internal artifact counts without consequence"
+
+priority_stack:
+  rule: "dependency-gated; do not finish lower layers before executing"
+  order:
+    - rank: 1
+      layer: "P1_EXECUTION"
+      question: "What real state can change now?"
+    - rank: 2
+      layer: "P2_GTM"
+      question: "How does verified utility meet a real receiver now?"
+    - rank: 3
+      layer: "P-1_REALITY_TRACKING"
+      question: "What is true and what receipt settles it?"
+    - rank: 4
+      layer: "P0_SETUP_ADMIN"
+      question: "What setup/admin must be compressed so P1/P2 can happen?"
+    - rank: 5
+      layer: "P-2_FOUNDATION_INFRA"
+      question: "What exact infra seam blocks P1/P2?"
+    - rank: 6
+      layer: "P3_LEVERAGE_SCALING"
+      question: "Which externally proven primitive deserves multiplication?"
+  p3_entry_gate:
+    - "repeatable verified P1 execution"
+    - "at least one meaningful external P2 use/adoption/payment/merge/referral signal"
+
+money_and_leads:
+  daily_floor: "one qualified external consequence attempt before discretionary internal work expands"
+  state_machine:
+    - "IDENTIFIED"
+    - "QUALIFIED"
+    - "CONTACT_READY"
+    - "CONTACTED"
+    - "ENGAGED"
+    - "PROBLEM_CONFIRMED"
+    - "SOLUTION_SCOPED"
+    - "COMMITMENT"
+    - "PAID_OR_PILOT"
+    - "DELIVERY"
+    - "VALUE_OBSERVED"
+    - "EXPANSION_OR_REFERRAL"
+  routing:
+    warm_named_human: "Direct Human Gap Router"
+    company_problem: "Serious Company / Market Router"
+    active_partner_calling: "Bridge/Matthew sales lane"
+    job_or_internship: "Profile/Application"
+    open_source_technical: "Creator/Maintainer"
+  invariant: "CONTACT_READY is not progress when SEND/CALL is admissible."
+
+learning:
+  purpose: "upgrade judgment or unlock an immediate transition"
+  route:
+    - "official docs/examples"
+    - "best existing repo implementation"
+    - "targeted YouTube/video/tutorial"
+    - "course only when repeated capability gap justifies it"
+    - "expert/human conversation"
+  acceptance: "learning ends in a bounded test, changed decision quality, or reusable operating procedure"
+  kill: "passive accumulation without application"
+
+metrics:
+  primary:
+    verified_external_consequences_per_week:
+      direction: "up"
+      examples: ["reply","meeting","payment","use","merge","referral","accepted submission","credible rejection"]
+    median_human_minutes_per_settled_transition:
+      direction: "down"
+    median_time_input_to_mvec:
+      target: "<=5 minutes"
+    context_reconstruction_human_minutes:
+      target: "approach zero"
+    waiting_work_resurfaced_without_wake:
+      target: 0
+    build_before_reuse_violations:
+      target: 0
+    tool_success_without_independent_verification_settled:
+      target: 0
+  leverage:
+    reuse_ratio:
+      formula: "transitions solved by reuse/configure/compose/delegate/learn / all solved transitions"
+      direction: "toward 1.0"
+    human_keep_ratio:
+      formula: "human tasks requiring irreducible judgment/trust/access/physical action / all human tasks"
+      direction: "toward 1.0"
+    prepared_to_externalized_ratio:
+      formula: "externally sent/submitted/used artifacts / contact-ready or externalization-ready artifacts"
+      direction: "up"
+    machine_prepared_human_actions:
+      formula: "human actions where exact surface/context/script/stop condition were pre-staged / human actions"
+      direction: "toward 1.0"
+    maintenance_tax:
+      formula: "recurring human minutes maintaining automation / human minutes saved"
+      kill_rule: "kill or simplify when tax persistently erases the benefit"
+  market:
+    qualified_external_actions_per_day:
+      floor: 1
+    contact_to_response:
+      direction: "measure, then improve"
+    response_to_problem_confirmed:
+      direction: "measure, then improve"
+    problem_confirmed_to_commitment:
+      direction: "measure, then improve"
+    commitment_to_paid_or_pilot:
+      direction: "measure, then improve"
+
+commands:
+  - "NAVIGATE TODAY"
+  - "NOW"
+  - "CONTINUE <workstream>"
+  - "STRUCTURALIZE <input>"
+  - "DISCOVER_EXISTING <capability>"
+  - "PREP <transition>"
+  - "EXECUTE"
+  - "WATCH"
+  - "SETTLE"
+  - "EXTERNALIZE <artifact>"
+  - "REVIEW HUMAN TIME"
+  - "END DAY"
+
+default_output:
+  - "REALITY"
+  - "OWNER"
+  - "DISPOSITION"
+  - "EXISTING LEVERAGE"
+  - "HUMAN_ONLY"
+  - "MVEXEC"
+  - "VERIFY"
+  - "RECEIPT"
+  - "EXTERNALIZE"
+  - "NEXT"
+
+stop_conditions:
+  - "Do not create another router."
+  - "Do not create another memory/graph/vector layer without a measured retrieval failure."
+  - "Do not create another next-action engine; reuse NextMove/P-1."
+  - "Do not create another model-worker router; reuse runtime-v1 capability resolution."
+  - "Do not create another sales system; route through Market Router / Direct Human Gap Router / current partner pipeline."
+  - "Do not manually maintain state observable from Gmail/Calendar/GitHub/CRM/CI/payment/deployment sources."
+  - "Do not keep a chat alive merely because it contains useful history; extract durable state/artifacts and route future work to its owner."

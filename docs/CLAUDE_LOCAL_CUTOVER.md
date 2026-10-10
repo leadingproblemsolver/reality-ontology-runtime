@@ -9,6 +9,14 @@
 - Not proven: standalone portable GitHub/Gmail/Calendar source reads into ONE canonical ledger; Claude MCP facade; reconciliation of Python SQLite and TS JSON/Supabase; approved GitHub/Gmail execute → external reread → settlement; live session/restart wake.
 - ChatGPT conversations are not automatically accessible to Claude. Import only user-authorized exports with identity, source, timestamp, hashes and deduplication.
 
+## Minimum operator bootstrap (after cloning, Windows)
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\bootstrap-claude.ps1
+```
+
+This initializes only the local canonical SQLite ledger, runs Python invariants/tests, prints the read-only session context, then launches Claude Code. Use `-VerifyTypeScript` to additionally execute the existing TypeScript build/tests; `-NoLaunch` to verify without opening Claude. It does NOT bind cloud credentials, ingest all chats, or authorize external mutations.
+
 ## Windows local setup (one-time)
 
 Prerequisites: Git, Python 3.11+, Node 20+, Claude Code CLI, authentication to specific services only when needed.

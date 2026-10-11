@@ -10,14 +10,14 @@
 - Operate only Taha's Logistinfra/workstreams. Do not import unrelated shared-account history.
 
 ## Automatic session activation
-Project `.claude/settings.json` invokes `scripts/claude_session_context.py` at SessionStart. It READS (not creates/updates) local canonical DB and injects a factual context summary. It does **not** sync live connector sources or schedule unattended workflows. Do not mistake presence of Claude instructions for operational automation.
+Project `.claude/settings.json` invokes `scripts/claude_session_activate.py` at SessionStart. By default this only READS canonical DB. If `RO_GITHUB_PRS` specifies at most two explicit `owner/repo#number` locators separated by semicolons, it first performs fresh public/authenticated GitHub PR reads and replay-safe L0 observation ingestion into the Python ledger. Failure is marked BLOCKED, not silently relabeled verified. It does **not** schedule unattended workflows or authorize external writes. The underlying `scripts/claude_session_context.py` is still strictly read-only. Do not mistake this for full pipeline automation.
 
 ## Standard control surface
-Use project skill `/operate NOW`, `/operate CONTINUE <workstream>`, `/operate PREP`, `/operate EXECUTE`, `/operate WATCH`, or `/operate SETTLE`.
+Use project skill `/operate SYNC`, `/operate NOW`, `/operate CONTINUE <workstream>`, `/operate PREP`, `/operate EXECUTE`, `/operate WATCH`, or `/operate SETTLE`.
 
 Before each transition: inspect verified observations, dependencies, approval, exact source and receipt. Run the smallest action with greatest external consequence. After: fresh-verify, settle to ONE authority, restart to reconstruct. Block or kill rather than invent completion.
 
-## Verified existing entrypoints
+## Existing entrypoints (portable live sync must be run and verified locally)\n- `python -m reality_ontology.github_ingest --db .runtime/reality.db --repo leadingproblemsolver/reality-ontology-runtime --pr 17` — fetch one live GitHub PR read and append only a source observation, idempotently. `RO_GITHUB_PRS` opts this into each Claude SessionStart.\n\n## Verified existing entrypoints
 - `python -m reality_ontology.cli --db .runtime/reality.db init` — initialize local ledger.
 - `python -m reality_ontology.cli --db .runtime/reality.db verify-invariants` — current ledger invariant report.
 - `python -m reality_ontology.cli --db .runtime/reality.db next` — current mission; error if none exists is honest.

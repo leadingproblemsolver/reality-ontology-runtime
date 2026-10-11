@@ -7,9 +7,9 @@
             "type": "command",
             "command": "python",
             "args": [
-              "${CLAUDE_PROJECT_DIR}/scripts/claude_session_context.py"
+              "${CLAUDE_PROJECT_DIR}/scripts/claude_session_activate.py"
             ],
-            "timeout": 10
+            "timeout": 35
           }
         ]
       }

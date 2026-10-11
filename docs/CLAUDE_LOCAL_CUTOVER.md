@@ -96,3 +96,21 @@ The SessionStart hook first reads the explicitly listed source, appends a replay
 **G2 acceptance:** Local fresh Claude session trace plus two live CLI reads and DB event/evidence identity. CI fixture tests prove deterministic replay only; a green CI run does not prove local network credentials or Claude Code session startup.
 
 **Not migrated:** Gmail, Calendar, HubSpot, external writes/verification, cross-store TS↔Python reconciliation, and autonomous wake. Do not promote those to READY based on GitHub adapter tests.
+
+## G3 bounded GitHub issue-comment adapter (approval required)
+The code implements a narrow external comment adapter, but no live external comment has been authorized or sent by this PR. GitHub comment identity, matching comment markers, and exact payload hashing are enforced. Before writing, it independently reads existing comments, and afterwards rereads to confirm exactly one matching comment. On ambiguous or failed verification, settlement is blocked.
+
+Prepare one real target and its message (example uses local file `comment.txt`):
+```powershell
+python -m reality_ontology.github_comment_cli --db .runtime/reality.db --repo OWNER/REPO --issue 123 --message-file comment.txt prepare
+```
+Only after personally checking the target and exact message, explicitly approve that *same* file by typing the full digest-bound transition ID:
+```powershell
+python -m reality_ontology.github_comment_cli --db .runtime/reality.db --repo OWNER/REPO --issue 123 --message-file comment.txt approve
+```
+Then execute with an appropriately scoped local `GITHUB_TOKEN`:
+```powershell
+python -m reality_ontology.github_comment_cli --db .runtime/reality.db --repo OWNER/REPO --issue 123 --message-file comment.txt execute
+```
+
+Tests with an isolated fake API prove approval absence blocks writes, mutated payload requires new approval, a verified replay does not repost, and a write without independent verification cannot settle. This is not a declaration of G3 completion until a *real approved* comment is verified and resumed from another process.

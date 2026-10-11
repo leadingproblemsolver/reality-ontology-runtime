@@ -1,0 +1,178 @@
+{
+  "version": 1,
+  "generated_at": "2026-10-11T14:55:00Z",
+  "generated_by": "Claude Code session session_01EtLPS9brJkTi8CaGoKM5iW",
+  "base_commit": "701390f839437d58cfab70fc2c1b5d3756c0db1a",
+  "authority": "Python RealityStore (src/reality_ontology/store.py). This manifest is a locator/inventory document, not a ledger and not a second authority.",
+  "status_vocabulary": {
+    "VERIFIED": "Executed in this session and independently confirmed; evidence cited.",
+    "OBSERVED": "Executed or read in this session; no independent confirmation.",
+    "UNPROVEN": "Code or claim exists; not exercised end-to-end in this session.",
+    "BLOCKED": "Cannot proceed without a named human authorization, credential or access grant.",
+    "REGISTERED_NOT_BOUND": "Named in seeds; no implementation or binding in the repository.",
+    "NOT_IMPLEMENTED": "Specified only as a prompt or plan."
+  },
+  "provenance": {
+    "included_sources": [
+      "git: leadingproblemsolver/reality-ontology-runtime branches and PRs (read via git and GitHub MCP)",
+      "files: CLAUDE.md, docs/CLAUDE_LOCAL_CUTOVER.md, logistinfra-runtime/bootstrap/continuity.live.v0.json, logistinfra-runtime/operational-reality/CLAUDE_EXECUTION_PACKET.md",
+      "live: api.github.com read of PR #17, cross-checked against a separate GitHub MCP read"
+    ],
+    "excluded_sources": [
+      {"source": "ChatGPT private conversations", "reason": "Not automatically accessible; import requires a user-authorized export with hashes and locators."},
+      {"source": "Gmail connector (authenticated as muzayahooaslam@gmail.com)", "reason": "Connected identity differs from session user leadingproblemsolver@gmail.com; seeded thread 1a0a06272378a7c2 returned Forbidden. No mail content imported."},
+      {"source": "Google Calendar connector (same identity)", "reason": "Same identity mismatch; no Logistinfra locator in seeds; only calendar list metadata was read, no events."},
+      {"source": "langchain-ai/langgraph#8464 and socksninja/sable-agent-reliability#8893", "reason": "Outside this session's repository scope; fresh read denied. Seed state from 2026-09-20 is a stale locator only."}
+    ],
+    "seed_policy": "continuity.live.v0.json (2026-09-20) and surfaces.v0.json are stale locators. Nothing in them is a verified current fact."
+  },
+  "environment_health_2026-10-11": {
+    "python_tests": "42 passed (pytest, repo root)",
+    "moment_router_tests": "3 passed (logistinfra-runtime/test_moment_router.py, not collected by default pytest paths)",
+    "typescript": "npm ci, tsc --noEmit, vitest: 34 passed in 9 files",
+    "ci_on_pr_17_head": "2/2 'test' check runs success on 701390f",
+    "credentials_present_by_name": ["GITHUB_TOKEN (session-scoped; authenticates as leadingproblemsolver with push on this repo; expires 2026-10-11T14:57:25Z)"],
+    "credentials_absent": ["SUPABASE_URL", "SUPABASE_SERVICE_ROLE_KEY", "LLM_API_KEY", "TRIGGER_*", "COMPOSIO_*", "HUBSPOT_*"],
+    "connectors": {"Gmail": "connected, identity mismatch", "Google Calendar": "connected, identity mismatch", "HubSpot": "not installed", "Supabase": "not installed"},
+    "registered_github_workflows": 6,
+    "unregistered_workflows_on_branches_only": ["logistinfra-opportunity-scan.yml (schedule triggers fire only from the default branch; it has never run)"]
+  },
+  "pipelines": [
+    {
+      "id": "py-nextmove-mission-loop",
+      "implementation": ["src/reality_ontology/nextmove.py", "src/reality_ontology/cli.py", "src/reality_ontology/store.py"],
+      "origin": {"branch": "main", "commit": "a9100f3"},
+      "state": "VERIFIED",
+      "evidence": ["mission_f0fb1159c82d4cd9 started, cross-verified, settled CAPABILITY_GAIN; second settle rejected ('mission is already settled'); fresh-process 'next' returns SETTLED"],
+      "dependencies": [],
+      "permissions": "local SQLite only",
+      "next_action": "Start the next mission only after a real observed prerequisite exists."
+    },
+    {
+      "id": "py-github-pr-observe",
+      "implementation": ["src/reality_ontology/github_ingest.py"],
+      "origin": {"branch": "feat/claude-local-activation-v1", "commit": "51fee70"},
+      "state": "VERIFIED",
+      "evidence": ["First live read: NEW_OBSERVATION event evt_ghpr_677bb88a...", "Replay: UNCHANGED with identical event_id", "Fresh process re-read of DB: 1 event, 1 evidence", "Independent GitHub MCP read matched head 701390f, state open, draft true, base operational-reality-v1, updated_at 2026-10-11T10:34:15Z"],
+      "dependencies": [],
+      "permissions": "read-only; public PRs need no token",
+      "claim_ceiling": "EXTERNAL_SOURCE_OBSERVED_ONLY",
+      "next_action": "None required. Use as the SYNC source for /operate."
+    },
+    {
+      "id": "py-claude-session-activation",
+      "implementation": ["scripts/claude_session_activate.py", "scripts/claude_session_context.py", ".claude/settings.json", ".claude/skills/operate/SKILL.md"],
+      "origin": {"branch": "feat/claude-local-activation-v1", "commit": "c6044fb"},
+      "state": "OBSERVED",
+      "evidence": ["Hook script run manually with and without RO_GITHUB_PRS: emits NOT_CONFIGURED / UNCHANGED correctly and read-only context"],
+      "dependencies": ["py-github-pr-observe"],
+      "permissions": "read-only DB projection",
+      "does_not_prove": "That Claude Code fires the SessionStart hook in a fresh interactive session. That requires a restarted session trace.",
+      "next_action": "Start a fresh Claude Code session in this checkout and confirm the additionalContext appears."
+    },
+    {
+      "id": "py-github-comment-g3",
+      "implementation": ["src/reality_ontology/github_comment.py", "src/reality_ontology/github_comment_cli.py", "tests/test_github_comment.py"],
+      "origin": {"branch": "feat/claude-local-activation-v1", "commit": "0e9ff75"},
+      "state": "BLOCKED",
+      "blocker": "HUMAN_APPROVAL: no approval is recorded for transition github_comment_fe8dc6fc8941834c95dfb63b0322860cee13eba0fedc62ca667dd16a2fb28887",
+      "evidence": [
+        "6 adapter tests pass including 2 added this session: foreign byte-identical copy is not accepted as our receipt; missing author fails closed",
+        "Gap fixed this session: previously matched body+marker only and never checked the comment author, contradicting docs/CLAUDE_LOCAL_CUTOVER.md",
+        "Live read-only: identity() = leadingproblemsolver; PR #17 has 0 comments",
+        "Negative control on the real CLI: execute without approval returns BLOCKED and PR #17 still has 0 comments"
+      ],
+      "dependencies": ["py-github-pr-observe"],
+      "permissions": "consequential external write: explicit digest-typed human approval, then token with issues/PR comment write",
+      "next_action": "Human runs: approve (types the transition_id), then execute, from logistinfra-runtime/live/action_packets/g3_pr17_comment.txt targeting leadingproblemsolver/reality-ontology-runtime#17."
+    },
+    {
+      "id": "ts-github-opportunity-scan",
+      "implementation": ["logistinfra-runtime/src/pipelines/github_opportunity/", "logistinfra-runtime/src/adapters/", "logistinfra-runtime/src/trigger/scan-github.ts", ".github/workflows/logistinfra-opportunity-scan.yml"],
+      "origin": {"branch": "feat/logistinfra-runtime-v1 lineage", "commit": "b0b8d00"},
+      "state": "BLOCKED",
+      "blocker": "CREDENTIALS: SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY and LLM_API_KEY are absent. The workflow is not registered on the default branch, so it has never run.",
+      "evidence": ["vitest: pipeline, scout, filtering, scoring, judge, approval tests pass on fixtures"],
+      "dependencies": ["Supabase project", "LLM key", "workflow present on main"],
+      "permissions": "reads public issues; persists to Supabase; no GitHub mutation",
+      "does_not_prove": "Any live scan. Output is not reconciled to the Python ledger.",
+      "next_action": "Provide Supabase and LLM credentials, and decide whether this workload stays an independent projection."
+    },
+    {
+      "id": "ts-continuity-autonomy",
+      "implementation": ["logistinfra-runtime/src/continuity/", "logistinfra-runtime/src/autonomy/", "logistinfra-runtime/src/cli/continuity.ts"],
+      "origin": {"branch": "operational-reality-v1", "commit": "4134eff"},
+      "state": "UNPROVEN",
+      "evidence": ["vitest: continuity, autonomy, live-bootstrap tests pass on fixtures"],
+      "dependencies": ["reconciliation decision vs Python RealityStore"],
+      "permissions": "local JSON store",
+      "does_not_prove": "Live state. Seed continuity.live.v0.json is dated 2026-09-20 and stale. This store is not the canonical authority.",
+      "next_action": "Do not settle the same event in both stores. Import into Python only after a decision on which workstreams are still live."
+    },
+    {
+      "id": "py-moment-router",
+      "implementation": ["logistinfra-runtime/moment_router.py", "logistinfra-runtime/test_moment_router.py"],
+      "origin": {"branch": "operational-reality-v1", "commit": "4134eff"},
+      "state": "OBSERVED",
+      "evidence": ["3 tests pass when invoked explicitly"],
+      "dependencies": [],
+      "permissions": "pure function",
+      "next_action": "Not wired to /operate NOW; wiring is a later decision, not required for G3."
+    },
+    {
+      "id": "gmail-calendar-read-binding",
+      "implementation": [],
+      "state": "BLOCKED",
+      "blocker": "HUMAN_AUTHORIZATION: connectors authenticate as muzayahooaslam@gmail.com, not the session user. Seeded Gmail thread 1a0a06272378a7c2 is Forbidden.",
+      "evidence": ["ListConnectors: Gmail and Google Calendar connected and enabled", "Gmail get_thread (MINIMAL) on the seeded thread: Forbidden", "Calendar list_calendars returned calendars of muzayahooaslam@gmail.com only; no events read"],
+      "dependencies": [],
+      "permissions": "read of private mail and calendar",
+      "next_action": "User confirms which Google account owns Logistinfra mail and calendar, and either reconnects the right account or explicitly authorizes this one for named threads."
+    },
+    {
+      "id": "gmail-execute-verify",
+      "implementation": [],
+      "state": "NOT_IMPLEMENTED",
+      "dependencies": ["gmail-calendar-read-binding", "py-github-comment-g3 first real receipt"],
+      "permissions": "consequential external send",
+      "next_action": "Do not build until G3 has one real receipt and Gmail read is bound."
+    },
+    {
+      "id": "supabase-store-mcp-facade-trigger-wake",
+      "implementation": ["logistinfra-runtime/immediatelyusable/01_SUPABASE_STORE.md", "02_MCP_HTTP_FACADE.md", "05_TRIGGER_WAKE_AND_DEPLOY.md", "06_FIRST_LIVE_CLOSED_LOOP.md"],
+      "state": "NOT_IMPLEMENTED",
+      "evidence": ["Prompt files only. SupabaseStateStore exists for the opportunity store, not for continuity."],
+      "dependencies": ["Supabase credentials"],
+      "permissions": "cloud writes",
+      "next_action": "Do not start. CLAUDE.md forbids unattended cloud writes until a transactional remote store, signed triggers and replay-safe approval/verification pass."
+    },
+    {
+      "id": "hubspot",
+      "implementation": [],
+      "state": "REGISTERED_NOT_BOUND",
+      "evidence": ["No HubSpot connector installed in this session"],
+      "dependencies": ["connector"],
+      "permissions": "CRM write",
+      "next_action": "Out of scope until a connector exists."
+    },
+    {
+      "id": "langgraph-8464-send",
+      "implementation": ["logistinfra-runtime/bootstrap/surface-packets/langgraph-8464-response.v0.json", "logistinfra-runtime/live/action_packets/langgraph_8464_adoption_question.v1.json"],
+      "state": "BLOCKED",
+      "blocker": "EXTERNAL_ACCESS and HUMAN_APPROVAL: this session cannot read langchain-ai/langgraph (repo scope denied), so the 2026-09-20 thread state is unverified; the post is a public third-party write.",
+      "evidence": ["Fresh read attempt returned: GitHub access to this repository is not enabled for this session"],
+      "dependencies": ["py-github-comment-g3 first real receipt"],
+      "permissions": "public third-party write; exact digest-bound human approval required",
+      "next_action": "After G3 has a receipt on PR #17: user grants repo access (add_repo) so the thread can be freshly read, then re-draft against current comments and approve exactly."
+    }
+  ],
+  "branches": [
+    {"ref": "feat/claude-local-activation-v1", "pr": 17, "relation": "this lineage; fast-forwarded into the working branch", "decision": "keep"},
+    {"ref": "feat/logistinfra-runtime-v1", "pr": 14, "relation": "18 commits ahead of base; capability fabric, integrator, model-worker; overlapping control plane", "decision": "do not merge blindly; audit separately"},
+    {"ref": "feat/logistinfra-mve", "pr": 16, "relation": "29 commits ahead; pminus1 and n8n proofs; touches cli.py", "decision": "do not merge blindly"},
+    {"ref": "feat/construction-lookahead-mvp", "pr": 13, "relation": "domain MVP; touches ci.yml, cli.py, pyproject.toml", "decision": "unrelated to the cutover; leave"},
+    {"ref": "feat/logistinfra-capability-router-v1", "pr": 15, "relation": "closed", "decision": "ignore"},
+    {"ref": "immediatelyusable", "relation": "1 doc ahead (20_MIN_EXECUTOR_V0.md)", "decision": "reference only"},
+    {"ref": "or/cognitimeexec-now | or/leverage-firewall | or/predictive-setup | or/predictive-maintenance | or/life-logistics-floor | or/attention-firewall", "relation": "1 contract document each (75-102 lines); no code, no acceptance receipt", "decision": "do not merge until an acceptance receipt exists (CHILD_REGISTRY merge_policy)"}
+  ]
+}

@@ -27,6 +27,7 @@ Before each transition: inspect verified observations, dependencies, approval, e
 - `cd logistinfra-runtime && npm ci && npm run build && npm test` — existing TS slice and tests. TS continuity output remains noncanonical until adapter reconciliation.
 
 ## Relevant existing assets
+- `logistinfra-runtime/bootstrap/migration_manifest.v1.json`: current per-pipeline state, blockers and provenance (2026-10-11); supersedes the seeds below as the inventory.
 - `logistinfra-runtime/bootstrap/continuity.live.v0.json`: 2026-09-20 seed, not live truth.
 - `logistinfra-runtime/bootstrap/surfaces.v0.json`: candidate connector registry, not Claude auth confirmation.
 - `logistinfra-runtime/src/pipelines/github_opportunity/`: scheduled GitHub scouting slice.

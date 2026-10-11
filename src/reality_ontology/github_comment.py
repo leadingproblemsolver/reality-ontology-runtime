@@ -20,6 +20,7 @@ MAX_BODY = 10000
 
 
 class GitHubClient(Protocol):
+    def identity(self) -> str: ...
     def comments(self, repo: str, issue: int) -> list[dict[str, Any]]: ...
     def post(self, repo: str, issue: int, body: str) -> dict[str, Any]: ...
 
@@ -51,6 +52,15 @@ class GitHubCommentsAPI:
             raise RuntimeError("GitHub network read/write failed") from exc
         return result
 
+    def identity(self) -> str:
+        """Login of the account whose token executes the write (GET /user)."""
+        if not self.token:
+            raise PermissionError("GITHUB_TOKEN is required to establish executing identity")
+        login = self.request("user").get("login")
+        if not isinstance(login, str) or not login:
+            raise RuntimeError("executing GitHub identity unavailable")
+        return login
+
     def comments(self, repo: str, issue: int) -> list[dict[str, Any]]:
         all_rows = []
         for page in range(1, 21):
@@ -67,6 +77,15 @@ class GitHubCommentsAPI:
         if not isinstance(result, dict):
             raise RuntimeError("unexpected GitHub post response")
         return result
+
+
+def _ours(rows: list[dict[str, Any]], full_body: str, login: str) -> list[dict[str, Any]]:
+    """Exact body AND authored by the executing identity; byte-identical copies by others do not count."""
+    return [
+        c for c in rows
+        if isinstance(c.get("body"), str) and c["body"] == full_body
+        and isinstance(c.get("user"), dict) and c["user"].get("login") == login
+    ]
 
 
 def packet(repo: str, issue: int, message: str) -> dict[str, str | int]:
@@ -95,8 +114,10 @@ def execute(db_path: str, spec: dict, *, client: GitHubClient | None = None) -> 
     with RealityStore(db_path) as store:
         if not store.is_approved(expected["transition_id"]):
             raise PermissionError("exact payload has no recorded approval")
+        full_body = expected["message"] + "\n\n" + expected["marker"]
+        login = api.identity()
         comments = api.comments(expected["repo"], expected["issue"])
-        matches = [c for c in comments if isinstance(c.get("body"), str) and c["body"] == expected["message"] + "\n\n" + expected["marker"]]
+        matches = _ours(comments, full_body, login)
         if len(matches) > 1:
             raise RuntimeError("multiple matching external comments; manual reconciliation required")
         if matches:
@@ -104,10 +125,10 @@ def execute(db_path: str, spec: dict, *, client: GitHubClient | None = None) -> 
             outcome = "ALREADY_PRESENT"
         else:
             # The approval must precede the first post. A crash after post is recovered by reread.
-            api.post(expected["repo"], expected["issue"], expected["message"] + "\n\n" + expected["marker"])
+            api.post(expected["repo"], expected["issue"], full_body)
             outcome = "POSTED"
             verified = api.comments(expected["repo"], expected["issue"])
-            matches = [c for c in verified if isinstance(c.get("body"), str) and c["body"] == expected["message"] + "\n\n" + expected["marker"]]
+            matches = _ours(verified, full_body, login)
             if len(matches) != 1:
                 raise RuntimeError("POST_UNVERIFIED: never settle or auto-retry blindly")
             confirmed = matches[0]

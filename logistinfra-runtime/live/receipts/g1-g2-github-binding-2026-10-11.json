@@ -1,0 +1,97 @@
+{
+  "approvals": [],
+  "db_persisted_in_repo": false,
+  "exported_at": "2026-10-11T14:58:00Z",
+  "g3_prepared_not_executed": {
+    "approval_recorded": false,
+    "external_comments_on_target": 0,
+    "target": "leadingproblemsolver/reality-ontology-runtime#17",
+    "transition_id": "github_comment_fe8dc6fc8941834c95dfb63b0322860cee13eba0fedc62ca667dd16a2fb28887"
+  },
+  "github_observation_events": [
+    {
+      "epistemic_type": "OBSERVATION",
+      "event_id": "evt_ghpr_677bb88aec684929c4ad0a39823d1a4ec24f8e529a7bcd116876520c8bef244a",
+      "event_type": "external_pr_snapshot_observed",
+      "metadata_json": "{\"source_updated_at\": \"2026-10-11T10:34:15Z\", \"sha256\": \"677bb88aec684929c4ad0a39823d1a4ec24f8e529a7bcd116876520c8bef244a\"}",
+      "occurred_at": "2026-10-11T14:46:32.054110+00:00",
+      "resulting_state": null,
+      "source": "github.api.readonly"
+    }
+  ],
+  "github_observation_evidence": [
+    {
+      "captured_at": "2026-10-11T14:46:32.052281+00:00",
+      "digest": "1bde0f902b4412370d74249cc37f919707ab43d384e57121bd2ef8f036df77bf",
+      "evidence_id": "ev_ghpr_677bb88aec684929c4ad0a39823d1a4ec24f8e529a7bcd116876520c8bef244a",
+      "evidence_type": "external_observation",
+      "metadata_json": "{\"provider\": \"github\", \"source_updated_at\": \"2026-10-11T10:34:15Z\", \"sha256\": \"677bb88aec684929c4ad0a39823d1a4ec24f8e529a7bcd116876520c8bef244a\"}",
+      "observation": "{\"base_ref\":\"operational-reality-v1\",\"draft\":true,\"head_sha\":\"701390f839437d58cfab70fc2c1b5d3756c0db1a\",\"merged_at\":null,\"number\":17,\"repo\":\"leadingproblemsolver/reality-ontology-runtime\",\"source\":\"api.github.com\",\"state\":\"open\",\"title\":\"Claude Code local cutover: canonical session context + /operate skill\",\"updated_at\":\"2026-10-11T10:34:15Z\",\"url\":\"https://github.com/leadingproblemsolver/reality-ontology-runtime/pull/17\"}",
+      "source_locator": "https://github.com/leadingproblemsolver/reality-ontology-runtime/pull/17"
+    }
+  ],
+  "independent_cross_check": {
+    "differences": 0,
+    "matched_fields": [
+      "head.sha",
+      "base.ref",
+      "state",
+      "draft",
+      "updated_at",
+      "number"
+    ],
+    "transport": "GitHub MCP pull_request_read/list_pull_requests"
+  },
+  "mission": [
+    {
+      "base_urgency": 70,
+      "core_goal_id": "goal_efa3f3d4df194b0e",
+      "core_object_id": "obj_1a7edbf0b5144c94",
+      "delta": "L0 observation exists but is a single-transport read; no independent confirmation and no settlement.",
+      "mission_id": "mission_f0fb1159c82d4cd9",
+      "observed_state": "github_ingest produced external_pr_snapshot_observed evt_ghpr_677bb88a... for leadingproblemsolver/reality-ontology-runtime#17 (head 701390f, open, draft). Replay returned UNCHANGED. Not yet cross-checked via an independent read path.",
+      "owner": "claude_code",
+      "selected_candidate_id": "candidate_4909f7e31d424959",
+      "settled_at": "2026-10-11T14:49:17.526048+00:00",
+      "started_at": "2026-10-11T14:49:06.137572+00:00",
+      "status": "SETTLED",
+      "target": "t-live-bindings: GitHub live read bound to the canonical Python RealityStore (Gmail/Calendar remain separate)",
+      "timebox_seconds": 900
+    }
+  ],
+  "mission_events": [
+    {
+      "created_at": "2026-10-11T14:49:06.141163+00:00",
+      "event_id": "nextevt_09feb558f70d424c",
+      "event_type": "MISSION_STARTED",
+      "mission_id": "mission_f0fb1159c82d4cd9",
+      "payload_json": "{\"candidate_count\": 3, \"delta\": \"L0 observation exists but is a single-transport read; no independent confirmation and no settlement.\", \"eligible_count\": 2, \"observed_state\": \"github_ingest produced external_pr_snapshot_observed evt_ghpr_677bb88a... for leadingproblemsolver/reality-ontology-runtime#17 (head 701390f, open, draft). Replay returned UNCHANGED. Not yet cross-checked via an independent read path.\", \"target\": \"t-live-bindings: GitHub live read bound to the canonical Python RealityStore (Gmail/Calendar remain separate)\", \"timebox_seconds\": 900}"
+    },
+    {
+      "created_at": "2026-10-11T14:49:06.143780+00:00",
+      "event_id": "nextevt_ff12867fda124b53",
+      "event_type": "CANDIDATE_SELECTED",
+      "mission_id": "mission_f0fb1159c82d4cd9",
+      "payload_json": "{\"action\": \"Compare stored PR #17 snapshot fields with an independent GitHub MCP read (head sha, state, draft, base, updated_at) and re-open the DB in a fresh process.\", \"candidate_id\": \"candidate_4909f7e31d424959\", \"expected_receipt\": \"Matching head sha 701390f and updated_at 2026-10-11T10:34:15Z from MCP read + event id from fresh-process DB read.\", \"rank\": [0, 4, 5, 0, 4, 0]}"
+    },
+    {
+      "created_at": "2026-10-11T14:49:17.527474+00:00",
+      "event_id": "nextevt_c44461f8f89b4a0a",
+      "event_type": "MISSION_SETTLED",
+      "mission_id": "mission_f0fb1159c82d4cd9",
+      "payload_json": "{\"evidence_ids\": [\"ev_12502a4f5efb4ad0\"], \"next_action\": \"Bind Gmail/Calendar reads (t-live-bindings remainder) via the existing connectors, narrowly scoped to Logistinfra locators\", \"observation\": \"GitHub PR #17 L0 snapshot (evt_ghpr_677bb88a...) confirmed field-for-field (head 701390f, open, draft, base operational-reality-v1, updated_at 2026-10-11T10:34:15Z) by an independent GitHub MCP read; replay returned UNCHANGED; DB re-opened by fresh process. Gmail and Calendar reads remain UNBOUND.\", \"outcome\": \"CAPABILITY_GAIN\", \"receipt_locator\": \"https://github.com/leadingproblemsolver/reality-ontology-runtime/pull/17#evt_ghpr_677bb88aec684929c4ad0a39823d1a4ec24f8e529a7bcd116876520c8bef244a\"}"
+    }
+  ],
+  "nature": "EXPORT of rows from a local, non-persisted .runtime/reality.db (ephemeral cloud container). Provenance evidence only; not a ledger and not a second authority. Re-derive by re-running the commands in docs/CLAUDE_LOCAL_CUTOVER.md.",
+  "settlements": [
+    {
+      "action_taken": "Compare stored PR #17 snapshot fields with an independent GitHub MCP read (head sha, state, draft, base, updated_at) and re-open the DB in a fresh process.",
+      "new_state": "SETTLED_CAPABILITY_GAIN",
+      "observed_result": "GitHub PR #17 L0 snapshot (evt_ghpr_677bb88a...) confirmed field-for-field (head 701390f, open, draft, base operational-reality-v1, updated_at 2026-10-11T10:34:15Z) by an independent GitHub MCP read; replay returned UNCHANGED; DB re-opened by fresh process. Gmail and Calendar reads remain UNBOUND.",
+      "run_id": "mission_f0fb1159c82d4cd9",
+      "settled_at": "2026-10-11T14:49:17.529040+00:00",
+      "settlement_id": "settlement_8bae8bdcde834c6f"
+    }
+  ],
+  "version": 1
+}

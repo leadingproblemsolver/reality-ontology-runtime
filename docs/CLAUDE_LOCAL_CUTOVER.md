@@ -98,7 +98,7 @@ The SessionStart hook first reads the explicitly listed source, appends a replay
 **Not migrated:** Gmail, Calendar, HubSpot, external writes/verification, cross-store TS↔Python reconciliation, and autonomous wake. Do not promote those to READY based on GitHub adapter tests.
 
 ## G3 bounded GitHub issue-comment adapter (approval required)
-The code implements a narrow external comment adapter, but no live external comment has been authorized or sent by this PR. GitHub comment identity, matching comment markers, and exact payload hashing are enforced. Before writing, it independently reads existing comments, and afterwards rereads to confirm exactly one matching comment. On ambiguous or failed verification, settlement is blocked.
+The code implements a narrow external comment adapter, but no live external comment has been authorized or sent by this PR. GitHub comment author identity (must equal the executing token's `GET /user` login), matching comment markers, and exact payload hashing are enforced; a byte-identical comment by another account is never accepted as the receipt. Before writing, it independently reads existing comments, and afterwards rereads to confirm exactly one matching comment. On ambiguous or failed verification, settlement is blocked.
 
 Prepare one real target and its message (example uses local file `comment.txt`):
 ```powershell
@@ -114,3 +114,7 @@ python -m reality_ontology.github_comment_cli --db .runtime/reality.db --repo OW
 ```
 
 Tests with an isolated fake API prove approval absence blocks writes, mutated payload requires new approval, a verified replay does not repost, and a write without independent verification cannot settle. This is not a declaration of G3 completion until a *real approved* comment is verified and resumed from another process.
+
+
+## 2026-10-11 migration audit
+See `logistinfra-runtime/bootstrap/migration_manifest.v1.json` (validated by `tests/test_migration_manifest.py`) for the per-pipeline inventory with provenance, state, blockers and exact next action, and `logistinfra-runtime/live/receipts/g1-g2-github-binding-2026-10-11.json` for the exported G1/G2 receipt. Gmail/Calendar are BLOCKED on account identity, and the first real G3 write awaits human approval of a prepared packet.

@@ -1,0 +1,6 @@
+G3 acceptance comment for the approval-bound GitHub write adapter (src/reality_ontology/github_comment.py).
+
+This is the single approved external write used to exercise the path: prepare -> exact-payload approval -> reread existing comments -> post once -> reread -> settle only if exactly one comment with this exact body is authored by the executing account.
+
+Proves (once independently reread and settled): the adapter posts one comment, does not duplicate on replay, and a fresh process reconstructs the settlement.
+Does not prove: Gmail/Calendar bindings, cross-store TS/Python reconciliation, unattended wake, or any third-party write.

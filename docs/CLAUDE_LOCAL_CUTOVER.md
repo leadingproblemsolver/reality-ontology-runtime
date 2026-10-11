@@ -69,3 +69,30 @@ A fresh Claude session with **no pasted history** identifies one verified workst
 
 ## Next implementation, not another strategy document
 Inspect `logistinfra-runtime/immediatelyusable/00_SERIES_INDEX.md` and `logistinfra-runtime/operational-reality/CLAUDE_EXECUTION_PACKET.md`. Implement *one* reconciliation path between the existing TS workflow and Python ledger (or prove via tests the chosen single authority), bind live GitHub reads, test replay/restart, then request approval for exactly one low-risk write. Only after a real receipt add Gmail and triggered wake.
+
+
+## G2 portable source read — added on the Claude cutover branch
+This is a read-only API observation adapter into Python RealityStore, not a TS JSON/Supabase reconciliation or an external-write verifier.
+
+After installing the Python package, execute in PowerShell from the repo root:
+
+```powershell
+python -m reality_ontology.github_ingest --db .runtime/reality.db --repo leadingproblemsolver/reality-ontology-runtime --pr 17
+python -m reality_ontology.github_ingest --db .runtime/reality.db --repo leadingproblemsolver/reality-ontology-runtime --pr 17
+python scripts/claude_session_context.py
+```
+
+First run should return `NEW_OBSERVATION` and second should return `UNCHANGED`, with the same `event_id`. Changing the remote PR produces a *new observation*, not a promoted success claim. For private GitHub repositories supply your locally held `GITHUB_TOKEN` environment variable; never commit it.
+
+To sync this concrete source automatically at each Claude Code start, set in the same PowerShell process before launching Claude:
+
+```powershell
+$env:RO_GITHUB_PRS = "leadingproblemsolver/reality-ontology-runtime#17"
+claude
+```
+
+The SessionStart hook first reads the explicitly listed source, appends a replay-safe L0 observation, and then compiles the read-only context. At most two semicolon-separated PR targets per session. Unset `RO_GITHUB_PRS` means no live ingestion and never claims otherwise. Read errors result in `BLOCKED` for fresh-state claims; they do not authorize action based on old data.
+
+**G2 acceptance:** Local fresh Claude session trace plus two live CLI reads and DB event/evidence identity. CI fixture tests prove deterministic replay only; a green CI run does not prove local network credentials or Claude Code session startup.
+
+**Not migrated:** Gmail, Calendar, HubSpot, external writes/verification, cross-store TS↔Python reconciliation, and autonomous wake. Do not promote those to READY based on GitHub adapter tests.

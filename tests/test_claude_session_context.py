@@ -44,9 +44,28 @@ def test_corrupt_db_fails_closed(tmp_path):
     assert "do not settle" in result
 
 
-def test_sessionstart_hook_points_at_read_only_script():
+def test_sessionstart_hook_points_at_optional_ingest_then_context():
     settings = json.loads((ROOT / ".claude" / "settings.json").read_text(encoding="utf-8"))
     hook = settings["hooks"]["SessionStart"][0]["hooks"][0]
     assert hook["type"] == "command"
     assert hook["command"] == "python"
-    assert hook["args"] == ["${CLAUDE_PROJECT_DIR}/scripts/claude_session_context.py"]
+    assert hook["args"] == ["${CLAUDE_PROJECT_DIR}/scripts/claude_session_activate.py"]
+
+
+
+def test_session_activation_with_no_sources_is_safe(tmp_path):
+    import os
+    import subprocess
+    import sys
+    db = tmp_path / "uninitialized.sqlite"
+    env = dict(os.environ, RO_DB=str(db), RO_GITHUB_PRS="")
+    proc = subprocess.run(
+        [sys.executable, str(ROOT / "scripts" / "claude_session_activate.py")],
+        env=env, cwd=ROOT, capture_output=True, text=True, timeout=10,
+    )
+    assert proc.returncode == 0, proc.stderr
+    payload = json.loads(proc.stdout)
+    context = payload["hookSpecificOutput"]["additionalContext"]
+    assert "live_github_sync=NOT_CONFIGURED" in context
+    assert "canonical_db=UNINITIALIZED" in context
+    assert not db.exists()

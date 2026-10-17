@@ -1,0 +1,143 @@
+{
+  "version": 1,
+  "capabilities": [
+    {
+      "id": "structuralizer",
+      "kind": "structuralize",
+      "description": "Turn raw input into a bounded structured task.",
+      "requires": [
+        "raw_input"
+      ],
+      "provides": [
+        "structured_task"
+      ],
+      "toolRefs": [
+        "cap:reason.complex"
+      ],
+      "authority": "read",
+      "costRank": 10,
+      "qualityRank": 90
+    },
+    {
+      "id": "reuse-mapper",
+      "kind": "map",
+      "description": "Map a structured task to existing internal/external leverage.",
+      "requires": [
+        "structured_task"
+      ],
+      "provides": [
+        "reuse_map"
+      ],
+      "toolRefs": [
+        "cap:research.synthesize"
+      ],
+      "authority": "read",
+      "costRank": 10,
+      "qualityRank": 90
+    },
+    {
+      "id": "prioritizer",
+      "kind": "prioritize",
+      "description": "Select the highest-value admissible transition.",
+      "requires": [
+        "reuse_map",
+        "current_reality"
+      ],
+      "provides": [
+        "next_transition"
+      ],
+      "toolRefs": [
+        "tool:moment-router"
+      ],
+      "authority": "read",
+      "costRank": 0,
+      "qualityRank": 100
+    },
+    {
+      "id": "block-compiler",
+      "kind": "plan",
+      "description": "Compile one admitted transition into a bounded execution block.",
+      "requires": [
+        "next_transition"
+      ],
+      "provides": [
+        "bounded_execution_block"
+      ],
+      "toolRefs": [
+        "cap:time.plan"
+      ],
+      "authority": "read",
+      "costRank": 0,
+      "qualityRank": 100
+    },
+    {
+      "id": "executor",
+      "kind": "execute",
+      "description": "Execute through an existing registered surface.",
+      "requires": [
+        "bounded_execution_block",
+        "surface_access"
+      ],
+      "provides": [
+        "effect_attempt"
+      ],
+      "toolRefs": [
+        "cap:cross_app.orchestrate"
+      ],
+      "authority": "reversible_write",
+      "costRank": 20,
+      "qualityRank": 90
+    },
+    {
+      "id": "verifier",
+      "kind": "verify",
+      "description": "Freshly reread external state and prove or falsify the intended effect.",
+      "requires": [
+        "effect_attempt"
+      ],
+      "provides": [
+        "verified_external_state"
+      ],
+      "toolRefs": [
+        "cap:verification.review"
+      ],
+      "authority": "read",
+      "costRank": 10,
+      "qualityRank": 100
+    },
+    {
+      "id": "externalizer",
+      "kind": "externalize",
+      "description": "Put a verified primitive in front of a matched external receiver.",
+      "requires": [
+        "verified_external_state",
+        "matched_receiver"
+      ],
+      "provides": [
+        "external_judgment_opportunity"
+      ],
+      "toolRefs": [
+        "tool:market-router"
+      ],
+      "authority": "consequential_write",
+      "costRank": 20,
+      "qualityRank": 95
+    },
+    {
+      "id": "human-closer",
+      "kind": "close",
+      "description": "Perform irreducible human negotiation/trust/commitment work.",
+      "requires": [
+        "qualified_conversation"
+      ],
+      "provides": [
+        "commercial_commitment"
+      ],
+      "toolRefs": [],
+      "authority": "human_only",
+      "humanOnly": true,
+      "costRank": 100,
+      "qualityRank": 100
+    }
+  ]
+}

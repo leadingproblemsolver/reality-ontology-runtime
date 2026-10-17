@@ -1,0 +1,125 @@
+{
+  "version": 1,
+  "observedAt": "2026-09-26T19:45:00.000Z",
+  "authority": "Logistinfra selects transitions and validates receipts; workers do not own canonical truth.",
+  "selectorContract": {
+    "exact": "tool:<adapter>",
+    "capability": "cap:<capability>",
+    "resolution": "transition selector order -> lowest costRank -> highest qualityRank -> stable ref",
+    "approval": "resolved adapter authority is checked after resolution",
+    "settlement": "tool success never settles; fresh verification is required"
+  },
+  "workers": [
+    {
+      "id": "openai-gpt-5.6-sol",
+      "surface": "OpenAI API / ChatGPT connected-tool worker",
+      "capabilities": [
+        "reason.complex",
+        "cross_app.orchestrate",
+        "research.synthesize",
+        "artifact.compile",
+        "verification.review"
+      ],
+      "defaultUse": "high-value ambiguous work, cross-app orchestration, final synthesis",
+      "avoid": "cheap high-volume deterministic transforms",
+      "costRank": 40,
+      "qualityRank": 100,
+      "authority": "worker_only"
+    },
+    {
+      "id": "anthropic-claude-sonnet-5",
+      "surface": "Claude Code / Anthropic API",
+      "capabilities": [
+        "code.execute",
+        "code.review",
+        "repo.reconstruct",
+        "implementation.long_horizon"
+      ],
+      "defaultUse": "bounded implementation, repo-scale reconstruction, adversarial code review",
+      "avoid": "owning routing or canonical state",
+      "costRank": 30,
+      "qualityRank": 95,
+      "authority": "worker_only"
+    },
+    {
+      "id": "deepseek-flash",
+      "surface": "DeepSeek API",
+      "capabilities": [
+        "batch.transform",
+        "batch.extract",
+        "batch.classify",
+        "code.execute.low_risk",
+        "research.preprocess"
+      ],
+      "defaultUse": "high-volume low-risk preprocessing and cheap parallel candidate generation",
+      "avoid": "unverified consequential decisions or writes",
+      "costRank": 5,
+      "qualityRank": 75,
+      "authority": "worker_only"
+    },
+    {
+      "id": "google-gemini-3.8-flash",
+      "surface": "Gemini API",
+      "capabilities": [
+        "context.long",
+        "multimodal.audit",
+        "corpus.reconstruct",
+        "batch.review"
+      ],
+      "defaultUse": "large-context corpus passes, multimodal review, independent ecosystem audit",
+      "avoid": "replacing deterministic scoring already present in Logistinfra/CogniTime",
+      "costRank": 15,
+      "qualityRank": 85,
+      "authority": "worker_only"
+    },
+    {
+      "id": "cognitime-local",
+      "surface": "existing cognitime-ops deterministic planner",
+      "capabilities": [
+        "time.plan",
+        "time.score",
+        "execution.block_compile",
+        "calendar.export",
+        "session.settle"
+      ],
+      "defaultUse": "compile already-routed transitions into bounded execution blocks and score the session",
+      "avoid": "inventing priorities, market choices, or truth",
+      "costRank": 0,
+      "qualityRank": 100,
+      "authority": "local_compute"
+    }
+  ],
+  "economicRouting": [
+    {
+      "when": "deterministic or already-covered by code",
+      "selector": "existing component",
+      "rule": "do not call an LLM"
+    },
+    {
+      "when": "daily/within-session allocation",
+      "selector": "cap:time.plan",
+      "rule": "CogniTime consumes routed transitions; it never creates its own portfolio"
+    },
+    {
+      "when": "bulk enrichment/extraction/classification",
+      "selector": "cap:batch.transform",
+      "rule": "prefer cheapest verified worker"
+    },
+    {
+      "when": "repo implementation",
+      "selector": "cap:code.execute",
+      "rule": "use bounded code worker, then CI/fresh state as verifier"
+    },
+    {
+      "when": "large corpus / multimodal audit",
+      "selector": "cap:context.long",
+      "rule": "use long-context worker, preserve source refs"
+    },
+    {
+      "when": "high-stakes synthesis / cross-app operation",
+      "selector": "cap:cross_app.orchestrate",
+      "rule": "use high-reasoning worker; external writes still go through surface adapters and approval"
+    }
+  ],
+  "revenueInvariant": "Every substantial loop must end in SENT, RESPONDED, USED, REVIEWED, REJECTED, INTERVIEW, MERGED, REFERRED, PAID, KILLED, or a verified capability gain/falsified hypothesis."
+}

@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "workstream": "ws-langgraph-adoption",
+  "transition": "t-langgraph-send",
+  "current_state": "external_adoption_questions_received",
+  "target_state": "response_sent",
+  "surface": {
+    "id": "github",
+    "entrypoint": "https://github.com/langchain-ai/langgraph/issues/8464",
+    "execution_mode": "connector"
+  },
+  "authority": "consequential_write",
+  "approval_required": true,
+  "auth_health": "ready_in_current_chat",
+  "context_refs": [
+    "https://github.com/langchain-ai/langgraph/issues/8464#issuecomment-5747588369",
+    "https://github.com/langchain-ai/langgraph/issues/8464#issuecomment-5413249141",
+    "repo:leadingproblemsolver/reality-ontology-runtime"
+  ],
+  "payload_or_prompt": {
+    "type": "github_issue_comment_draft",
+    "body": "I would test an external layer if it stays narrow rather than becoming another agent framework. The useful boundary for me is: stable action identity -> reconcile external outcome -> fresh authority resolution -> one-shot effect permit -> independently readable settlement receipt.\n\nThe main adoption blockers would be integration surface area, another durable dependency to operate, unclear security/credential boundaries, semantic mismatch with the host framework, and latency if every tool call has to proxy through a heavy service. I would want it to wrap one tool/action without re-architecting the graph, run locally/self-hosted, preserve the framework's native tool API, and make its state/export format inspectable.\n\nThe smallest test I would run is one harmless state-changing tool call with a forced crash/retry window: measure wrapper code required, added latency, whether a duplicate effect occurs, whether restart performs an external reread before retry, and whether an independent observer can read both the effect and settlement receipt. We already have a GitHub hostile fixture for the ambiguous 'effect happened but caller never got success' window, so I can reduce that to a LangGraph-specific wrapper/test rather than proposing a broad integration first.\n\nIf that is close to the shape you are evaluating, the useful next step would be to agree on the smallest LangGraph-native interception point and run only that fixture."
+  },
+  "first_action": "review the prepared public reply for claim boundary and tone",
+  "done_when": "approved comment is posted exactly once and a fresh GitHub read finds it",
+  "verify_with": "fresh GitHub issue comment read; match content and comment author; confirm one occurrence",
+  "receipt_required": "public comment URL and fresh readback",
+  "wake_condition": "new practitioner or maintainer reply on langchain-ai/langgraph#8464",
+  "does_not_prove": [
+    "LangGraph maintainer endorsement",
+    "external adoption",
+    "production reliability across frameworks"
+  ]
+}

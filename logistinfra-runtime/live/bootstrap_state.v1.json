@@ -1,0 +1,179 @@
+{
+  "version": 1,
+  "updatedAt": "2026-09-20T08:30:00.000Z",
+  "goals": [
+    "eliminate manual context reconstruction and execution friction",
+    "turn active technical and market work into verified external receipts"
+  ],
+  "frozenDecisions": [
+    "Reality Ontology owns evidence/current-state truth",
+    "Moment Router owns immediate transition selection",
+    "Market Router owns market-facing prioritization",
+    "tool success is not outcome success",
+    "agents are workers, not authorities",
+    "prefer reuse/configure/compose before thin adapters"
+  ],
+  "chats": [
+    {
+      "id": "runtime-integration",
+      "title": "Logistinfra Runtime Integration",
+      "purpose": "assemble the minimum live autonomous runtime",
+      "operator": "production_assembly",
+      "workstreamId": "ws-logistinfra-core",
+      "invokeWhen": [
+        "live source or execution binding is the current blocker"
+      ],
+      "artifacts": [
+        "repo:leadingproblemsolver/reality-ontology-runtime",
+        "pr:14"
+      ],
+      "latestState": "autonomous core CI green; live bindings remain",
+      "sourceRefs": [
+        "github:leadingproblemsolver/reality-ontology-runtime#14"
+      ]
+    },
+    {
+      "id": "github-technical-proof",
+      "title": "GitHub Opportunity / Technical Proof",
+      "purpose": "convert live agent-reliability failures into externally judged technical proof",
+      "operator": "technical_proof",
+      "workstreamId": "ws-langgraph-reliability",
+      "invokeWhen": [
+        "maintainer/developer interaction exists",
+        "a reproducible reliability boundary exists"
+      ],
+      "artifacts": [
+        "github:langchain-ai/langgraph#8464",
+        "github:socksninja/sable-agent-reliability#8893"
+      ],
+      "latestState": "fresh external adoption question received",
+      "sourceRefs": [
+        "github:langchain-ai/langgraph#8464",
+        "gmail:thread:1a0a06272378a7c2"
+      ]
+    },
+    {
+      "id": "direct-gtm",
+      "title": "Direct GTM Chats",
+      "purpose": "advance serious-company conversations from observed signal to confirmed pain",
+      "operator": "direct_gtm",
+      "workstreamId": "ws-serious-company-conversations",
+      "invokeWhen": [
+        "target replies",
+        "follow-up becomes due"
+      ],
+      "artifacts": [
+        "gmail:sent:2026-09-20"
+      ],
+      "latestState": "multiple operator probes sent; awaiting replies",
+      "sourceRefs": [
+        "gmail:recent-sent"
+      ]
+    }
+  ],
+  "workstreams": [
+    {
+      "id": "ws-logistinfra-core",
+      "objective": "bind the autonomous kernel to live sources and real execute/verify surfaces",
+      "status": "active",
+      "currentState": "autonomous_kernel_verified_live_bindings_missing",
+      "priority": 100,
+      "operator": "production_assembly",
+      "chatId": "runtime-integration",
+      "artifactRefs": [
+        "repo:leadingproblemsolver/reality-ontology-runtime",
+        "pr:14"
+      ],
+      "lastVerifiedTransitionId": null
+    },
+    {
+      "id": "ws-langgraph-reliability",
+      "objective": "turn the verified transition/reconciliation primitive into externally judged adoption evidence",
+      "status": "active",
+      "currentState": "external_adoption_question_received",
+      "priority": 98,
+      "operator": "technical_proof",
+      "chatId": "github-technical-proof",
+      "artifactRefs": [
+        "github:langchain-ai/langgraph#8464",
+        "github:socksninja/sable-agent-reliability#8893"
+      ],
+      "lastVerifiedTransitionId": null
+    },
+    {
+      "id": "ws-serious-company-conversations",
+      "objective": "obtain a qualified operator conversation from current outbound probes",
+      "status": "waiting",
+      "currentState": "outbound_probes_sent_waiting_for_reply",
+      "priority": 95,
+      "operator": "direct_gtm",
+      "chatId": "direct-gtm",
+      "artifactRefs": [
+        "gmail:sent:2026-09-20"
+      ],
+      "blocker": "waiting on external replies",
+      "waitingUntil": null,
+      "lastVerifiedTransitionId": null
+    }
+  ],
+  "transitions": [
+    {
+      "id": "live-bindings-v1",
+      "workstreamId": "ws-logistinfra-core",
+      "mission": "make Logistinfra usable without manual reconstruction",
+      "fromState": "autonomous_kernel_verified_live_bindings_missing",
+      "toState": "live_read_surfaces_bound",
+      "action": "bind GitHub, Gmail, and Calendar reads into normalized source observations without adding new architecture",
+      "operator": "production_assembly",
+      "owner": "Claude Code",
+      "status": "pending",
+      "priority": 100,
+      "receiptRequired": "fresh-process test showing real source observations enter routing state",
+      "doneWhen": "GitHub, Gmail, and Calendar observations are normalized and available to SYNC from a fresh process",
+      "interruptionWakeCondition": "external reply or production failure changes priority",
+      "chatId": "runtime-integration",
+      "artifactRefs": [
+        "repo:leadingproblemsolver/reality-ontology-runtime"
+      ],
+      "toolRefs": [
+        "tool:claude-code"
+      ],
+      "evidenceRefs": [
+        "ci:autonomous-core-smoke:success",
+        "connector:github:read",
+        "connector:gmail:read",
+        "connector:calendar:read"
+      ],
+      "dependsOn": [],
+      "createdAt": "2026-09-20T08:30:00.000Z"
+    },
+    {
+      "id": "langgraph-response-prep",
+      "workstreamId": "ws-langgraph-reliability",
+      "mission": "convert external reliability interest into a concrete adoption test",
+      "fromState": "external_adoption_question_received",
+      "toState": "bounded_external_response_prepared",
+      "action": "prepare a concise evidence-backed reply answering adoption conditions and proposing one concrete cross-runtime fixture",
+      "operator": "technical_proof",
+      "owner": "Taha",
+      "status": "pending",
+      "priority": 98,
+      "receiptRequired": "inspectable response tied to existing proof and one requested external test",
+      "doneWhen": "reply is ready for explicit approval without further research",
+      "interruptionWakeCondition": "new maintainer/developer reply on issue 8464",
+      "chatId": "github-technical-proof",
+      "artifactRefs": [
+        "github:langchain-ai/langgraph#8464",
+        "github:socksninja/sable-agent-reliability#8893"
+      ],
+      "toolRefs": [],
+      "evidenceRefs": [
+        "github:langchain-ai/langgraph#8464:comment:5747588369",
+        "gmail:1a0bd0c236ac909d"
+      ],
+      "dependsOn": [],
+      "createdAt": "2026-09-20T08:30:00.000Z"
+    }
+  ],
+  "receipts": []
+}

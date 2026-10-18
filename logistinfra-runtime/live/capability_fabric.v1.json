@@ -1,0 +1,303 @@
+{
+  "version": 1,
+  "doctrine": "Capabilities are typed outcome functions. Integrator composes the smallest dependency-correct chain; agents are optional workers behind capabilities.",
+  "centralPrimitive": {
+    "id": "outcome-integrator",
+    "kind": "integrate",
+    "input": [
+      "objective",
+      "current_facts",
+      "required_outcomes",
+      "required_receipt",
+      "constraints",
+      "authority",
+      "locality"
+    ],
+    "output": [
+      "ordered_capability_chain",
+      "human_gates",
+      "unresolved_requirements",
+      "done_when",
+      "receipt_contract"
+    ],
+    "invariant": "never invent missing capability; surface the gap explicitly"
+  },
+  "capabilities": [
+    {
+      "id": "reality-sensor",
+      "kind": "sense",
+      "requires": [
+        "target_scope"
+      ],
+      "provides": [
+        "fresh_observation"
+      ],
+      "implementations": [
+        "GitHub/Gmail/Calendar/API/MCP/browser read adapters"
+      ],
+      "authority": "read"
+    },
+    {
+      "id": "structuralizer",
+      "kind": "structuralize",
+      "requires": [
+        "raw_input"
+      ],
+      "provides": [
+        "structured_task"
+      ],
+      "implementations": [
+        "Infra Navigator structuralizer",
+        "cap:reason.complex"
+      ],
+      "authority": "read"
+    },
+    {
+      "id": "reuse-mapper",
+      "kind": "map",
+      "requires": [
+        "structured_task"
+      ],
+      "provides": [
+        "reuse_map"
+      ],
+      "implementations": [
+        "DISCOVER_EXISTING",
+        "Gemini ecosystem mapping",
+        "repo/plugin/API/MCP/program/video search"
+      ],
+      "authority": "read"
+    },
+    {
+      "id": "evaluator",
+      "kind": "evaluate",
+      "requires": [
+        "candidate_set",
+        "success_metric"
+      ],
+      "provides": [
+        "evaluated_candidates"
+      ],
+      "implementations": [
+        "deterministic scoring",
+        "bounded model review",
+        "hostile tests"
+      ],
+      "authority": "read"
+    },
+    {
+      "id": "decision-maker",
+      "kind": "decide",
+      "requires": [
+        "evaluated_candidates",
+        "authority_policy"
+      ],
+      "provides": [
+        "selected_route"
+      ],
+      "implementations": [
+        "deterministic policy",
+        "human judgment for irreducible tradeoffs"
+      ],
+      "authority": "read"
+    },
+    {
+      "id": "prioritizer",
+      "kind": "prioritize",
+      "requires": [
+        "admissible_transitions",
+        "current_reality"
+      ],
+      "provides": [
+        "next_transition"
+      ],
+      "implementations": [
+        "Moment Router",
+        "Market Router"
+      ],
+      "authority": "read"
+    },
+    {
+      "id": "operator-planner",
+      "kind": "plan",
+      "requires": [
+        "next_transition"
+      ],
+      "provides": [
+        "bounded_execution_block"
+      ],
+      "implementations": [
+        "NextMove/P-1",
+        "CogniTime"
+      ],
+      "authority": "read"
+    },
+    {
+      "id": "agentic-executor",
+      "kind": "execute",
+      "requires": [
+        "bounded_execution_block",
+        "surface_access"
+      ],
+      "provides": [
+        "effect_attempt"
+      ],
+      "implementations": [
+        "ToolAdapter runtime",
+        "provider-independent workers",
+        "surface adapters"
+      ],
+      "authority": "reversible_write"
+    },
+    {
+      "id": "verifier",
+      "kind": "verify",
+      "requires": [
+        "effect_attempt"
+      ],
+      "provides": [
+        "verified_or_unverified_state"
+      ],
+      "implementations": [
+        "fresh external reread",
+        "hostile tests",
+        "CI",
+        "provider-state verification"
+      ],
+      "authority": "read"
+    },
+    {
+      "id": "shipper",
+      "kind": "ship",
+      "requires": [
+        "verified_artifact",
+        "target_surface"
+      ],
+      "provides": [
+        "published_or_delivered_artifact"
+      ],
+      "implementations": [
+        "GitHub",
+        "Vercel",
+        "npm",
+        "MCP registry",
+        "email/send surfaces"
+      ],
+      "authority": "consequential_write"
+    },
+    {
+      "id": "externalizer",
+      "kind": "externalize",
+      "requires": [
+        "verified_artifact",
+        "matched_receiver"
+      ],
+      "provides": [
+        "external_judgment_opportunity"
+      ],
+      "implementations": [
+        "Creator/Maintainer",
+        "Serious Company",
+        "Profile/Application",
+        "direct operator sends"
+      ],
+      "authority": "consequential_write"
+    },
+    {
+      "id": "market-impactor",
+      "kind": "market",
+      "requires": [
+        "external_judgment_opportunity"
+      ],
+      "provides": [
+        "market_signal"
+      ],
+      "implementations": [
+        "Market Router",
+        "direct intervention",
+        "public proof surfaces"
+      ],
+      "authority": "consequential_write"
+    },
+    {
+      "id": "closer",
+      "kind": "close",
+      "requires": [
+        "qualified_conversation"
+      ],
+      "provides": [
+        "commitment"
+      ],
+      "implementations": [
+        "human call/meeting/negotiation",
+        "payment/contract surface"
+      ],
+      "authority": "human_only",
+      "humanOnly": true
+    },
+    {
+      "id": "embedder",
+      "kind": "embed",
+      "requires": [
+        "proven_primitive",
+        "host_ecosystem"
+      ],
+      "provides": [
+        "embedded_distribution"
+      ],
+      "implementations": [
+        "MCP/plugin/marketplace/n8n/HubSpot/Vercel/GitHub integrations"
+      ],
+      "authority": "consequential_write"
+    },
+    {
+      "id": "maintainer",
+      "kind": "maintain",
+      "requires": [
+        "deployed_capability",
+        "health_signal"
+      ],
+      "provides": [
+        "restored_or_confirmed_health"
+      ],
+      "implementations": [
+        "Trigger.dev health/wake",
+        "CI",
+        "auth checks",
+        "predictive maintenance"
+      ],
+      "authority": "reversible_write"
+    },
+    {
+      "id": "scale-maximizer",
+      "kind": "scale",
+      "requires": [
+        "repeatable_external_receipt"
+      ],
+      "provides": [
+        "scaled_distribution_or_throughput"
+      ],
+      "implementations": [
+        "automation",
+        "delegation",
+        "marketplace distribution",
+        "multi-tenant/product shell"
+      ],
+      "authority": "consequential_write"
+    }
+  ],
+  "operatorRule": "A named operator/agent may implement a capability, but capability contracts survive provider/operator replacement.",
+  "humanRule": "Human stays only at irreducible judgment, trust, negotiation, credentials, irreversible approval, physical action, or capability-building boundaries.",
+  "activationSurface": {
+    "cli": "logistinfra achieve <goal-spec>",
+    "api": "POST /v1/outcomes",
+    "mcp": "integrate_outcome + execute_plan + settle_receipt",
+    "minimalResponse": [
+      "plan",
+      "unresolved_requirements",
+      "human_gates",
+      "next_step",
+      "receipt_contract"
+    ]
+  }
+}

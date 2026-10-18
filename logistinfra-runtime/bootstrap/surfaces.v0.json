@@ -1,0 +1,72 @@
+{
+  "version": 1,
+  "updatedAt": "2026-09-20T08:55:00.000Z",
+  "surfaces": [
+    {
+      "id": "github",
+      "currentChatGPTAccess": true,
+      "read": "ready",
+      "write": "ready_with_authority",
+      "verification": "ready",
+      "standalonePortableAccess": "unverified",
+      "portableSurface": "API/MCP candidate",
+      "entrypoint": "https://github.com/",
+      "useFor": ["repo state", "issues", "PRs", "CI", "technical receipts"]
+    },
+    {
+      "id": "gmail",
+      "currentChatGPTAccess": true,
+      "read": "ready",
+      "write": "ready_with_authority",
+      "verification": "ready",
+      "standalonePortableAccess": "unverified",
+      "portableSurface": "API/MCP candidate",
+      "entrypoint": "https://mail.google.com/",
+      "useFor": ["replies", "commercial sends", "delivery failures", "follow-ups"]
+    },
+    {
+      "id": "google-calendar",
+      "currentChatGPTAccess": true,
+      "read": "ready",
+      "write": "ready_with_authority",
+      "verification": "ready",
+      "standalonePortableAccess": "unverified",
+      "portableSurface": "API/MCP candidate",
+      "entrypoint": "https://calendar.google.com/",
+      "useFor": ["hard commitments", "deadlines", "wake windows"]
+    },
+    {
+      "id": "hubspot",
+      "currentChatGPTAccess": true,
+      "read": "ready",
+      "write": "unverified_or_reauthorization_required",
+      "verification": "read_ready",
+      "standalonePortableAccess": "unverified",
+      "portableSurface": "API/MCP candidate",
+      "entrypoint": "https://app-eu1.hubspot.com/",
+      "useFor": ["CRM state", "commercial delivery", "workflow verification"]
+    },
+    {
+      "id": "claude-code",
+      "currentChatGPTAccess": false,
+      "read": "handoff_only",
+      "write": "handoff_only",
+      "verification": "via repo/CI receipts",
+      "standalonePortableAccess": true,
+      "portableSurface": "CLI/SDK/session interfaces",
+      "entrypoint": null,
+      "useFor": ["production implementation", "testing", "deployment hardening"]
+    },
+    {
+      "id": "browser-executor",
+      "currentChatGPTAccess": false,
+      "read": "not_bound",
+      "write": "not_bound",
+      "verification": "not_bound",
+      "standalonePortableAccess": "unverified",
+      "portableSurface": "Browser Use/Playwright/Work candidate",
+      "entrypoint": null,
+      "useFor": ["sites/forms without reliable API"]
+    }
+  ]
+}

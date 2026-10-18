@@ -1,0 +1,18 @@
+{
+  "id": "example-verified-task",
+  "objective": "Turn one raw task into a verified external result using existing surfaces.",
+  "currentFacts": [
+    "raw_input",
+    "current_reality",
+    "surface_access"
+  ],
+  "requiredOutcomes": [
+    "verified_external_state"
+  ],
+  "requiredReceipt": "independently readable external state",
+  "constraints": [
+    "reuse existing components before custom code"
+  ],
+  "authority": "reversible_write",
+  "locality": "Doha"
+}

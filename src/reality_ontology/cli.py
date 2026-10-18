@@ -5,6 +5,7 @@ from .executor import ExecutionEngine
 from .models import RiskLevel, TransitionContract
 from .nextmove import NextMoveEngine, SettlementOutcome
 from .operators import FileMarkerOperator
+from .pminus1 import compile_block, resume_view
 from .store import RealityStore
 
 
@@ -81,6 +82,11 @@ def main(argv=None):
     nset.add_argument("--observation", required=True)
     nset.add_argument("--receipt")
     nset.add_argument("--next-action")
+
+    sub.add_parser("resume", help="recover the smallest actionable P-1 state from durable runtime")
+    blk = sub.add_parser("block", help="compile the active mission into a bounded CogniTime block")
+    blk.add_argument("--minutes", type=int, choices=[10, 25], default=25)
+
     srv = sub.add_parser("serve", help="serve the minimal Logistinfra /next operator surface")
     srv.add_argument("--host", default="127.0.0.1")
     srv.add_argument("--port", default=8787, type=int)
@@ -102,6 +108,10 @@ def main(argv=None):
         if args.cmd == "timeline": print(json.dumps(s.timeline(args.object_id), indent=2)); return
         if args.cmd == "context": print(json.dumps(s.context_packet(args.goal_id), indent=2)); return
         if args.cmd == "verify-invariants": print(json.dumps(s.invariant_report(), indent=2)); return
+        if args.cmd == "resume":
+            print(json.dumps(resume_view(s), indent=2)); return
+        if args.cmd == "block":
+            print(json.dumps(compile_block(s, minutes=args.minutes), indent=2)); return
 
         engine = NextMoveEngine(s)
         if args.cmd == "next-start":

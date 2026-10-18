@@ -1,0 +1,52 @@
+{
+  "target": "Produce an evidence-backed top-5 GateOfAI SEND_QUEUE from the canonical 30-account GCC finance/procurement batch.",
+  "observed_state": "30 canonical accounts exist. GWC, RSA Global, Milaha and Bahri were contacted with generic/routing probes and have no reply. 26 accounts remain uncontacted. Live operator and workflow verification is incomplete. No account is qualified and no GateOfAI handoff is ready.",
+  "delta": "There is no verified top-5 SEND_QUEUE. Sending now would repeat generic outreach or rely on unverified operator/workflow assumptions.",
+  "timebox_seconds": 1800,
+  "base_urgency": 75,
+  "owner": "Taha",
+  "candidates": [
+    {
+      "action": "Verify the highest-information 10 GateOfAI accounts and compile an evidence-backed top-5 SEND_QUEUE.",
+      "expected_postcondition": "Top 10 are each settled as VERIFY-PASS or REJECT/HOLD with source-backed operator/workflow evidence; top 5 have a bounded message, channel, pass condition, kill condition and follow-up date.",
+      "expected_receipt": "Updated canonical batch plus a top-5 SEND_QUEUE artifact containing source URLs/evidence states.",
+      "external_consequence": 2,
+      "information_gain": 5,
+      "technical_ownership": 3,
+      "warm_access": 3,
+      "compounding_leverage": 5,
+      "internal_preparation": 2,
+      "prerequisites_met": true,
+      "authority_available": true,
+      "observable_receipt": true
+    },
+    {
+      "action": "Send the existing generic routing messages to additional accounts immediately.",
+      "expected_postcondition": "More accounts receive outreach.",
+      "expected_receipt": "Sent-message receipts.",
+      "external_consequence": 4,
+      "information_gain": 1,
+      "technical_ownership": 0,
+      "warm_access": 1,
+      "compounding_leverage": 0,
+      "internal_preparation": 0,
+      "prerequisites_met": false,
+      "authority_available": true,
+      "observable_receipt": true
+    },
+    {
+      "action": "Generate another large GCC prospect list.",
+      "expected_postcondition": "More prospect rows exist.",
+      "expected_receipt": "New prospect CSV.",
+      "external_consequence": 0,
+      "information_gain": 1,
+      "technical_ownership": 1,
+      "warm_access": 0,
+      "compounding_leverage": 1,
+      "internal_preparation": 5,
+      "prerequisites_met": true,
+      "authority_available": true,
+      "observable_receipt": true
+    }
+  ]
+}

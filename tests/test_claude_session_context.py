@@ -69,3 +69,26 @@ def test_session_activation_with_no_sources_is_safe(tmp_path):
     assert "live_github_sync=NOT_CONFIGURED" in context
     assert "canonical_db=UNINITIALIZED" in context
     assert not db.exists()
+
+
+def test_session_activation_sqlite_failure_fails_closed(tmp_path, monkeypatch):
+    """A corrupt canonical store must not crash the SessionStart hook."""
+    monkeypatch.syspath_prepend(str(ROOT / "scripts"))
+    activation_path = ROOT / "scripts" / "claude_session_activate.py"
+    activation_spec = importlib.util.spec_from_file_location("claude_session_activate", activation_path)
+    assert activation_spec and activation_spec.loader
+    activation = importlib.util.module_from_spec(activation_spec)
+    activation_spec.loader.exec_module(activation)
+
+    import reality_ontology.github_ingest as github_ingest
+
+    def failed_write(*_args, **_kwargs):
+        raise sqlite3.DatabaseError("database disk image is malformed")
+
+    monkeypatch.setattr(github_ingest, "sync_github_pr", failed_write)
+    db = tmp_path / "corrupt.sqlite"
+    db.write_bytes(b"not SQLite")
+    context = activation.activate(ROOT, db, "leadingproblemsolver/reality-ontology-runtime#17")
+    assert "live_github_sync=BLOCKED" in context
+    assert "reason=DatabaseError" in context
+    assert "canonical_db=UNREADABLE" in context

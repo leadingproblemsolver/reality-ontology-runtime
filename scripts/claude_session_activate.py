@@ -8,6 +8,7 @@ from __future__ import annotations
 import json
 import os
 import re
+import sqlite3
 import sys
 from pathlib import Path
 
@@ -37,7 +38,7 @@ def activate(root: Path, db: Path, source_list: str) -> str:
                     f"live_github_sync={result['status']} source={result['source_url']} "
                     f"evidence={result['evidence_id']} ceiling=EXTERNAL_SOURCE_OBSERVED_ONLY"
                 )
-            except (OSError, RuntimeError, ValueError) as exc:
+            except (OSError, RuntimeError, ValueError, sqlite3.DatabaseError) as exc:
                 observations.append(
                     f"live_github_sync=BLOCKED source={repo}#{number} "
                     f"reason={type(exc).__name__}; prohibit stale-state promotion"

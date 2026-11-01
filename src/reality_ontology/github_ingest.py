@@ -11,6 +11,7 @@ import hashlib
 import json
 import os
 import re
+import sqlite3
 import sys
 from pathlib import Path
 from typing import Any, Callable
@@ -159,7 +160,7 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
     try:
         result = sync_github_pr(args.db, args.repo, args.pr)
-    except (ValueError, RuntimeError, OSError, json.JSONDecodeError) as exc:
+    except (ValueError, RuntimeError, OSError, sqlite3.DatabaseError, json.JSONDecodeError) as exc:
         print(json.dumps({"status": "BLOCKED", "error": str(exc)}), file=sys.stderr)
         return 2
     print(json.dumps(result, sort_keys=True, indent=2))
